@@ -1,5 +1,5 @@
 ---
-name: safe-skill-workflow
+name: audit-skill
 description: MANDATORY security gate for ANY agent skill work — develop, find, install, update, or re-review. Must be applied before any other skill action. Summarizes content, runs static + semantic scans, triages vendored noise, records a sha256 manifest, and produces an APPROVE/CAUTION/REJECT verdict. Never install or update a skill without a completed report and explicit user consent.
 ---
 

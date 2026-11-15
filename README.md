@@ -9,7 +9,7 @@ A collection of self-developed agent skills.
 | `paperclip-launch` | Install, start, and auto-start a local Paperclip instance, including health checks and startup repairs |
 | `publish-to-github` | Publish a local folder or skill to GitHub end-to-end |
 | `quant-algo-auto` | Quantitative investing, algorithmic trading, and automation skill |
-| `safe-skill-workflow` | Security-first workflow for developing or installing agent skills |
+| `audit-skill` | Security-first workflow for developing or installing agent skills |
 
 ## Install a skill
 
