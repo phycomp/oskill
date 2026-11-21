@@ -33,6 +33,7 @@ sub-skill to a layer (content → publishing → video → push → analytics).
 | Skill | Description |
 | --- | --- |
 | `paperclip-launch` | Install, start, and auto-start a local Paperclip instance, including health checks and startup repairs |
+| `refactor-skill` | Refactor a skill collection into modular parent-child chains |
 | `viz-dboard` | Visualize skill hierarchies as a mindmap SVG |
 | `inspect-skill` | Review and refactor a set of skills into a modular parent-child hierarchy |
 | `repo-pull` | Clone or update a Git repository locally, with optional install script execution |

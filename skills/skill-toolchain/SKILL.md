@@ -22,6 +22,7 @@ appropriate child skill based on the task.
 | `quant-algo-auto` | Quant trading and channel operations | none |
 | `viz-dboard` | Visualize skill hierarchies as mindmap SVG | none |
 | `inspect-skill` | Review/refactor skill collections | none |
+| `refactor-skill` | Refactor a skill collection into modular parent-child chains | `inspect-skill` |
 
 ## Routing
 
@@ -34,6 +35,7 @@ appropriate child skill based on the task.
 - Quant/channel operations → `quant-algo-auto`
 - Visualizing skill hierarchy → `viz-dboard`
 - Reviewing/refactoring skills → `inspect-skill`
+- Refactoring a skill collection → `refactor-skill`
 
 ## Notes
 
