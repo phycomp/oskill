@@ -32,6 +32,7 @@ sub-skill to a layer (content → publishing → video → push → analytics).
 | Skill | Description |
 | --- | --- |
 | `paperclip-launch` | Install, start, and auto-start a local Paperclip instance, including health checks and startup repairs |
+| `repo-pull` | Clone or update a Git repository locally, with optional install script execution |
 | `assign-maus` | Deploy and assign work through OpenMausBot MCP: role-based bots, channels, kickoff messages, task assignment |
 | `publish-to-github` | Publish a local folder or skill to GitHub end-to-end |
 | `quant-algo-auto` | Quantitative investing, algorithmic trading, and automation skill |
