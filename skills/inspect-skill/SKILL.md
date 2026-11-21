@@ -22,6 +22,8 @@ List the skills under review and capture for each:
 - Inputs/outputs
 - Dependencies on other skills or tools
 
+### Self-developed skills
+
 Example inventory (self-developed skills):
 
 | Skill | Triggers | Core actions | Lower-level hooks |
@@ -33,6 +35,13 @@ Example inventory (self-developed skills):
 | `rev-skill` | convert skill to Chinese | translate prose, preserve code | none |
 | `publish-to-github` | publish to GitHub | git init, create repo, push, release | `audit-skill` (before publish) |
 | `quant-algo-auto` | quant trading/channel ops | strategy, backtest, risk, content | none |
+
+### External (installed) skills
+
+| Skill | Source | Role | Hooked by |
+|---|---|---|---|
+| `grill-me` | `vinvcn/mattpocock-skills-zh-cn` | 持續追问式計畫壓力測試（wrapper → `grilling`） | `assign-maus`（指派任務前可選） |
+| `grilling` | `vinvcn/mattpocock-skills-zh-cn` | 實際執行 grill 流程 | `grill-me` |
 
 ## 2. Analyze usage scenarios
 

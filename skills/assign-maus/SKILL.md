@@ -112,6 +112,7 @@ tools.openmausbot.wait_for_conversation({
 ## Notes
 
 - Model instance IDs and available models come from `list_available_models`.
+- For plan stress-testing before assignment, optionally hook `grill-me`.
 - `create_task` returns a new task; use its `taskId` in `send_bot_message`.
 - `default_responder: { kind: "mentions" }` prevents all bots from replying at once.
 - Keep task instructions in Traditional Chinese (繁體中文) per company language policy.
