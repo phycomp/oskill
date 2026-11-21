@@ -11,6 +11,7 @@ sub-skill to a layer (content → publishing → video → push → analytics).
 
 | Skill | Description |
 | --- | --- |
+| `skill-toolchain` | Unified entry point to all self-developed skills |
 | `social-media-suite` | Root architecture: routes any social request to the right sub-skill across Facebook, Instagram, YouTube, TikTok, LinkedIn, Threads, X and LINE |
 | `social` | Social content creation, scheduling, and social listening for LinkedIn, X, Instagram, TikTok and Facebook |
 | `social-post` | Write FB/IG/YT/Threads/X copy from your own past posts and their performance; local workbench, publish-after-confirm, comment replies, outcome learning |
