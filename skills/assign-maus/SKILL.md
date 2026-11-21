@@ -16,6 +16,7 @@ covers the full flow from health check to task assignment.
 
 - OpenMausBot server reachable (default `http://127.0.0.1:8799`)
 - At least one available model instance (check with `list_available_models`)
+- If Paperclip must be running for this workflow, run `paperclip-launch` first.
 
 ## 1. Health check
 
