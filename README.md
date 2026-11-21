@@ -35,7 +35,6 @@ sub-skill to a layer (content → publishing → video → push → analytics).
 | `paperclip-launch` | Install, start, and auto-start a local Paperclip instance, including health checks and startup repairs |
 | `viz-dboard` | Visualize skill hierarchies as a mindmap SVG |
 | `inspect-skill` | Review and refactor a set of skills into a modular parent-child hierarchy |
-| `rev-skill` | Convert or review a skill into Traditional Chinese while preserving code and identifiers |
 | `repo-pull` | Clone or update a Git repository locally, with optional install script execution |
 | `assign-maus` | Deploy and assign work through OpenMausBot MCP: role-based bots, channels, kickoff messages, task assignment |
 | `publish-to-github` | Publish a local folder or skill to GitHub end-to-end |

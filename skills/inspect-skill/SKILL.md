@@ -96,6 +96,16 @@ Do not duplicate the child's steps in the parent; hook instead.
 - Parent-child references are accurate and minimal.
 - Each skill still passes its own tests (if any).
 
+## Chinese conversion (merged from rev-skill)
+
+When converting a skill into Traditional Chinese (繁體中文):
+
+- Preserve code, commands, file paths, URLs, identifiers, and API names.
+- Translate prose, headings, explanations, and comments.
+- Keep trigger keywords (English and/or Chinese) for discoverability.
+- Ensure `description` still starts with "Use when...".
+- Validate frontmatter and relative links after editing.
+
 ## Common mistakes
 
 - Merging skills that have different trigger conditions.
