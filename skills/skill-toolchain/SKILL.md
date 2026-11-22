@@ -16,6 +16,8 @@ appropriate child skill based on the task. This skill also owns the sync rule:
 
 ## Available skills
 
+> **唯一來源宣告：** `~/.config/skill-timer/self-developed.list`（由 `skill-timer` 擁有）是「哪些 skill 算自行開發」的 single source of truth。下表**僅供路由索引**，不是判定依據。增刪 skill 時先改 allow-list，再同步下表。
+
 | Skill | Purpose | Hook |
 |---|---|---|
 | `paperclip-launch` | Install/start/auto-start Paperclip | `repo-pull` (optional) |
@@ -96,3 +98,4 @@ Single source of truth for the push rule. Do not scatter this across
   refactor changes the skill set, hook `chain-skill` — do not restate its rules.
 - Logic check: 2026-11-22 — `inspect-skill` renamed to `chain-skill`; all references updated; stray `EOF`/`echo` removed.
 - Logic check: 2026-11-23 — added **Sync updated self-developed skills to repo** as the single source of truth for when/where/how to push (RED evidence: local grep of 68 matches had zero rules for oskill or self-developed push; agent relied on ad-hoc user instruction). Added `skill-timer` allow-list row and hook so "self-developed" is not duplicated. Description extended with push/sync triggers; routing now separates `publish-to-github` (new repos) from this skill (updates). No push steps duplicated into `chain-skill` or `publish-to-github`.
+- Logic check: 2026-11-23 (second pass) — declared `skill-timer`'s allow-list as the **single source of truth** for "self-developed"; the Available skills table is now explicitly **index-only**. The same declaration was added to `chain-skill`'s Inventory table so the three lists (allow-list + two index tables) cannot drift silently.
