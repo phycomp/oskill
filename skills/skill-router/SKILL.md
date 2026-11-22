@@ -30,6 +30,7 @@ appropriate child skill based on the task. This skill also owns the sync rule:
 | `viz-dboard` | Visualize skill hierarchies as mindmap SVG | none |
 | `chain-skill` | Review/refactor skill collections into parent-child chains | none |
 | `refactor-skill` | Refactor a skill collection into modular parent-child chains | `chain-skill` |
+| `social-router` | Orchestrate social content loop (produce → publish → feedback) | platform skills (by goal) |
 
 ## Routing
 
@@ -43,6 +44,7 @@ appropriate child skill based on the task. This skill also owns the sync rule:
 - Visualizing skill hierarchy → `viz-dboard`
 - Reviewing/refactoring skills → `chain-skill`
 - Refactoring a skill collection → `refactor-skill`
+- Social content loop (produce / publish / feedback) → `social-router`
 - **Syncing updated skills to a repo → this skill (single source of truth)**
 - Determining "self-developed" → `skill-timer` allow-list (do not duplicate here)
 
@@ -100,3 +102,4 @@ Single source of truth for the push rule. Do not scatter this across
 - Logic check: 2026-11-23 — added **Sync updated self-developed skills to repo** as the single source of truth for when/where/how to push (RED evidence: local grep of 68 matches had zero rules for oskill or self-developed push; agent relied on ad-hoc user instruction). Added `skill-timer` allow-list row and hook so "self-developed" is not duplicated. Description extended with push/sync triggers; routing now separates `publish-to-github` (new repos) from this skill (updates). No push steps duplicated into `chain-skill` or `publish-to-github`.
 - Logic check: 2026-11-23 (second pass) — declared `skill-timer`'s allow-list as the **single source of truth** for "self-developed"; the Available skills table is now explicitly **index-only**. The same declaration was added to `chain-skill`'s Inventory table so the three lists (allow-list + two index tables) cannot drift silently.
 - Logic check: 2026-11-23 (rename) — renamed `skill-toolchain` → `skill-router` (directory, `name:`, description trigger, title). All references updated: `refactor-skill`, `skill-timer` allow-list, oskill `skills/<name>/`, audit manifest. No thin alias kept — single entry point for routing.
+- Logic check: 2026-11-23 (social-router) — added the social content skill to allow-list first, then to this index table and routing. Follows the single-source declaration: allow-list is authoritative, table is index-only. Renamed `social-loop` → `social-router` before first push; references updated.
