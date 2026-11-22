@@ -1,14 +1,14 @@
 ---
-name: skill-toolchain
+name: skill-router
 description: >
   Use when you need a unified entry point to all self-developed skills, or when
   updated self-developed skills must be committed and pushed to a repo (a personal
-  remote or a shared repo such as phycomp/oskill). Triggers on "skill toolchain",
+  remote or a shared repo such as phycomp/oskill). Triggers on "skill router",
   "list my skills", "what skills do I have", "push updated skills to repo",
   "sync skills to oskill", "skill 已更新 push", or "自行開發 push".
 ---
 
-# Skill Toolchain
+# Skill Router
 
 A unified entry point to all self-developed skills. Delegate to the
 appropriate child skill based on the task. This skill also owns the sync rule:
@@ -99,3 +99,4 @@ Single source of truth for the push rule. Do not scatter this across
 - Logic check: 2026-11-22 — `inspect-skill` renamed to `chain-skill`; all references updated; stray `EOF`/`echo` removed.
 - Logic check: 2026-11-23 — added **Sync updated self-developed skills to repo** as the single source of truth for when/where/how to push (RED evidence: local grep of 68 matches had zero rules for oskill or self-developed push; agent relied on ad-hoc user instruction). Added `skill-timer` allow-list row and hook so "self-developed" is not duplicated. Description extended with push/sync triggers; routing now separates `publish-to-github` (new repos) from this skill (updates). No push steps duplicated into `chain-skill` or `publish-to-github`.
 - Logic check: 2026-11-23 (second pass) — declared `skill-timer`'s allow-list as the **single source of truth** for "self-developed"; the Available skills table is now explicitly **index-only**. The same declaration was added to `chain-skill`'s Inventory table so the three lists (allow-list + two index tables) cannot drift silently.
+- Logic check: 2026-11-23 (rename) — renamed `skill-toolchain` → `skill-router` (directory, `name:`, description trigger, title). All references updated: `refactor-skill`, `skill-timer` allow-list, oskill `skills/<name>/`, audit manifest. No thin alias kept — single entry point for routing.

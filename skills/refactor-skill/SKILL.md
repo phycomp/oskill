@@ -53,7 +53,7 @@ Generate a mindmap SVG of the hierarchy (see `viz-dboard`).
 
 ## 9. Update unified entry point
 
-Add new skills to `skill-toolchain` and remove archived ones.
+Add new skills to `skill-router` and remove archived ones.
 
 ## Common mistakes
 
@@ -61,5 +61,3 @@ Add new skills to `skill-toolchain` and remove archived ones.
 - Creating parents that just repeat child steps.
 - Hooking unnecessary children.
 - Leaving orphaned skills.
-EOF
-echo "written"
