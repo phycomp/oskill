@@ -21,8 +21,8 @@ appropriate child skill based on the task.
 | `publish-to-github` | Publish a folder/skill to GitHub | `audit-skill` (before publish) |
 | `quant-algo-auto` | Quant trading and channel operations | none |
 | `viz-dboard` | Visualize skill hierarchies as mindmap SVG | none |
-| `inspect-skill` | Review/refactor skill collections | none |
-| `refactor-skill` | Refactor a skill collection into modular parent-child chains | `inspect-skill` |
+| `chain-skill` | Review/refactor skill collections into parent-child chains | none |
+| `refactor-skill` | Refactor a skill collection into modular parent-child chains | `chain-skill` |
 
 ## Routing
 
@@ -30,11 +30,11 @@ appropriate child skill based on the task.
 - Deploying/assigning AI bots → `assign-maus`
 - Security review before install/publish → `audit-skill`
 - Cloning/updating a repo → `repo-pull`
-- Translating a skill to Chinese → `inspect-skill` (Chinese conversion section)
+- Translating a skill to Chinese → `chain-skill` (Chinese conversion section)
 - Publishing to GitHub → `publish-to-github`
 - Quant/channel operations → `quant-algo-auto`
 - Visualizing skill hierarchy → `viz-dboard`
-- Reviewing/refactoring skills → `inspect-skill`
+- Reviewing/refactoring skills → `chain-skill`
 - Refactoring a skill collection → `refactor-skill`
 
 ## Notes
@@ -42,5 +42,4 @@ appropriate child skill based on the task.
 - `audit-skill` is required before any local installation.
 - `quant-algo-auto` is independent (no hooks).
 - Hooks are explicit; do not duplicate child steps in this skill.
-EOF
-echo "written"
+- Logic check: 2026-11-22 — `inspect-skill` renamed to `chain-skill`; all references updated; stray `EOF`/`echo` removed.

@@ -55,5 +55,3 @@ test -f "$HOME/.config/opencode/environment-profile.md" && echo "profile generat
 - Running `git pull` in a directory that is not a Git repository.
 - Forgetting to run the install script after updating `profile/portable.md`.
 - Assuming `git pull` merges; use `--ff-only` to avoid unexpected merge commits.
-EOF
-echo "written"

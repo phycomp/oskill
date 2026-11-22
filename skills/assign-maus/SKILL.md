@@ -112,7 +112,6 @@ tools.openmausbot.wait_for_conversation({
 ## Notes
 
 - Model instance IDs and available models come from `list_available_models`.
-- For plan stress-testing before assignment, optionally hook `grill-me`.
 - `create_task` returns a new task; use its `taskId` in `send_bot_message`.
 - `default_responder: { kind: "mentions" }` prevents all bots from replying at once.
 - Keep task instructions in Traditional Chinese (繁體中文) per company language policy.
@@ -123,5 +122,3 @@ tools.openmausbot.wait_for_conversation({
 - Forgetting to pass `task_id` to `send_bot_message` (it defaults to the selected task, which may not be the new one).
 - Using `default_responder: { kind: "everyone" }` in a large team (causes noisy replies).
 - Creating duplicate bots without checking `list_bots` first.
-EOF
-echo "written"; sed -n '1,12p' /home/sam/.agents/skills/assign-maus/SKILL.md
