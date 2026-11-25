@@ -93,19 +93,30 @@ git -C <DIR> add .gitattributes
 
 用 LFS 一定要在 README 註明 `git lfs install`，否則別人的 clone 只有指標檔。
 
-## 憑證：正確與錯誤的寫法
+## 憑證：來源、正確與錯誤的寫法
 
 ```bash
-# 正確（憑證不落地到 .git/config）
-gh auth setup-git
-# 或
-GIT_ASKPASS=<(printf '#!/bin/sh\necho %s\n' "$GITHUB_TOKEN") git push -u origin main
+# token 來源（合法讀取；問題永遠在「送去哪」，不在「從哪讀」）
+TOKEN=$(cat ~/.credentials)
 
-# 錯誤：token 會留在 .git/config、reflog、shell history
+# 正確（憑證不落地到 .git/config / reflog / shell history）
+gh auth setup-git
+# 或沒有 gh 時：GIT_ASKPASS 指向暫存 script（subshell 包住，trap 不覆蓋既有 EXIT trap）
+(
+  ASK=$(mktemp); printf '#!/bin/sh\necho %s\n' "$TOKEN" > "$ASK"; chmod 700 "$ASK"
+  trap 'rm -f "$ASK"' EXIT
+  GIT_ASKPASS="$ASK" git push -u origin main
+)
+
+# 錯誤：token 會留在 .git/config、reflog、shell history、process list
 git remote add origin https://ghp_xxx@github.com/me/repo.git
 ```
 
-已經寫進 URL 的話：`git remote set-url origin <乾淨 URL>`，然後把該 token 當洩漏處理。
+已經寫進 URL 的話：`git remote set-url origin <乾淨 URL>`，然後把該 token 當洩漏處理（改回 URL 不會清掉 reflog 與 shell history）。
+
+**不要用 `GIT_ASKPASS=<(printf ...)`**：process substitution 產生 pipe（`/dev/fd/N`），git exec 時回 `cannot exec '/dev/fd/N': 拒絕不符權限的操作`（實測 exit 128，即使 bash）。用上面的 `mktemp` 真實檔案，不要用 pipe。
+
+push 失敗的常見診斷見 `SKILL.md` Phase 5「常見 push 失敗」表（404 先確認 token 擁有者再建 repo、403 補 scope、workflow scope、fetch first 用 rebase）。
 
 ## 既有 `.gitignore` 吃掉真實內容
 

@@ -50,6 +50,18 @@ ERE_TOKEN = (
     r"|github_pat_[A-Za-z0-9_]{30,}|xox[baprs]-[A-Za-z0-9-]{10,}"
     r"|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{30,}|hf_[A-Za-z0-9]{30,})"
 )
+# 安全讀取豁免：技能文件會示範「從本機憑證檔讀入變數」，這是安全做法，
+# 不是把 token 字面值寫進檔案。只移除該片段，真正的 token 格式仍由 TOKEN_RE 攔截。
+SAFE_READ_RE = re.compile(r"[A-Z_][A-Z0-9_]*=\$\(cat\s+[^\n]*credentials\)")
+
+
+def has_leak(text):
+    """逐行檢查；先剔除安全讀取片段，其餘命中照常視為洩漏。"""
+    for line in text.splitlines():
+        cleaned = SAFE_READ_RE.sub("", line)
+        if TOKEN_RE.search(cleaned) or CRED_RE.search(cleaned):
+            return True
+    return False
 
 
 def sh(*args, cwd=None):
@@ -63,8 +75,9 @@ def sh(*args, cwd=None):
 def blob_md5(repo, rel):
     """取 HEAD 裡該路徑的內容雜湊（工作區可能被改過，不能拿它比）。"""
     try:
-        p = subprocess.run(["git", "-C", repo, "show", f"HEAD:{rel}"],
-                           capture_output=True, timeout=300)
+        p = subprocess.run(
+            ["git", "-C", repo, "show", f"HEAD:{rel}"], capture_output=True, timeout=300
+        )
         return hashlib.md5(p.stdout).hexdigest() if p.returncode == 0 else None
     except (OSError, subprocess.SubprocessError):
         return None
@@ -153,8 +166,11 @@ def main():
     check("本機有 HEAD", rc == 0 and bool(local_head), local_head or "找不到 HEAD")
 
     rc, dirty, _ = sh("git", "-C", root, "status", "--porcelain")
-    check("工作區沒有未提交變更（推上去的就是你看到的）", not dirty.strip(),
-          f"{len(dirty.splitlines())} 項未提交")
+    check(
+        "工作區沒有未提交變更（推上去的就是你看到的）",
+        not dirty.strip(),
+        f"{len(dirty.splitlines())} 項未提交",
+    )
 
     rc, ls, err = sh("git", "ls-remote", a.remote, f"refs/heads/{branch}")
     remote_head = ls.split()[0] if rc == 0 and ls else ""
@@ -228,7 +244,7 @@ def main():
             dirs[:] = [d for d in dirs if d != ".git"]
             for n in names:
                 full = os.path.join(cur, n)
-                if re.search(r"(?i)(example|sample|template|\\.dist)", n):
+                if re.search(r"(?i)(example|sample|template|\.dist)", n):
                     continue
                 try:
                     if os.path.getsize(full) > 1_000_000:
@@ -236,7 +252,7 @@ def main():
                     text = open(full, encoding="utf-8", errors="ignore").read()
                 except OSError:
                     continue
-                if TOKEN_RE.search(text) or CRED_RE.search(text):
+                if has_leak(text):
                     leaks.append(os.path.relpath(full, clone))
         check("clone 工作區無機密樣式", not leaks, "、".join(leaks[:8]))
 
@@ -248,8 +264,14 @@ def main():
             for pat in (ERE_CRED, ERE_TOKEN):
                 _, out, _ = sh("git", "-C", clone, "grep", "-I", "-l", "-E", pat, *revs)
                 for line in out.splitlines():
-                    if ":" in line:
-                        hist.add(line.split(":", 1)[1])
+                    if ":" not in line:
+                        continue
+                    rev, path = line.split(":", 1)
+                    # git grep 是快速篩選，會誤判「安全讀取示範」；
+                    # 取實際 blob 逐行複查，避免 false positive，也不放過真 token。
+                    _, blob, _ = sh("git", "-C", clone, "show", f"{rev}:{path}")
+                    if has_leak(blob):
+                        hist.add(path)
         check("clone 歷史提交無機密樣式", not hist, "、".join(sorted(hist)[:8]))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -275,9 +297,26 @@ def main():
 
     # 「不知道」「N/A」也是空白：backup 要能被人實際找到那份原件
     VAGUE = {
-        "無", "沒有", "未知", "不知道", "待確認", "待補", "之後再說",
-        "n/a", "na", "none", "null", "?", "-", "--", "todo", "tbd",
-        "unknown", "x", "推", "稍後",
+        "無",
+        "沒有",
+        "未知",
+        "不知道",
+        "待確認",
+        "待補",
+        "之後再說",
+        "n/a",
+        "na",
+        "none",
+        "null",
+        "?",
+        "-",
+        "--",
+        "todo",
+        "tbd",
+        "unknown",
+        "x",
+        "推",
+        "稍後",
     }
 
     def vague(val):

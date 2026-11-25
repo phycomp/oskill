@@ -2,13 +2,15 @@
 name: push-repo
 description: >-
   Use when the user wants a directory turned into its own git repository and
-  pushed to a remote — 「把這個資料夾獨立成一個 repo」「推上 GitHub」「這個目錄
-  要版控」「push this folder somewhere」. Also use when a folder is a repo
-  already but was never pushed, when the push is rejected for size or secrets,
-  or when the user asks whether it is safe to delete a directory after
-  committing it. Covers preflight, exclusion records, nested repos, large
-  files, credential safety, and post-push verification. Not for splitting an
-  existing working tree into logical commits (see git-commit-and-push).
+  pushed to a remote — 「把這個資料夾獨立成一個 repo」「推上 GitHub」「git push」
+  「推送」「commit and push」「這個目錄要版控」「push this folder somewhere」.
+  Also use when a GitHub push fails (404 repository not found, 403 permission
+  denied, workflow scope missing), when a PAT or credential must be set up or
+  supplied without leaking it, when git remote must be configured, when a
+  folder is a repo already but was never pushed, when the push is rejected
+  for size or secrets, or when the user asks whether it is safe to delete a
+  directory after committing it. Not for splitting an existing working tree
+  into logical commits (see git-commit-and-push). 推送倉庫
 ---
 
 # push-repo
@@ -109,23 +111,78 @@ cp <DIR 上層>/<dirname>_preflight/excluded_draft.tsv <DIR>/_repo_excluded.tsv
 ### Phase 5 — 提交與推送
 
 ```bash
+# 新環境先確認 commit 身分，否則 commit 直接失敗 Author identity unknown
+# 用 repo 層級設定，不寫 --global 污染其他 repo
+git -C <DIR> config user.name >/dev/null 2>&1 || git -C <DIR> config user.name "<name>"
+git -C <DIR> config user.email >/dev/null 2>&1 || git -C <DIR> config user.email "<email>"
 git -C <DIR> add -A
 git -C <DIR> status --short | grep -E '\.env$|credential|\.pem|\.key' ; # 應為空
 git -C <DIR> commit -m "chore: 建立 <repo> 版本庫"
-git -C <DIR> remote add origin <URL>      # 已有 remote 就跳過
+git -C <DIR> remote add origin <URL>      # 已有 remote 就跳過；URL 不可含 token
 git -C <DIR> push -u origin main
 ```
 
-憑證只能用 credential helper，**不可**寫進 remote URL：
+#### 憑證：來源、送出方式、常見失敗（唯一真相來源）
+
+本節是推送憑證的**唯一參考**。不要再把「token 從哪裡來」和「token 怎麼送出去」拆給不同技能 —— 那會產生兩份互相矛盾的指令。
+
+**1. token 從哪裡來（申請／存放）**
+
+- 申請（擇一）：
+  - **fine-grained**（`github_pat_...`，建議）：Settings → Developer settings → Personal access tokens → Generate new token (fine-grained)，選目標 repo（或帳號），給 `Contents: Read and write`；推 `.github/workflows/` 再給 `Workflows: Read and write`。
+  - **classic**（`ghp_...`）：Generate new token (classic)，勾 `repo`；推 `.github/workflows/` 再勾 `workflow`。
+- scope 不足的後果：一般寫入缺權限 → 403；推 workflows 缺 `workflow`／`Workflows` → `workflow scope missing`（見下方失敗表）。
+- 存放：單行 token 放 `~/.credentials`（本機、檔權限 600）。`TOKEN=$(cat ~/.credentials)` 是合法的「讀取」，問題永遠在「送去哪」。
+
+**2. token 怎麼送出去 —— 只有兩條路**
 
 ```bash
-# 推薦：gh 已登入
+# 首選：gh 已登入
 gh auth setup-git
-# 或單次使用環境變數（不會落到 .git/config）
-GIT_ASKPASS=<(printf '#!/bin/sh\necho %s\n' "$GITHUB_TOKEN") git push -u origin main
+
+# 沒有 gh：GIT_ASKPASS 指向暫存 script，不落 .git/config / reflog / shell history
+# 用 subshell 包住：trap 只在本區塊生效，不覆蓋既有 EXIT trap，push 結束即清理
+(
+  ASK=$(mktemp)
+  printf '#!/bin/sh\necho %s\n' "$TOKEN" > "$ASK"
+  chmod 700 "$ASK"
+  trap 'rm -f "$ASK"' EXIT
+  GIT_ASKPASS="$ASK" git push -u origin main
+)
 ```
 
-`https://<token>@github.com/...` 會留在 `.git/config`、reflog 與 shell history，等於把 token 提交出去。要補 PAT／scope／`workflow` 權限的細節，交給 `git-push` 技能。
+`https://<token>@github.com/...` **不可**：token 會留在 `.git/config`、reflog 與 shell history，等於把 token 提交出去。就算不改 remote 只寫在指令裡，argv 與 process list 仍會暴露。
+
+> **不要用 `GIT_ASKPASS=<(printf ...)`（process substitution）。** 它產生的是 pipe（`/dev/fd/N`），git 用 `exec` 執行 askpass 路徑時會 `cannot exec '/dev/fd/N': 拒絕不符權限的操作`（實測 exit 128，即使 shell 是 bash）。這不是單純的 bash/dash 相容問題，而是 pipe 根本不可 exec —— 所以用上面 `mktemp` + `chmod 700` 的**真實檔案**。`trap ... EXIT` 確保 push 失敗也清掉暫存 script。
+
+**3. 常見 push 失敗 → 原因 → 動作**
+
+| 訊息 | 原因 | 動作 |
+| --- | --- | --- |
+| `Repository not found (404)` | repo 不存在／token 屬別的帳號／私有 repo 無權限（GitHub 回 404 而非 403） | 見下方「404 的處理」 |
+| `Permission denied (403)` | token 缺 `repo`／`Contents: Write` | 重新產生含正確 scope 的 token |
+| `workflow scope missing` | 推 workflows 但缺 `workflow`／`Workflows` scope | 補 `workflow` scope |
+| `Large file warning` | >50 MB 檔案 | 見 Phase 2 LFS／排除 |
+| `fetch first` | 遠端有新 commit | `git pull --rebase`，預設不要 force push |
+
+**404 的處理（含建 repo 權限）**
+
+```bash
+# 1. 先確認 token 屬哪個帳號；login 不是預期 owner 就停，換對的 token
+curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/user
+# 2a. 個人 repo
+curl -s -X POST -H "Authorization: Bearer $TOKEN" \
+  -H "Accept: application/vnd.github+json" \
+  https://api.github.com/user/repos \
+  -d '{"name":"<repo>","private":false}'
+# 2b. org repo
+curl -s -X POST -H "Authorization: Bearer $TOKEN" \
+  -H "Accept: application/vnd.github+json" \
+  https://api.github.com/orgs/<org>/repos \
+  -d '{"name":"<repo>","private":false}'
+```
+
+**API 建 repo 需要比推送更高的權限**：classic 勾 `repo`；fine-grained 要 `Administration: Read and write` 且 token 範圍選「All repositories」—— 只授權單一 repo 的 fine-grained token 建不了新 repo。沒這些權限就改用網頁 `https://github.com/new` 手動建，不要拿既有 token 一直重試。
 
 ### Phase 6 — 驗證（不可跳過）
 
@@ -159,7 +216,9 @@ python3 scripts/verify_push.py <DIR> <REMOTE_URL> --excluded <DIR>/_repo_exclude
 | 空目錄 | git 不追蹤，clone 後消失 | 需要就放 `.keep`，否則寫進摘要 |
 | 權限 750 | clone 後變 755（git 只記有無 x） | 事先說明，不算失敗 |
 | 只看 `git push` 輸出 | 推上去的可能不是你想的內容 | Phase 6 fresh clone 驗證 |
-| token 寫進 remote URL | `.git/config` 與 reflog 留下明文 | credential helper／`GIT_ASKPASS` |
+| token 寫進 remote URL | `.git/config`、reflog、shell history、process list 留下明文；公開 repo 一推就收不回來 | `gh auth setup-git`／`GIT_ASKPASS`；已寫入就 `set-url` 改回**不含 token 的 URL**並輪替金鑰 |
+| `GIT_ASKPASS=<(printf ...)`（process substitution） | 產生 pipe（`/dev/fd/N`）不可 exec，git 回 `cannot exec ... 拒絕不符權限的操作`（實測 exit 128，**即使 bash**） | 一律用 `mktemp` 暫存 script + `chmod 700` + `trap rm`；不要用 process substitution |
+| 推 `.github/workflows/` 卻用一般 scope 的 PAT | 403 `workflow scope missing` | 重新產生含 `workflow` scope 的 token |
 | 推送後直接刪來源 | 排除清單裡的檔案一起消失 | 先給清單，再讓使用者決定 |
 
 ## 常見錯誤
@@ -170,6 +229,10 @@ python3 scripts/verify_push.py <DIR> <REMOTE_URL> --excluded <DIR>/_repo_exclude
 - **「大檔先 exclude，之後再說。」** `_repo_excluded.tsv` 的 `backup` 欄就是要你當下回答「那原本那份在哪」。
 - **「push 成功就是完成。」** 遠端可能是空的、可能推錯 branch、可能被 pre-receive hook 改寫。
 - **「使用者說要全進去，就 `git add -f` 全部。」** 還是要回報大小與機密；100 MB 以上 GitHub 會直接拒絕。
+- **「先把 token 寫進 URL 推完再改回明文就好。」** 改回 URL 不會清掉 reflog、shell history 與 process list；推公開 repo 的當下就等於把 token 公佈，事後只能輪替金鑰。
+- **「URL 寫法最不容易因 bearer 支援差異出包，所以先用它。」** 這是拿「可能的相容性問題」換「確定的憑證洩漏」。gh 或 GIT_ASKPASS 才是同時滿足安全與可用的路徑。
+- **「排除帳本跟 `.gitignore` 重複，又會 drifting，不必做。」** `.gitignore` 給 git、`_repo_excluded.tsv` 給 clone 的人；後者回答的是「clone 後消失的檔案原本在哪」，`git status --ignored` 看不到。
+- **「對帳等式太脆弱、假陽性多，不必做。」** 對帳就是要逼出那些「以為排除、其實漏掉」的孤兒檔；`git status` 只告訴你 git 的觀點，不告訴你磁碟的真實檔案數。
 
 ## 驗收清單
 

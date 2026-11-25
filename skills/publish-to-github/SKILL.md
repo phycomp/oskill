@@ -33,47 +33,33 @@ Before publishing any skill, run the `audit-skill` skill on the folder and obtai
 an APPROVE or CAUTION verdict. Do not publish a skill with a REJECT verdict
 without explicit user consent.
 
+## 分工邊界（與 push-repo / push-router）
+
+- **本 skill 負責 GitHub 產品化**：README/歸屬、`gh repo create`（只建 remote）、fork、topics、release。
+- **安全推送一律委派 `push-repo`**：preflight、機密/歷史掃描、大檔/巢狀 repo、`_repo_excluded.tsv` 對帳、commit/push、fresh clone md5 驗證、憑證安全。**本 skill 不自行 `git add -A && push` 繞過驗證**。
+- 路由依 `push-router`（parent）之 goal→hook 決策。
+
 ## Workflow A — Publish a local folder as a new repo
 
-1. **Clean the folder.** Remove build artifacts, caches, secrets:
-   ```bash
-   rm -rf __pycache__ *.pyc node_modules .env
-   ```
-   Add a `.gitignore` for future protection.
+1. **產品化準備（本 skill）**  
+   - 清理明顯雜物/快取（不刪使用者內容）；補 `.gitignore`、`README.md`。  
+   - 若為第三方 patched skill，README 必須含 upstream URL、變更內容、原作者 credit/license。
 
-2. **Initialize git.**
+2. **建立 GitHub remote（只建 repo，不直推）**  
    ```bash
-   cd <folder>
-   git init -b main
-   git config user.name "<name>"
-   git config user.email "<email>"
+   gh repo create <repo-name> --public --source=. --remote=origin
+   # 私有改 --private；不要加 --push
    ```
+   若 remote 已存在，確認 `git remote get-url origin` 後沿用。
 
-3. **Stage and commit.**
-   ```bash
-   git add .
-   git commit -m "Initial commit: <short description>"
-   ```
+3. **委派安全推送（hook `push-repo`）**  
+   依 `push-repo` 執行：Phase 0 決策 → preflight → 排除決策/`_repo_excluded.tsv` → commit/push → `verify_push.py` 全 PASS（`fail=0`）。  
+   只有 `push-repo` 驗證通過才繼續。
 
-4. **Create the GitHub repo and push.**
-   ```bash
-   gh repo create <repo-name> --public --source=. --remote=origin --push
-   ```
-   Use `--private` instead of `--public` if requested. The command prints the repo URL.
-
-5. **Add README.md** (recommended for skills.sh indexing) and push:
-   ```bash
-   git add README.md && git commit -m "Add README.md" && git push origin main
-   ```
-
-6. **Set topics** for discoverability:
+4. **GitHub 產品化收尾（本 skill）**  
    ```bash
    gh repo edit <owner>/<repo> --add-topic <topic1> --add-topic <topic2>
-   ```
-
-7. **Create a release** (optional but recommended for versioning):
-   ```bash
-   gh release create v1.0.0 --title "v1.0.0 — initial release" --notes "<notes>"
+   gh release create v1.0.0 --title "v1.0.0 — initial release" --notes "<notes>"  # 可選
    ```
 
 ## Workflow B — Fork an upstream repo
@@ -113,9 +99,7 @@ When publishing a modified version of someone else's skill:
 
 ```bash
 # (already done once)
-gh repo create publish-to-github --public --source=. --remote=origin --push
+gh repo create publish-to-github --public --source=. --remote=origin  # 不直推；交 push-repo 驗證後推送
 gh repo edit phycomp/publish-to-github --add-topic agent-skill --add-topic github
 gh release create v1.0.0 --title "v1.0.0" --notes "Initial release."
 ```
-EOF
-echo "written"
