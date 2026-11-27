@@ -1,6 +1,6 @@
 ---
 name: quant-algo-auto
-description: Quantitative investing, algorithmic trading, and automation. Covers channel operations (content planning, scripts, SEO, analytics) and trading assistance (strategy development, backtesting, risk management, code templates). Use when the user asks about quant trading, algo trading, backtesting, strategy development, risk management, position sizing, trading automation, or YouTube channel strategy for finance/quant content.
+description: Quantitative investing, algorithmic trading, and automation. Covers channel operations (content planning, scripts, SEO, analytics) and trading assistance (strategy development, backtesting, risk management, code templates). Use when the user asks about quant trading, algo trading, backtesting, strategy development, risk management, position sizing, trading automation, or YouTube channel strategy for finance/quant content. 當使用者要求量化交易、演算法交易、程式交易、回測、策略開發、風險管理、部位配置或量化頻道經營時使用。
 ---
 
 # Quantitative Investing & Algorithmic Trading
@@ -120,9 +120,9 @@ Quantitative investing, algorithmic trading, and automation — for both channel
 ### Code Templates
 See `references/` and `scripts/` for:
 - `strategy_template.py` — Python strategy skeleton (vectorbt)
-- `backtest_checklist.md` — validation checklist
-- `risk_rules.md` — risk management rules
-- `content_plan.md` — 12-week content plan template
+- `references/backtest-checklist.md` — validation checklist
+- `references/risk-rules.md` — risk management rules
+- `references/content-plan.md` — 12-week content plan template
 
 ## External Trust Anchors
 - **Blender MCP** (if using blender-* skills for 3D visualization): external binary, not bundled
@@ -142,3 +142,15 @@ See `references/` and `scripts/` for:
 - `references/backtest-checklist.md` — backtesting validation checklist
 - `references/risk-rules.md` — risk management rules
 - `scripts/strategy_template.py` — Python strategy skeleton
+
+## Input
+- 使用者意圖：量化交易方法論問題（策略開發、回測、風險管理、部位配置）或量化/金融頻道營運需求（選題、腳本、SEO、分析）。
+- 可選素材：既有策略碼、回測結果、頻道數據、目標市場或工具偏好。
+
+## Output
+- 交易面：策略假說與 entry/exit 規則、含真實成本的回測設計、風險規則與部位配置建議（數值見 `references/risk-rules.md`）。
+- 頻道面：內容日曆、10 分鐘影片結構、SEO 標題與標籤、KPI 追蹤表。
+- 程式面：vectorbt 策略骨架（`scripts/strategy_template.py`）與驗證清單（`references/backtest-checklist.md`）。
+
+---
+Logic check: 2026-11-23 — F1–F6 一致性修正：references 檔名改連字號、補中文觸發詞、補 Input/Output 宣告、補 Logic check、清 README 殘骸、升格 self-developed.list。
