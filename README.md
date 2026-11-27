@@ -70,3 +70,10 @@ runtime reads them; both layouts work, the folder content is the same.
 | `qc-skill` | `.opencode/skills/quantum-website` |
 | `task-changelog` | `.opencode/skills/task-changelog` |
 | `toolkit-viz` | `.opencode/skills/toolkit-viz` |
+
+### Viz 家族（2026-11-27 deprecated 設定）
+
+| Skill | 狀態 |
+| --- | --- |
+| `viz-router` | viz 家族 parent；由 viz-dboard 更名而來 |
+| `viz-dboard` | DEPRECATED stub；`replaced_by: skills/viz-router/SKILL.md` |

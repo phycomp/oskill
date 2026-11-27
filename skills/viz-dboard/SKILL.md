@@ -1,48 +1,16 @@
 ---
 name: viz-dboard
-description: >
-  Use when visualizing skill hierarchies or generating a mindmap of local
-  skills. Triggers on "mindmap", "skill map", "viz-dboard", or "visualize
-  skills".
+description: "DEPRECATED - 舊名，請改用 viz-router（viz 家族父節點）。"
+version: "1.0.0"
+deprecated: true
+replaced_by: "skills/viz-router/SKILL.md"
+deprecation_note: "依硬規則：*-router 為父節點；viz-dboard 由 viz-router 取代，保留本 stub 供回溯。"
 ---
 
-# Viz Dboard
+> [!DEPRECATED] 本技能已棄用，請改用 **viz-router**（viz 家族父節點）：`skills/viz-router/SKILL.md`。
 
-Visualize a set of skills as a mindmap in SVG format.
+# viz-dboard（已棄用）
 
-## 1. Inventory the skills
-
-List the skills under review and their parent-child relationships.
-
-## 2. Build the hierarchy
-
-Define nodes and edges:
-
-- Root: the collection (e.g., "self-developed skills")
-- Parents: orchestrator skills
-- Children: atomic capabilities hooked by parents
-
-## 3. Render the mindmap
-
-Create an SVG file (e.g., `skill-map.svg`) with:
-
-- A root node
-- Branches for each parent
-- Child nodes connected by edges
-- A legend for node types
-
-The included example mindmap is at `skill-map.svg`.
-
-## 4. Validate
-
-```bash
-python3 -c "import xml.etree.ElementTree as ET; ET.parse('skill-map.svg'); print('SVG valid')"
-```
-
-## Notes
-
-- Keep node labels short (skill names).
-- Use dashed lines for conditional hooks.
-- Update the SVG whenever the skill hierarchy changes.
-EOF
-echo "written"
+- **狀態**：deprecated stub（僅回溯）
+- **取代者**：`viz-router`（父節點）→ 依目標 hook `mindmap-viz` / `hierar-viz` / `quant-viz` / `qbit-viz` / `d3-viz` / `topic-viz` / `toolkit-viz`
+- **原因**：`*-router` 為父節點硬規則；去除舊名冗餘技能，避免雙名並存。

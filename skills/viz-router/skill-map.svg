@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="830" viewBox="0 0 1200 830" role="img" aria-label="自行開發技能與主題 Mindmap（2026-11-23 重構後結合）">
+  <title>自行開發技能 Mindmap（2026-11-23 結合 tidb 拓撲資料庫 + topo 指標主題）</title>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569" />
+    </marker>
+    <style>
+      .node { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 12; ry: 12; }
+      .root { fill: #dbeafe; stroke: #1d4ed8; }
+      .parent { fill: #dcfce7; stroke: #15803d; }
+      .child { fill: #fef9c3; stroke: #a16207; }
+      .leaf { fill: #fce7f3; stroke: #be185d; }
+      .topic { fill: #fff7ed; stroke: #c2410b; stroke-width: 2; }
+      .label { font-family: "Noto Sans CJK TC", "Noto Sans", sans-serif; font-size: 15px; fill: #0f172a; text-anchor: middle; dominant-baseline: middle; }
+      .title { font-family: "Noto Sans CJK TC", "Noto Sans", sans-serif; font-size: 22px; font-weight: 700; fill: #0f172a; text-anchor: middle; dominant-baseline: middle; }
+      .edge { stroke: #475569; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .optional { stroke-dasharray: 6 4; }
+    </style>
+  </defs>
+
+  <text x="600" y="42" class="title">自行開發技能與主題 Mindmap（2026-11-23 結合 tidb 拓撲資料庫 + topo 指標主題）</text>
+
+  <!-- Edges (solid = 已宣告 child) -->
+  <line x1="600" y1="110" x2="300" y2="180" class="edge" />
+  <line x1="600" y1="110" x2="920" y2="180" class="edge" />
+  <line x1="600" y1="110" x2="120" y2="180" class="edge" />
+  <line x1="600" y1="110" x2="1140" y2="180" class="edge" />
+  <line x1="300" y1="230" x2="180" y2="300" class="edge" />
+  <line x1="300" y1="230" x2="480" y2="300" class="edge" />
+
+  <!-- Root -->
+  <rect x="500" y="60" width="200" height="50" class="node root" />
+  <text x="600" y="85" class="label">自行開發技能鏈 + 結合主題</text>
+
+  <!-- Level 1: skills -->
+  <rect x="200" y="180" width="200" height="50" class="node parent" />
+  <text x="300" y="205" class="label">sci-router（父 — 主題蒸餃管線）</text>
+
+  <rect x="820" y="180" width="200" height="50" class="node parent" />
+  <text x="920" y="205" class="label">sci-research-distill（獨立根）</text>
+
+  <!-- Level 2: children -->
+  <rect x="80" y="300" width="200" height="50" class="node child" />
+  <text x="180" y="325" class="label">topic-distill（子 — 本機蒸餃）</text>
+
+  <rect x="380" y="300" width="200" height="50" class="node child" />
+  <text x="480" y="325" class="label">sci-sediment（子 — 蒸餃展示）</text>
+
+  <!-- Level 1: 結合主題 -->
+  <rect x="20" y="180" width="200" height="50" class="node topic" />
+  <text x="120" y="205" class="label">tidb 拓撲資料庫（topo/拓撲/tidb/拓撲資料庫.md）</text>
+
+  <rect x="1040" y="180" width="200" height="50" class="node topic" />
+  <text x="1140" y="205" class="label">topo 指標（topo/指標/）</text>
+
+  <!-- Legend -->
+  <rect x="60" y="740" width="24" height="24" class="node root" />
+  <text x="100" y="752" class="label" text-anchor="start">根節點（skill）</text>
+  <rect x="220" y="740" width="24" height="24" class="node parent" />
+  <text x="260" y="752" class="label" text-anchor="start">父技能（sci-router, sci-research-distill）</text>
+  <rect x="380" y="740" width="24" height="24" class="node child" />
+  <text x="420" y="752" class="label" text-anchor="start">子技能（topic-distill, sci-sediment）</text>
+  <rect x="540" y="740" width="24" height="24" class="node topic" />
+  <text x="580" y="752" class="label" text-anchor="start">結合主題（文件/目錄 — 非 skill）</text>
+  <rect x="700" y="740" width="24" height="24" class="node leaf" />
+  <text x="740" y="752" class="label" text-anchor="start">葉節點 / meta</text>
+  <line x1="860" y1="752" x2="920" y2="752" class="edge optional" />
+  <text x="940" y="752" class="label" text-anchor="start">條件性 hook</text>
+</svg>
