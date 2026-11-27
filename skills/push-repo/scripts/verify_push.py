@@ -104,8 +104,9 @@ def _looks_like_placeholder(value):
         return True
     if "${" in raw or "??" in raw or REGEX_LITERAL_RE.search(raw):
         return True
-    # URL query string（client_secret=APP_SECRET&...）是文件示範，不是常值指派
-    if "&" in raw and "=" in raw:
+    # URL query string（client_secret=APP_SECRET&...）是文件示範，不是常值指派。
+    # CRED_RE 已把第一個 '=' 當 separator 消耗，value 內不會再有它，故只檢查 '&'。
+    if "&" in raw:
         return True
     # 先認出函式呼叫（保留結尾括号），其餘再把結構性尾綴去掉
     if CODE_EXPR_RE.fullmatch(raw.rstrip(",;")):
