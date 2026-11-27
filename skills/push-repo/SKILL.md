@@ -264,6 +264,8 @@ python3 scripts/verify_push.py <DIR> <REMOTE_URL> --excluded <DIR>/_repo_exclude
 | `GIT_ASKPASS=<(printf ...)`（process substitution） | 產生 pipe（`/dev/fd/N`）不可 exec，git 回 `cannot exec ... 拒絕不符權限的操作`（實測 exit 128，**即使 bash**） | 一律用 `mktemp` 暫存 script + `chmod 700` + `trap rm`；不要用 process substitution |
 | 推 `.github/workflows/` 卻用一般 scope 的 PAT | 403 `workflow scope missing` | 重新產生含 `workflow` scope 的 token |
 | 推送後直接刪來源 | 排除清單裡的檔案一起消失 | 先給清單，再讓使用者決定 |
+| 自我指涉：掃描器的註解被自己的 regex 抓到 | 修正判定後 verify 反而在「工作區／歷史無機密」兩項 FAIL（實測 `fail=2`），看起來像修正失敗 | 講解只寫描述，不貼可執行的字面指派式；若註解含 URL query 分隔符 `&`，豁免條件要與 separator 消耗一致（第一個指派符號已被消耗，值裡不會再有它，故只判斷 `&`，不要再要求值內也有指派符號）。改完先對腳本自身跑一次掃描，命中數須為 0 再 commit |
+| 用 `git update-index --assume-unchanged` 讓 verify 顯示乾淨 | 工作區其實有未提交變更，推上去的與看到的不同；「工作區乾淨」檢查被遮蔽 | 先 commit 讓工作區真正乾淨再驗證；verify 前用 `git ls-files -v` 確認沒有 `h` 前綴（正常是 `H`）；不要用 index 技巧掩蓋 FAIL |
 
 ## 常見錯誤
 
@@ -277,6 +279,8 @@ python3 scripts/verify_push.py <DIR> <REMOTE_URL> --excluded <DIR>/_repo_exclude
 - **「URL 寫法最不容易因 bearer 支援差異出包，所以先用它。」** 這是拿「可能的相容性問題」換「確定的憑證洩漏」。gh 或 GIT_ASKPASS 才是同時滿足安全與可用的路徑。
 - **「排除帳本跟 `.gitignore` 重複，又會 drifting，不必做。」** `.gitignore` 給 git、`_repo_excluded.tsv` 給 clone 的人；後者回答的是「clone 後消失的檔案原本在哪」，`git status --ignored` 看不到。
 - **「對帳等式太脆弱、假陽性多，不必做。」** 對帳就是要逼出那些「以為排除、其實漏掉」的孤兒檔；`git status` 只告訴你 git 的觀點，不告訴你磁碟的真實檔案數。
+- **「verify 報 FAIL，先把它藏起來讓它 PASS。」** `assume-unchanged` 或臨時改檔案只掩蓋症狀；FAIL 要查到根因並修正，工作區要真的乾淨再驗證。
+- **「修正機密判定不會有副作用。」** 掃描器本身的註解與範例也會被掃到；改完先對它自我掃描（命中數須為 0），再跑完整 verify，且真實憑證格式仍須硬 FAIL。
 
 ## 驗收清單
 
@@ -286,6 +290,7 @@ python3 scripts/verify_push.py <DIR> <REMOTE_URL> --excluded <DIR>/_repo_exclude
 - [ ] `git ls-files -s | grep 160000` 為空（沒有意外的 gitlink）
 - [ ] 追蹤檔案裡沒有 `.env`／token／私鑰
 - [ ] `verify_push.py` 全 PASS、`fail=0`
+- [ ] 若改過 `verify_push.py`：先自我掃描該檔（命中數 0），且未用 `assume-unchanged` 遮蔽工作區
 - [ ] 回報含 `tracked / disk / excluded` 三個數字與 remote URL
 
 Logic check: 2026-11-26 — 新增「Push 時機：五項 gate 全綠 → 自動 push（免再次核准）」章節（rev-skill：RED 4 fail → GREEN）。
@@ -293,3 +298,5 @@ Logic check: 2026-11-26 — 新增「Push 時機：五項 gate 全綠 → 自動
 Logic check: 2026-11-26 (fix2) — 依核實結果修正 4 點：gate 1 限本次 session 不沿用舊授權；gate 2 credential repo 一律 private（對齊 push-router §0.6）；gate 5 精確 stage 禁用 git add -A；Phase 5 分支改用 $BRANCH 不硬編碼 main。rev-skill RED 5 fail → GREEN。
 
 Logic check: 2026-11-26 (fix3) — 新增「Policy-based auto-push」規則節：預先核准且生效的授權載體（automation／allow-list／systemd）等同 gate 1 明確授權，可免逐次核准；載體不存在退回 gate 1；fail-closed 不豁免 gate 2–5；仍受 credential private 與精確 stage 約束。rev-skill RED 7 fail → GREEN。
+
+Logic check: 2026-11-27 — 依 oskill @ a3e0c20 實測新增兩條陷阱：掃描器自我指涉（註解的 URL query 範例被自身判定式抓到，`fail=2`）與 `assume-unchanged` 遮蔽工作區；配套要求「改完先自我掃描命中數 0」與「先 commit 再 verify」。真憑證格式仍硬 FAIL，未削弱其它檢查。
