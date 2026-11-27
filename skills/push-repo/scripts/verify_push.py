@@ -31,8 +31,9 @@ import sys
 import tempfile
 
 CRED_RE = re.compile(
-    r"(?i)(password|passwd|pwd|secret|api[ _-]?key|token|private[ _-]?key|"
-    r"access[ _-]?key|client[ _-]?secret)\s*[:=]\s*\S{4,}"
+    r"(?i)\b(password|passwd|pwd|secret|api[ _-]?key|token|private[ _-]?key|"
+    r"access[ _-]?key|client[ _-]?secret)\b\s*"
+    r"(?::|(?<![=!<>])=(?![=>]))\s*(?P<value>\S{4,})"
 )
 TOKEN_RE = re.compile(
     r"(sk-[A-Za-z0-9_\-]{20,}|ghp_[A-Za-z0-9]{30,}|gho_[A-Za-z0-9]{30,}"
@@ -54,13 +55,94 @@ ERE_TOKEN = (
 # 不是把 token 字面值寫進檔案。只移除該片段，真正的 token 格式仍由 TOKEN_RE 攔截。
 SAFE_READ_RE = re.compile(r"[A-Z_][A-Z0-9_]*=\$\(cat\s+[^\n]*credentials\)")
 
+# CRED_RE 只攔截「像真實字面值」的指派。技能文件、測試夾具與程式碼常出現
+# 佔位符、變數名、函式呼叫、regex 字串；這些不是洩漏。TOKEN_RE 仍舊硬攔截
+# ghp_/sk-/AKIA/PRIVATE KEY 等真實 token 格式，不受下列豁免影響。
+CODE_EXPR_RE = re.compile(
+    r"^[A-Za-z_$][\w$]*(?:\([^)]*\)|\[[^\]]*\]|\?\.[A-Za-z_$][\w$]*"
+    r"|\.[A-Za-z_$][\w$]*)+$"
+)
+HYPHEN_WORD_RE = re.compile(r"^[A-Za-z][A-Za-z0-9]*(?:-[A-Za-z][A-Za-z0-9]*)+$")
+REGEX_LITERAL_RE = re.compile(r"\[[A-Za-z0-9_\-]|\{\d+(?:,\d*)?\}|\\|\|")
+ALL_CAPS_VAR_RE = re.compile(r"[A-Z_][A-Z0-9_]*\Z")
+PLACEHOLDER_PREFIX_RE = re.compile(
+    r"(?i)^(?:your|my|the|dummy|placeholder|example|sample|fake|test|current|"
+    r"newer|old|short|forged|previous)[_-][A-Za-z0-9_-]+$"
+)
+NON_SECRET_WORDS = {
+    "true",
+    "false",
+    "none",
+    "null",
+    "undefined",
+    "str",
+    "int",
+    "bool",
+    "app_secret",
+    "app_id",
+    "token",
+    "page_token",
+    "short_token",
+    "todo",
+    "tbd",
+    "unknown",
+    "n/a",
+    "na",
+    "x",
+}
+
+
+def _looks_like_placeholder(value):
+    """判定 CRED_RE 抓到的值是否只是示範/程式碼，而非真實憑證字面值。"""
+    raw = value.strip()
+    # shell/env 取值、f-string、模板字串、字串運算、regex 字元類別都不是字面 secret
+    if (
+        raw.startswith("$")
+        or raw.startswith("`")
+        or raw.startswith(('f"', "f'", 'F"', "F'"))
+    ):
+        return True
+    if "${" in raw or "??" in raw or REGEX_LITERAL_RE.search(raw):
+        return True
+    # URL query string（client_secret=APP_SECRET&...）是文件示範，不是常值指派
+    if "&" in raw and "=" in raw:
+        return True
+    # 先認出函式呼叫（保留結尾括号），其餘再把結構性尾綴去掉
+    if CODE_EXPR_RE.fullmatch(raw.rstrip(",;")):
+        return True
+    raw = raw.rstrip(",;)]}")
+    # 成對引號先解包，才能正確辨識 "newer-current-token" 之類測試夾具
+    if len(raw) >= 2 and raw[0] == raw[-1] and raw[0] in "\"'`":
+        raw = raw[1:-1].strip()
+    elif raw.endswith(("`", "'", '"')):
+        # Markdown 行內程式碼只剩結束引號，例如 `token=True`
+        raw = raw[:-1]
+    if CODE_EXPR_RE.fullmatch(raw):
+        return True
+    if not raw or len(raw) < 4:
+        return True
+    if raw.startswith("<") and raw.endswith(">"):
+        return True
+    low = raw.lower()
+    if low in NON_SECRET_WORDS or ("_" in raw and ALL_CAPS_VAR_RE.fullmatch(raw)):
+        return True
+    if PLACEHOLDER_PREFIX_RE.fullmatch(raw):
+        return True
+    # newer-current-token / current-new 這類測試夾具：全小寫字詞以連字號串接
+    if HYPHEN_WORD_RE.fullmatch(raw) and not any(c.isdigit() for c in raw):
+        return True
+    return False
+
 
 def has_leak(text):
-    """逐行檢查；先剔除安全讀取片段，其餘命中照常視為洩漏。"""
+    """逐行檢查；TOKEN_RE 一律 FAIL，CRED_RE 只對真實字面值 FAIL。"""
     for line in text.splitlines():
         cleaned = SAFE_READ_RE.sub("", line)
-        if TOKEN_RE.search(cleaned) or CRED_RE.search(cleaned):
+        if TOKEN_RE.search(cleaned):
             return True
+        for m in CRED_RE.finditer(cleaned):
+            if not _looks_like_placeholder(m.group("value")):
+                return True
     return False
 
 
@@ -141,6 +223,20 @@ def covered(rel, rows):
         elif rel == p:
             return p
     return None
+
+
+def excluded_is_tracked(path, tracked_set):
+    """帳本失效的定義：列出的路徑其實仍被 git 追蹤（與「不該進 repo」矛盾）。
+
+    本機已清理的雜物、空目錄、斷鏈，clone 後本來就不存在，不算失效。
+    """
+    p = path.rstrip("/")
+    if any(ch in p for ch in "*?["):
+        return any(
+            fnmatch.fnmatch(t, p) or fnmatch.fnmatch(os.path.basename(t), p)
+            for t in tracked_set
+        )
+    return p in tracked_set or any(t.startswith(p + "/") for t in tracked_set)
 
 
 def main():
@@ -284,8 +380,7 @@ def main():
         {
             r["path"]
             for r in rows
-            if r.get("path")
-            and not os.path.exists(os.path.join(root, r["path"].rstrip("/")))
+            if r.get("path") and excluded_is_tracked(r["path"], tracked_set)
         }
     )
     check(
