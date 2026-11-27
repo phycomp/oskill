@@ -1,0 +1,6 @@
+path	size	reason	backup
+skills/inkling-mini/tests/__pycache__/	3503	雜物：__pycache__（Python bytecode 快取）	由工具重建
+skills/toolkit-viz/dist/	19249	雜物：dist（建置產物）	由工具重建
+skills/toolkit-viz/data/topics/	0	空目錄：git 不追蹤，clone 後消失	不適用（無內容）
+skills/toolkit-viz/.agents/skills/developing-with-streamlit	0	斷鏈符號連結：指向 /tmp/opencode/venv 外部，clone 後不可用	本機來源 .opencode/skills/toolkit-viz/.agents/skills/developing-with-streamlit（斷鏈，無內容）
+skills/toolkit-viz/.claude/skills/developing-with-streamlit	0	斷鏈符號連結：指向 /tmp/opencode/venv 外部，clone 後不可用	本機來源 .opencode/skills/toolkit-viz/.claude/skills/developing-with-streamlit（斷鏈，無內容）

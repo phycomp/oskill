@@ -1,0 +1,3966 @@
+{
+  "meta": {
+    "title": "本機開發技能盤點視覺化",
+    "topic": "自建技能／uncertain／type 分布／hierarchy 樞紐",
+    "generated_at": "2026-11-20T03:47:46.886047+00:00",
+    "built_at_utc": "2026-11-20T03:59:33.728900+00:00",
+    "source": {
+      "path": "/tmp/opencode/skill_inventory.json",
+      "generated_at": "2026-11-20T03:47:46.886047+00:00",
+      "sha256": "750b360944ce28867ba7a7ce3828d179826aa071c90ad247618a156cbb896024",
+      "size_bytes": 167319,
+      "read_only": true
+    },
+    "provenance": {
+      "scope": "掃描 580 個 skill 檔；173 筆入冊（162 locally_developed + 11 uncertain）",
+      "type_rule": "type 可複選；計數為各標籤出現次數，總和大於入冊數屬正常。",
+      "hierarchy_rule": "hierarchy 關係由 SKILL.md 內文明確提及推導，非執行期依賴圖；樞紐分數 = references + referenced_by。",
+      "role_rule": "結構角色推斷：referenced_by > references → 基礎件（被引用多）；references ≥ 5 且 references > 2×referenced_by → 索引型（對外引用多）；其餘 → 混合型。角色為 hierarchy 結構判讀，不影響 origin 判定。",
+      "origin_rule": "locally_developed = topic-seek 索引或個人脈絡訊號；uncertain = 歸屬未定，理由見 note。",
+      "uncertain_label": "uncertain 歸屬未定：origin 未判定，理由見 note；本快照 11 筆 use_case 皆有「內容推估」文字（非從缺），不得當作歸屬佐證。",
+      "discrepancy_note": "任務敘述稱『11 個 uncertain 的 use_case 為空』，但 SSOT 實測相反：11 筆 uncertain 皆有 use_case（由描述推估，note 標註 type 為內容推估）；真正 use_case 從缺的 11 筆為 locally_developed。本快照如實呈現，不竄改 SSOT，亦不偽標 uncertain 從缺。"
+    },
+    "ssot_note": "本檔是 HTML/XLSX 的單一資料來源（SSOT 衍生快照）；原始盤點 JSON 只讀不改寫。",
+    "scope_policy": "此為單機快照，僅供本機盤點參考，非生態系絕對排名",
+    "source_policy": "不修改任何 skill 來源檔；輸出目錄全為新增；不推送、不上傳、不發布；Streamlit 展示未做。",
+    "hierarchy_caveat": "hierarchy 關係由 SKILL.md 內文明確提及推導，非執行期依賴圖；樞紐分數 = references + referenced_by。",
+    "snapshot_caveat": "此為單機快照，僅供本機盤點參考，非生態系絕對排名"
+  },
+  "views": [
+    {
+      "id": "overview",
+      "label": "1 總覽",
+      "type": "A/E",
+      "desc": "580 掃描 / 173 入冊 / 162 自建 / 11 uncertain / 掃描根目錄"
+    },
+    {
+      "id": "types",
+      "label": "2 type 分布",
+      "type": "D",
+      "desc": "七類可複選標籤，註明總和大於技能數"
+    },
+    {
+      "id": "hierarchy",
+      "label": "3 hierarchy 樞紐",
+      "type": "A/E",
+      "desc": "references + referenced_by 複合排序 top10"
+    },
+    {
+      "id": "origin",
+      "label": "4 origin / uncertain",
+      "type": "B/D",
+      "desc": "origin 分布與 11 筆 uncertain 理由"
+    },
+    {
+      "id": "skills",
+      "label": "5 完整技能表",
+      "type": "D/E",
+      "desc": "173 筆，前端 type/origin 篩選與關鍵字搜尋"
+    }
+  ],
+  "overview": {
+    "total_skills": 580,
+    "enrolled_skills": 173,
+    "not_enrolled": 407,
+    "locally_developed_count": 162,
+    "uncertain_count": 11,
+    "roots_scanned": [
+      "/home/sam/.opencode/skills",
+      "/home/sam/.agents/skills",
+      "/home/sam/.claude/skills"
+    ],
+    "snapshot_caveat": "此為單機快照，僅供本機盤點參考，非生態系絕對排名",
+    "hierarchy_caveat": "hierarchy 關係由 SKILL.md 內文明確提及推導，非執行期依賴圖；樞紐分數 = references + referenced_by。"
+  },
+  "types": {
+    "definitions": {
+      "technique": "具體方法／技術手法：可直接操作的做法與步驟。",
+      "reference": "參考／索引／背景資料：供查閱的說明、目錄或 indexed 指引。",
+      "discipline-enforcing": "紀律強制：要求遵循特定流程、gate 或驗收條件。",
+      "workflow-automation": "工作流程自動化：觸發條件到產出的自動化流程。",
+      "pattern": "可重用模式／架構模板：可遷移到不同情境的結構。",
+      "media-generation": "媒體生成：圖片、影片、音訊、簡報等產出。",
+      "other": "其他／難歸類：盤點時未能落入上述標籤。"
+    },
+    "order": [
+      "technique",
+      "reference",
+      "discipline-enforcing",
+      "workflow-automation",
+      "pattern",
+      "media-generation",
+      "other"
+    ],
+    "distribution": [
+      {
+        "type": "technique",
+        "count": 141,
+        "pct_of_enrolled": 81.5,
+        "definition": "具體方法／技術手法：可直接操作的做法與步驟。"
+      },
+      {
+        "type": "reference",
+        "count": 115,
+        "pct_of_enrolled": 66.5,
+        "definition": "參考／索引／背景資料：供查閱的說明、目錄或 indexed 指引。"
+      },
+      {
+        "type": "discipline-enforcing",
+        "count": 88,
+        "pct_of_enrolled": 50.9,
+        "definition": "紀律強制：要求遵循特定流程、gate 或驗收條件。"
+      },
+      {
+        "type": "workflow-automation",
+        "count": 65,
+        "pct_of_enrolled": 37.6,
+        "definition": "工作流程自動化：觸發條件到產出的自動化流程。"
+      },
+      {
+        "type": "pattern",
+        "count": 38,
+        "pct_of_enrolled": 22.0,
+        "definition": "可重用模式／架構模板：可遷移到不同情境的結構。"
+      },
+      {
+        "type": "media-generation",
+        "count": 36,
+        "pct_of_enrolled": 20.8,
+        "definition": "媒體生成：圖片、影片、音訊、簡報等產出。"
+      },
+      {
+        "type": "other",
+        "count": 3,
+        "pct_of_enrolled": 1.7,
+        "definition": "其他／難歸類：盤點時未能落入上述標籤。"
+      }
+    ],
+    "sum_of_counts": 486,
+    "multi_select_note": "type 為可複選標籤；七類合計 486 > 入冊 173，屬正常現象，不可解讀為技能總數。"
+  },
+  "hierarchy": {
+    "method": "hierarchy 關係由 SKILL.md 內文明確提及推導，非執行期依賴圖；樞紐分數 = references + referenced_by。 結構角色推斷：referenced_by > references → 基礎件（被引用多）；references ≥ 5 且 references > 2×referenced_by → 索引型（對外引用多）；其餘 → 混合型。角色為 hierarchy 結構判讀，不影響 origin 判定。",
+    "role_legend": {
+      "索引型": "對外引用多（refs ≥ 5 且 refs > 2×by）",
+      "基礎件": "被引用多（by > refs）",
+      "混合型": "引用與被引用相近或其他情況"
+    },
+    "hubs": [
+      {
+        "name": "topic-seek",
+        "references": 69,
+        "referenced_by": 0,
+        "total": 69,
+        "role": "索引型",
+        "hint": "本機自行開發技能索引：依關鍵字/Pattern 搜尋並定位技能，提供檔案位置、用法與功能說明；使用情境：the user asks to find/search/locate locally …",
+        "origin": "locally_developed"
+      },
+      {
+        "name": "qcable-usage",
+        "references": 30,
+        "referenced_by": 0,
+        "total": 30,
+        "role": "索引型",
+        "hint": "use_case 從缺；角色僅依 hierarchy 推斷",
+        "origin": "locally_developed"
+      },
+      {
+        "name": "qcable-index",
+        "references": 22,
+        "referenced_by": 6,
+        "total": 28,
+        "role": "索引型",
+        "hint": "量子傳輸線技能索引：盤點所有量子傳輸線相關技能（熱負載及其上下級鏈、Polar、Mantaro、整合元件、規格、三視圖、串擾、電性優化、SOP、連接器、拓撲絕緣體），提供使用情境與；使用情境：…",
+        "origin": "locally_developed"
+      },
+      {
+        "name": "heatload-coff-nist",
+        "references": 6,
+        "referenced_by": 19,
+        "total": 25,
+        "role": "基礎件",
+        "hint": "以 9 係數 (c0..c8 / a..i) 的 NIST/Raicu log-log 多項式計算低溫多溫區熱負載：固體傳導積分、衰減器自熱、54 材料單一對照表、含 upper 論文/NIS…",
+        "origin": "locally_developed"
+      },
+      {
+        "name": "audit-worker-subagent",
+        "references": 0,
+        "referenced_by": 23,
+        "total": 23,
+        "role": "基礎件",
+        "hint": "Use when a worker or subagent reports a task as complete, done, succeeded, or \"all todos complet…",
+        "origin": "locally_developed"
+      },
+      {
+        "name": "ytauto",
+        "references": 4,
+        "referenced_by": 14,
+        "total": 18,
+        "role": "基礎件",
+        "hint": "YouTube 自動上傳技能：OAuth 授權、頻道核對、視頻上傳（unlisted/public/private）、排程、頻道管理（新增頻道）；使用情境：the user wants to …",
+        "origin": "locally_developed"
+      },
+      {
+        "name": "toolkit-viz",
+        "references": 9,
+        "referenced_by": 7,
+        "total": 16,
+        "role": "混合型",
+        "hint": "use_case 從缺；角色僅依 hierarchy 推斷",
+        "origin": "locally_developed"
+      },
+      {
+        "name": "kpi-delivery-valid",
+        "references": 13,
+        "referenced_by": 2,
+        "total": 15,
+        "role": "索引型",
+        "hint": "KPI 交付驗證 Pipeline 技能：從 KPI 規格指標 → 開發 → 測試 → 驗證 → 交付 → 使用說明+測試+材料數據庫 → 各階段驗收 KPI，含程式碼、使用+測試文件、驗收標…",
+        "origin": "locally_developed"
+      },
+      {
+        "name": "topological-insulator",
+        "references": 5,
+        "referenced_by": 10,
+        "total": 15,
+        "role": "基礎件",
+        "hint": "拓撲絕緣體主題技能：基礎物理（Berry 相位/Z₂/BHZ/TRS）、材料系統（Bi₂Se₃ 家族/MnBi₂Te₄）、計算高通量預測（指標定理/資料庫）、量子傳輸線工程（TIRC 共面波導…",
+        "origin": "locally_developed"
+      },
+      {
+        "name": "social-media-suite",
+        "references": 13,
+        "referenced_by": 1,
+        "total": 14,
+        "role": "索引型",
+        "hint": "Root architecture for all social media skills. Integrates content creation, publishing, analytic…",
+        "origin": "locally_developed"
+      }
+    ]
+  },
+  "origin": {
+    "distribution": [
+      {
+        "origin": "locally_developed",
+        "count": 162,
+        "label": "自建（topic-seek 索引或個人脈絡訊號）"
+      },
+      {
+        "origin": "uncertain",
+        "count": 11,
+        "label": "歸屬未定（note 載理由，type 為內容推估）"
+      }
+    ],
+    "uncertain": [
+      {
+        "name": "openmontage",
+        "type": [
+          "media-generation",
+          "workflow-automation",
+          "reference"
+        ],
+        "origin": "uncertain",
+        "note": "描述為外部 OpenMontage 系統的文件，但收錄於本機 .opencode/skills，可能為自建導覽或外部套件；type 為內容推估",
+        "use_case": "OpenMontage 視頻製作系統：12 pipelines, 52 tools, 500+ skills。用於製作/編輯/渲染視頻；使用情境：the user wants to produce videos using OpenMontage, create video pipelines, or use AI video generation",
+        "use_case_status": "use_case 為內容推估（非從缺、非歸屬佐證）"
+      },
+      {
+        "name": "aoci-code-workflow",
+        "type": [
+          "reference",
+          "technique",
+          "workflow-automation"
+        ],
+        "origin": "uncertain",
+        "note": "描述特定外部工具 AOCI-CODE，可能為官方文件或自建操作筆記；type 為內容推估",
+        "use_case": "Use when installing, initializing, or operating AOCI-CODE (aoci CLI + MCP server) in a repository to build and maintain a governed, Git-versioned codebase/DB cognition index for coding agents. 代碼 工作流程；使用情境：installing, initializing, or operating AOCI-CODE (aoci CLI + MCP server) in a repository to build and maintain a governed, Git-ver",
+        "use_case_status": "use_case 為內容推估（非從缺、非歸屬佐證）"
+      },
+      {
+        "name": "grill-me",
+        "type": [
+          "other"
+        ],
+        "origin": "uncertain",
+        "note": "描述極簡，可能是 superpowers 系外部 skill 或自建精簡版；type 為內容推估",
+        "use_case": "A relentless interview to sharpen a plan or design. 規劃 設計",
+        "use_case_status": "use_case 為內容推估（非從缺、非歸屬佐證）"
+      },
+      {
+        "name": "implement-spec",
+        "type": [
+          "technique",
+          "reference"
+        ],
+        "origin": "uncertain",
+        "note": "極簡描述且屬通用規格實作流程，缺乏個人慣例訊號；type 為內容推估",
+        "use_case": "Implement the result of /to-spec and /to-tickets in code. 規格 代碼",
+        "use_case_status": "use_case 為內容推估（非從缺、非歸屬佐證）"
+      },
+      {
+        "name": "nature-paper-card",
+        "type": [
+          "technique",
+          "discipline-enforcing",
+          "reference"
+        ],
+        "origin": "uncertain",
+        "note": "中文學術流程，疑似自建但無 topic-seek 索引佐證，亦可能是外部套件；type 為內容推估",
+        "use_case": "Build a structured deep-reading Paper Card for one scientific paper, analysing methods, experiment-to-claim evidence, limitations, and research ideas. Use for 论文精读卡、方法拆解、证据链分析; not full-paper bilingua",
+        "use_case_status": "use_case 為內容推估（非從缺、非歸屬佐證）"
+      },
+      {
+        "name": "nature-paper2ppt",
+        "type": [
+          "reference",
+          "technique",
+          "workflow-automation"
+        ],
+        "origin": "uncertain",
+        "note": "中文學術投影片流程，疑似自建但無 topic-seek 索引佐證，亦可能是外部套件；type 為內容推估",
+        "use_case": "Create or improve a Chinese academic PPTX from a scientific paper or research reading notes, with source figures and speaker notes. Use for 论文做PPT、文献汇报、组会PPT and paper-based conference or defense pres",
+        "use_case_status": "use_case 為內容推估（非從缺、非歸屬佐證）"
+      },
+      {
+        "name": "qmd-skill",
+        "type": [
+          "technique",
+          "reference",
+          "workflow-automation"
+        ],
+        "origin": "uncertain",
+        "note": "描述外部 QMD 工具並與 self-built auto-skill 整合，無法判定說明文件或自建封裝；type 為內容推估",
+        "use_case": "Use when setting up or using QMD (Query Markup Documents) for semantic search over markdown knowledge bases. Covers installation, collection management, embedding, search modes (BM25/vector/hybrid), a；使用情境：setting up or using QMD (Query Markup Documents) for semantic search over markdown knowledge bases. Covers installation, collectio",
+        "use_case_status": "use_case 為內容推估（非從缺、非歸屬佐證）"
+      },
+      {
+        "name": "skill-name",
+        "type": [
+          "pattern",
+          "technique"
+        ],
+        "origin": "uncertain",
+        "note": "frontmatter 為模板範例文字，疑似未完成的自建草稿或外部模板殘留；type 為內容推估",
+        "use_case": "A clear, concise description of what this skill does (1-2 sentences). Focus on the VALUE it provides to the user. 名稱 清除 描述 焦點 值 使用者",
+        "use_case_status": "use_case 為內容推估（非從缺、非歸屬佐證）"
+      },
+      {
+        "name": "social-publisher",
+        "type": [
+          "media-generation",
+          "workflow-automation",
+          "technique"
+        ],
+        "origin": "uncertain",
+        "note": "通用多平台社群發布描述，與自建 social-post/social-publish 相似但無明確自建訊號；type 為內容推估",
+        "use_case": "Multi-platform social media publishing automation - schedule, post, and track content across TikTok, Instagram, YouTube, LinkedIn, and more 發布者 媒體 自動化 排程 POST 追蹤 內容",
+        "use_case_status": "use_case 為內容推估（非從缺、非歸屬佐證）"
+      },
+      {
+        "name": "speckit-specify-zh",
+        "type": [
+          "reference",
+          "technique",
+          "workflow-automation"
+        ],
+        "origin": "uncertain",
+        "note": "中文翻譯/本地化 speckit 流程，可能自建也可能源自外部中文套件；type 為內容推估",
+        "use_case": "中文功能规范创建工具，用于将自然语言功能描述转换为结构化的功能规范文档。支持自动生成分支名称、创建Git分支、初始化规范文件和质量验证。触发词包括：\"speckit规范\"、\"功能规范\"、\"创建规范\"、\"功能描述转换\"、\"speckit-specify\"。当用户需要将功能想法转换为结构化规范时使用此技能",
+        "use_case_status": "use_case 為內容推估（非從缺、非歸屬佐證）"
+      },
+      {
+        "name": "trigger-skill",
+        "type": [
+          "workflow-automation",
+          "technique",
+          "reference"
+        ],
+        "origin": "uncertain",
+        "note": "通用技能觸發驗證工具，可能為 skill 工程自建 auxiliary，也可能外部；type 為內容推估",
+        "use_case": "Verify whether a given phrase triggers a specific skill by checking the skill's description against the trigger phrase；使用情境：the user wants to verify skill triggering, test if a phrase matches a skill, check skill activation, or validate skill description",
+        "use_case_status": "use_case 為內容推估（非從缺、非歸屬佐證）"
+      }
+    ],
+    "uncertain_label": "uncertain 歸屬未定：origin 未判定，理由見 note；本快照 11 筆 use_case 皆有「內容推估」文字（非從缺），不得當作歸屬佐證。",
+    "discrepancy_note": "任務敘述稱『11 個 uncertain 的 use_case 為空』，但 SSOT 實測相反：11 筆 uncertain 皆有 use_case（由描述推估，note 標註 type 為內容推估）；真正 use_case 從缺的 11 筆為 locally_developed。本快照如實呈現，不竄改 SSOT，亦不偽標 uncertain 從缺。",
+    "empty_use_case_locally_developed": [
+      {
+        "name": "2d-superconductor",
+        "type": [
+          "reference",
+          "workflow-automation"
+        ],
+        "origin": "locally_developed",
+        "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+        "use_case_status": "use_case 從缺（自建，非 uncertain）"
+      },
+      {
+        "name": "toolkit-viz",
+        "type": [
+          "reference",
+          "workflow-automation",
+          "technique"
+        ],
+        "origin": "locally_developed",
+        "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+        "use_case_status": "use_case 從缺（自建，非 uncertain）"
+      },
+      {
+        "name": "opencode-go-quota",
+        "type": [
+          "pattern",
+          "discipline-enforcing",
+          "reference"
+        ],
+        "origin": "locally_developed",
+        "note": "mnpl/Rakazo 個人多代理與配額工作流系列",
+        "use_case_status": "use_case 從缺（自建，非 uncertain）"
+      },
+      {
+        "name": "plastic-biodegradation",
+        "type": [
+          "reference",
+          "workflow-automation",
+          "technique"
+        ],
+        "origin": "locally_developed",
+        "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+        "use_case_status": "use_case 從缺（自建，非 uncertain）"
+      },
+      {
+        "name": "quota-mnpl",
+        "type": [
+          "pattern",
+          "discipline-enforcing",
+          "reference"
+        ],
+        "origin": "locally_developed",
+        "note": "mnpl/Rakazo 個人多代理與配額工作流系列",
+        "use_case_status": "use_case 從缺（自建，非 uncertain）"
+      },
+      {
+        "name": "remotion-cast2svg",
+        "type": [
+          "technique",
+          "media-generation",
+          "workflow-automation"
+        ],
+        "origin": "locally_developed",
+        "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+        "use_case_status": "use_case 從缺（自建，非 uncertain）"
+      },
+      {
+        "name": "remotion-social",
+        "type": [
+          "media-generation",
+          "technique",
+          "workflow-automation"
+        ],
+        "origin": "locally_developed",
+        "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+        "use_case_status": "use_case 從缺（自建，非 uncertain）"
+      },
+      {
+        "name": "rust-agent-tui",
+        "type": [
+          "reference",
+          "technique",
+          "pattern"
+        ],
+        "origin": "locally_developed",
+        "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+        "use_case_status": "use_case 從缺（自建，非 uncertain）"
+      },
+      {
+        "name": "sci-distill-push",
+        "type": [
+          "reference",
+          "technique",
+          "workflow-automation"
+        ],
+        "origin": "locally_developed",
+        "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+        "use_case_status": "use_case 從缺（自建，非 uncertain）"
+      },
+      {
+        "name": "topic-workflow-auto",
+        "type": [
+          "workflow-automation",
+          "discipline-enforcing",
+          "reference"
+        ],
+        "origin": "locally_developed",
+        "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+        "use_case_status": "use_case 從缺（自建，非 uncertain）"
+      },
+      {
+        "name": "qcable-usage",
+        "type": [
+          "technique",
+          "discipline-enforcing",
+          "reference"
+        ],
+        "origin": "locally_developed",
+        "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+        "use_case_status": "use_case 從缺（自建，非 uncertain）"
+      }
+    ]
+  },
+  "skills": [
+    {
+      "name": "2d-superconductor",
+      "type": [
+        "reference",
+        "workflow-automation"
+      ],
+      "use_case": "",
+      "trigger": "2d-superconductor | 2d superconductor",
+      "location": "/home/sam/.opencode/skills/2d-superconductor/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 2,
+        "total": 4
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": true
+    },
+    {
+      "name": "ai-ml-app-engineering",
+      "type": [
+        "reference",
+        "pattern",
+        "workflow-automation"
+      ],
+      "use_case": "AI/ML 應用工程主題：本地 LLM 部署與推理優化（llama.cpp/vLLM/SGLang、GGUF/AWQ/GPTQ 量化、KV cache 與 VRAM 估算）、模型選型與成本算力（token 經濟學、快取/batch/長 context）、RAG 與向量資料庫（chunking/embedding/pgvector/Qdrant/hybrid search/rerank）、Agent；使用情境：the user asks about 本地 LLM、推理優化、模型選型、RAG、向量資料庫、Agent、MCP、微調、LoRA、ML 工具鏈、LLM 評估、可觀測性、模型上線、GPU 成本，或要將 AI/ML 應用工程主題發布到 Hugging Face S",
+      "trigger": "ai-ml-app-engineering | ai ml app engineering",
+      "location": "/home/sam/.opencode/skills/ai-ml-app-engineering/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 0,
+        "total": 2
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "audit-credential",
+      "type": [
+        "workflow-automation",
+        "technique",
+        "discipline-enforcing"
+      ],
+      "use_case": "Use when preparing to publish/post/upload to social or external platforms, when asked to inventory local credentials/tokens/sessions, when reviewing credential exposure or publish readiness, or when a；使用情境：preparing to publish/post/upload to social or external platforms, when asked to inventory local credentials/tokens/sessions, when",
+      "trigger": "audit-credential | audit credential",
+      "location": "/home/sam/.opencode/skills/audit-credential/SKILL.md",
+      "hierarchy": {
+        "references": 5,
+        "referenced_by": 0,
+        "total": 5
+      },
+      "role": "索引型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "audit-skill-chain",
+      "type": [
+        "reference",
+        "technique",
+        "discipline-enforcing"
+      ],
+      "use_case": "Use when 核實技能上下級關聯、審查技能鏈、技能鏈稽核、上下級鏈檢查、交叉引用核實、稽核索引宣稱的「雙向可核實／完整」是否屬實、audit skill chain、verify skill chain links、check skill chain consistency、bidirectional skill dependency audit；尤其是需要逐邊雙向查證、MANIFEST 正反；使用情境：核實技能上下級關聯、審查技能鏈、技能鏈稽核、上下級鏈檢查、交叉引用核實、稽核索引宣稱的「雙向可核實／完整」是否屬實、audit skill chain、verify skill chain links、check skill chain consistency",
+      "trigger": "audit-skill-chain | audit skill chain",
+      "location": "/home/sam/.opencode/skills/audit-skill-chain/SKILL.md",
+      "hierarchy": {
+        "references": 4,
+        "referenced_by": 0,
+        "total": 4
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "channel-manager",
+      "type": [
+        "reference",
+        "workflow-automation",
+        "media-generation"
+      ],
+      "use_case": "頻道管理技能：列出頻道/播放清單、建立播放清單、加入視頻、crontab 排程、內容主題模板（quantum/sciedu/PQC）；使用情境：the user wants to manage YouTube channels, create playlists, schedule content, or set up content calendar",
+      "trigger": "channel-manager | channel manager",
+      "location": "/home/sam/.opencode/skills/channel-manager/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "cloud-deploy",
+      "type": [
+        "workflow-automation",
+        "technique",
+        "media-generation"
+      ],
+      "use_case": "雲端佈署與驗證技能：涵蓋帳號註冊、Docker 建置、Wrangler/Cloudflare 部署、GitHub Actions、Render/Railway 替代方案，含測試與驗證流程；使用情境：the user wants to deploy to cloud (Cloudflare/GitHub/Render/Railway), set up CI/CD, or verify a deployment",
+      "trigger": "cloud-deploy | cloud deploy",
+      "location": "/home/sam/.opencode/skills/cloud-deploy/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "component-integration",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "pattern"
+      ],
+      "use_case": "元件整合技能：將衰減器、LPF、Infrared Filter 整合至量子傳輸線（仿 CF3 應用於 FPC/Uleam1），含模型、參數與測試；使用情境：the user wants to integrate attenuator/LPF/IR filter into a quantum transmission line, design component stack, or apply CF3-style",
+      "trigger": "component-integration | component integration",
+      "location": "/home/sam/.opencode/skills/component-integration/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 6,
+        "total": 8
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "connector",
+      "type": [
+        "discipline-enforcing",
+        "reference",
+        "technique"
+      ],
+      "use_case": "連接器技能：射頻連接器選型（SMA/SMP/2.92mm/1.85mm）與測試 SOP，含 VSWR、頻率範圍、機械壽命、測試流程；使用情境：the user wants to select/test RF connectors for quantum transmission lines, connector specs, or connector test SOP",
+      "trigger": "connector",
+      "location": "/home/sam/.opencode/skills/connector/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 5,
+        "total": 7
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "crosstalk-calc",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "pattern"
+      ],
+      "use_case": "串擾計算技能：NEXT/FEXT/總串擾損耗模型，依頻率、耦合長度、間距評估；使用情境：the user wants to calculate crosstalk (NEXT/FEXT) of a quantum transmission line, evaluate coupling, or run crosstalk analysis",
+      "trigger": "crosstalk-calc | crosstalk calc",
+      "location": "/home/sam/.opencode/skills/crosstalk-calc/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 4,
+        "total": 6
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "toolkit-viz",
+      "type": [
+        "reference",
+        "workflow-automation",
+        "technique"
+      ],
+      "use_case": "",
+      "trigger": "toolkit-viz | toolkit viz",
+      "location": "/home/sam/.opencode/skills/toolkit-viz/SKILL.md",
+      "hierarchy": {
+        "references": 9,
+        "referenced_by": 7,
+        "total": 16
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": true
+    },
+    {
+      "name": "ecc-crypto",
+      "type": [
+        "technique"
+      ],
+      "use_case": "橢圓曲線密碼 (ECC) 技能：ECC 加解密、橢圓曲線數學原理、PQC/QKD 教學；使用情境：the user wants to learn/implement elliptic curve cryptography, ECC, or related PQC/QKD topics",
+      "trigger": "ecc-crypto | ecc crypto",
+      "location": "/home/sam/.opencode/skills/ecc-crypto/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "electrical-spec",
+      "type": [
+        "discipline-enforcing",
+        "reference",
+        "technique"
+      ],
+      "use_case": "電性規格技能：定義量子傳輸線電性規格（阻抗、頻率、損耗、VSWR、相位穩定性），含規格表與驗收條件；使用情境：the user wants electrical specifications for a quantum transmission line, spec table, or acceptance criteria",
+      "trigger": "electrical-spec | electrical spec",
+      "location": "/home/sam/.opencode/skills/electrical-spec/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 4,
+        "total": 6
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "electrical-test-sop",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "pattern"
+      ],
+      "use_case": "電性測試 SOP 技能：VNA/TDR/低溫電性測試標準作業程序，含測試項目、步驟、記錄格式；使用情境：the user wants electrical test SOP, VNA testing procedure, or TDR impedance test",
+      "trigger": "electrical-test-sop | electrical test sop",
+      "location": "/home/sam/.opencode/skills/electrical-test-sop/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 3,
+        "total": 5
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "engineering-delivery",
+      "type": [
+        "discipline-enforcing",
+        "reference",
+        "workflow-automation"
+      ],
+      "use_case": "通用工程開發→驗收 Pipeline 技能：從 KPI 規格指標 → 開發 → 測試 → 驗證 → 交付 → 使用說明+測試+材料/元件數據庫 → 各階段驗收，不限產品類型（無人機、產線機器人、SaaS 等）；使用情境：the user wants a generic engineering development-to-acceptance pipeline, KPI spec to delivery flow, or per-stage KPI verification",
+      "trigger": "engineering-delivery | engineering delivery",
+      "location": "/home/sam/.opencode/skills/engineering-delivery/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 0,
+        "total": 1
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "generic-qcable",
+      "type": [
+        "technique",
+        "reference",
+        "pattern"
+      ],
+      "use_case": "通用型量子傳輸線設計、計算、優化與重構整合技能：依任意規格計算阻抗、熱負載、三視圖、串擾，提供多目標優化（Optuna/RL/代理模型/LLM）與大型專案重構整合流程；使用情境：the user wants to design/calculate/optimize a quantum transmission line (any spec), refactor/integrate a multi-module project, or",
+      "trigger": "generic-qcable | generic qcable",
+      "location": "/home/sam/.opencode/skills/generic-qcable/SKILL.md",
+      "hierarchy": {
+        "references": 6,
+        "referenced_by": 7,
+        "total": 13
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "heatload-coff-nist",
+      "type": [
+        "technique",
+        "reference",
+        "pattern"
+      ],
+      "use_case": "以 9 係數 (c0..c8 / a..i) 的 NIST/Raicu log-log 多項式計算低溫多溫區熱負載：固體傳導積分、衰減器自熱、54 材料單一對照表、含 upper 論文/NIST 出處；使用情境：the user mentions 9 係數、NIST 熱負載、c0–c8、coff、材料熱負載計算、thermal conductivity fitting coefficients、Raicu Table 4/Table 6、κ(T) 積分、11 term",
+      "trigger": "9 係數 | NIST 熱負載 | c0–c8 | coff | 材料熱負載計算 | thermal conductivity fitting coefficients | Raicu Table 4 | Table 6 | κ(T) 積分 | 11 term 熱負載 | 或查熱負載模型上級出處 | heatload-coff-nist",
+      "location": "/home/sam/.opencode/skills/heatload-coff-nist/SKILL.md",
+      "hierarchy": {
+        "references": 6,
+        "referenced_by": 19,
+        "total": 25
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "heatload-measurement",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "pattern"
+      ],
+      "use_case": "低溫熱負載量測技能：量測量子傳輸線在不同溫區（300K/4K/Still/10mK）的熱負載，含儀器設定、校準、數據記錄；使用情境：the user wants to measure thermal load of a cryogenic transmission line, set up cryogenic measurement, or record thermal load data",
+      "trigger": "heatload-measurement | heatload measurement",
+      "location": "/home/sam/.opencode/skills/heatload-measurement/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 5,
+        "total": 7
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "heatload-simulation",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "pattern"
+      ],
+      "use_case": "熱負載模擬與計算技能：以傅立葉定律非線性積分與衰減器自發熱模型模擬量子傳輸線熱負載，支援 Cu/NbTi/Nb 材料；使用情境：the user wants to simulate/calculate thermal load of a cryogenic transmission line, run thermal model, or predict heat load",
+      "trigger": "heatload-simulation | heatload simulation",
+      "location": "/home/sam/.opencode/skills/heatload-simulation/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 5,
+        "total": 7
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "heatload-sop",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "pattern"
+      ],
+      "use_case": "熱負載量測 SOP 建議技能：提供標準作業程序建議，含前置檢查、量測步驟、異常處理、記錄格式；使用情境：the user wants a thermal load measurement SOP, standard operating procedure, or measurement guidelines",
+      "trigger": "heatload-sop | heatload sop",
+      "location": "/home/sam/.opencode/skills/heatload-sop/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 4,
+        "total": 6
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "heatload-units",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "pattern"
+      ],
+      "use_case": "熱負載量測單位技能：定義與轉換 μW/W/mK/dB 等單位，避免數量級錯誤；使用情境：the user asks about thermal load units, unit conversion, or μW vs W",
+      "trigger": "heatload-units | heatload units",
+      "location": "/home/sam/.opencode/skills/heatload-units/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 4,
+        "total": 6
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "hierarchy-visualization",
+      "type": [
+        "other"
+      ],
+      "use_case": "層級視覺化技能：分析技能上下層級與 repo 代碼依賴，輸出文字樹/Mermaid/JSON；使用情境：the user wants to visualize hierarchy, analyze skill/repo dependencies, or generate dependency graphs",
+      "trigger": "hierarchy-visualization | hierarchy visualization",
+      "location": "/home/sam/.opencode/skills/hierarchy-visualization/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 3,
+        "total": 5
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "kpi-delivery-valid",
+      "type": [
+        "discipline-enforcing",
+        "workflow-automation",
+        "reference"
+      ],
+      "use_case": "KPI 交付驗證 Pipeline 技能：從 KPI 規格指標 → 開發 → 測試 → 驗證 → 交付 → 使用說明+測試+材料數據庫 → 各階段驗收 KPI，含程式碼、使用+測試文件、驗收標準、交付項目；使用情境：the user wants a KPI delivery/acceptance pipeline, KPI spec to delivery flow, or per-stage KPI verification",
+      "trigger": "kpi-delivery-valid | kpi delivery valid",
+      "location": "/home/sam/.opencode/skills/kpi-delivery-valid/SKILL.md",
+      "hierarchy": {
+        "references": 13,
+        "referenced_by": 2,
+        "total": 15
+      },
+      "role": "索引型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "llm-parser",
+      "type": [
+        "technique",
+        "reference"
+      ],
+      "use_case": "LLM 自然語法解析技能：將中文描述轉為傳輸線參數（通道數、間距、線寬、材料、頻率），支援啟發式 fallback；使用情境：the user wants to parse natural language into transmission line parameters, LLM-assisted parameter generation, or Chinese semantic",
+      "trigger": "llm-parser | llm parser",
+      "location": "/home/sam/.opencode/skills/llm-parser/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "mantaro",
+      "type": [
+        "technique",
+        "pattern"
+      ],
+      "use_case": "Mantaro 風格阻抗計算器技能：仿 Mantaro Impedance Calculators 的 stripline/microstrip 阻抗計算 UI 與模型，含自訂 CSS、參數輸入、結果展示；使用情境：the user wants a Mantaro-style impedance calculator, stripline impedance UI, or CF3/oFlex3 impedance calculation",
+      "trigger": "mantaro",
+      "location": "/home/sam/.opencode/skills/mantaro/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 4,
+        "total": 5
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "material-db",
+      "type": [
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "材質數據庫技能：材料屬性查詢與驗收（導體/超導體/介電質），含容差比對與分類；使用情境：the user wants to look up material properties, verify material data, or accept material batches",
+      "trigger": "material-db | material db",
+      "location": "/home/sam/.opencode/skills/material-db/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 6,
+        "total": 7
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "measurement-unit-link",
+      "type": [
+        "reference",
+        "workflow-automation"
+      ],
+      "use_case": "量測單位鏈結技能：盤點台灣具公信力之微波/高頻量測單位，聯繫洽詢、試量測、交叉比對；使用情境：the user wants to link to certified measurement units, third-party verification, or KPI-5 compliance",
+      "trigger": "measurement-unit-link | measurement unit link",
+      "location": "/home/sam/.opencode/skills/measurement-unit-link/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "nbtii-medium-batch",
+      "type": [
+        "workflow-automation",
+        "discipline-enforcing"
+      ],
+      "use_case": "NbTi 超導量子傳輸線中量生產技能：試產/中批量製程，含製程參數、良率、批次追溯；使用情境：the user wants medium-batch production of NbTi superconducting quantum transmission lines, pilot run, or batch manufacturing",
+      "trigger": "nbtii-medium-batch | nbtii medium batch",
+      "location": "/home/sam/.opencode/skills/nbtii-medium-batch/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 3,
+        "total": 3
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "nbtii-pcb-fab",
+      "type": [
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "NbTi 超導量子傳輸線板廠單位技能：委外 PCB 廠製作的規格、DFM、驗收條件；使用情境：the user wants PCB fab for NbTi superconducting quantum transmission lines, vendor specs, or DFM guidelines",
+      "trigger": "nbtii-pcb-fab | nbtii pcb fab",
+      "location": "/home/sam/.opencode/skills/nbtii-pcb-fab/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 3,
+        "total": 3
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "nbtii-r2r-mass",
+      "type": [
+        "workflow-automation"
+      ],
+      "use_case": "NbTi 超導量子傳輸線 R2R 大量生產技能：捲對捲製程、連續生產、自動化與品質管控；使用情境：the user wants roll-to-roll mass production of NbTi superconducting quantum transmission lines, R2R, or high-volume manufacturing",
+      "trigger": "nbtii-r2r-mass | nbtii r2r mass",
+      "location": "/home/sam/.opencode/skills/nbtii-r2r-mass/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 3,
+        "total": 3
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "nbtii-small-batch",
+      "type": [
+        "technique"
+      ],
+      "use_case": "NbTi 超導量子傳輸線小量生產技能：實驗室/原型階段的小批量製程、材料準備、手工組裝；使用情境：the user wants small-batch production of NbTi superconducting quantum transmission lines, prototyping, or lab-scale fabrication",
+      "trigger": "nbtii-small-batch | nbtii small batch",
+      "location": "/home/sam/.opencode/skills/nbtii-small-batch/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 3,
+        "total": 3
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "nbtii-test-sop",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "pattern"
+      ],
+      "use_case": "NbTi 超導量子傳輸線生產測試 SOP 技能：電性、低溫、機械測試標準作業程序；使用情境：the user wants production test SOP for NbTi superconducting quantum transmission lines, test procedures, or quality assurance",
+      "trigger": "nbtii-test-sop | nbtii test sop",
+      "location": "/home/sam/.opencode/skills/nbtii-test-sop/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 3,
+        "total": 5
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "oloid-3d-product",
+      "type": [
+        "technique",
+        "media-generation",
+        "workflow-automation"
+      ],
+      "use_case": "Oloid vs 軌跡體 3D 列印產品技能：比價設計、STL 生成、材質成本比較、視頻製作、社群上傳、行銷通路；使用情境：the user wants to design/compare 3D printed products (Oloid vs trajectory body), generate STL, compare materials, create video, or",
+      "trigger": "oloid-3d-product | oloid 3d product",
+      "location": "/home/sam/.opencode/skills/oloid-3d-product/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "opencode-go-quota",
+      "type": [
+        "pattern",
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "",
+      "trigger": "opencode-go-quota | opencode go quota",
+      "location": "/home/sam/.opencode/skills/opencode-go-quota/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "mnpl/Rakazo 個人多代理與配額工作流系列",
+      "use_case_empty": true
+    },
+    {
+      "name": "openhands-cloud",
+      "type": [
+        "reference",
+        "technique",
+        "discipline-enforcing"
+      ],
+      "use_case": "Use when the user wants to connect OpenCode to OpenHands Cloud at app.all-hands.dev / Agent Canvas — delegate coding tasks to an OpenHands agent, start/poll conversations, read events, fetch git diffs；使用情境：the user wants to connect OpenCode to OpenHands Cloud at app.all-hands.dev / Agent Canvas — delegate coding tasks to an OpenHands",
+      "trigger": "OpenHands | app.all-hands.dev | Agent Canvas | openhands mcp | OH_API_KEY | 把任務丟給 OpenHands | 委派給 OpenHands | OpenHands 對話 | openhands-cloud | \"OpenHands\" | \"app | openhands cloud",
+      "location": "/home/sam/.opencode/skills/openhands-cloud/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "openmontage",
+      "type": [
+        "media-generation",
+        "workflow-automation",
+        "reference"
+      ],
+      "use_case": "OpenMontage 視頻製作系統：12 pipelines, 52 tools, 500+ skills。用於製作/編輯/渲染視頻；使用情境：the user wants to produce videos using OpenMontage, create video pipelines, or use AI video generation",
+      "trigger": "openmontage",
+      "location": "/home/sam/.opencode/skills/openmontage/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "uncertain",
+      "note": "描述為外部 OpenMontage 系統的文件，但收錄於本機 .opencode/skills，可能為自建導覽或外部套件；type 為內容推估",
+      "use_case_empty": false
+    },
+    {
+      "name": "physim-topics",
+      "type": [
+        "reference",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "物理模擬 repo（/home/sam/物理模擬）的主題蒸餾索引：平台架構/演進、古典力學、天體渾沌、波動流體、電磁光學、量子、能帶拓撲、相對論與跨域接口；使用情境：the user asks about 物理模擬 topics、physim 主題、能帶/拓撲/量子/電磁/微波級聯/量子傳輸線，或要查 /home/sam/物理模擬 內容。蒸餾檔只做路由，定量計算必須回讀原始檔",
+      "trigger": "physim-topics | physim topics",
+      "location": "/home/sam/.opencode/skills/physim-topics/SKILL.md",
+      "hierarchy": {
+        "references": 4,
+        "referenced_by": 1,
+        "total": 5
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "plastic-biodegradation",
+      "type": [
+        "reference",
+        "workflow-automation",
+        "technique"
+      ],
+      "use_case": "",
+      "trigger": "plastic-biodegradation | plastic biodegradation",
+      "location": "/home/sam/.opencode/skills/plastic-biodegradation/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 0,
+        "total": 2
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": true
+    },
+    {
+      "name": "polar",
+      "type": [
+        "technique"
+      ],
+      "use_case": "Polar 模板採樣計畫技能：為 Speedstack/Si9000 Polar 模板產生 vendor field solver 評估請求 CSV，建立 oracle 訓練資料；使用情境：the user wants to generate a Polar sampling plan, create oracle training data from Polar templates, or run polar_sampling_plan.py",
+      "trigger": "polar",
+      "location": "/home/sam/.opencode/skills/polar/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 4,
+        "total": 4
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "quantum-pqc",
+      "type": [
+        "technique"
+      ],
+      "use_case": "後量子密碼 (PQC) 技能：ML-KEM-768、ML-DSA-65、Signal Protocol 後量子強化、X3DH-PQC、Double Ratchet；使用情境：the user wants to learn/implement post-quantum cryptography, ML-KEM, ML-DSA, Signal Protocol PQC, or quantum key distribution",
+      "trigger": "quantum-pqc | pqc crypto",
+      "location": "/home/sam/.opencode/skills/quantum-pqc/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "push-streamlit",
+      "type": [
+        "workflow-automation",
+        "technique",
+        "reference"
+      ],
+      "use_case": "Streamlit 網站推送技能：從本地開發 → GitHub 推送 → Streamlit Cloud / Hugging Face Spaces 部署，並可把主題文檔發布成 Kaggle Dataset；含 credentials 設定與常見問題；使用情境：the user wants to push a Streamlit website to GitHub, deploy to Streamlit Cloud or Hugging Face Spaces, or publish/upload datasets",
+      "trigger": "push-streamlit | push streamlit",
+      "location": "/home/sam/.opencode/skills/push-streamlit/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 11,
+        "total": 13
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "qbit-arch",
+      "type": [
+        "reference",
+        "technique",
+        "discipline-enforcing"
+      ],
+      "use_case": "量子位元架構技能：涵蓋量子位元基礎（TLS/DiVincenzo）、超導量子位元（Transmon/Fluxonium/Quarton/Blochnium）、六大技術路線（超導/離子阱/矽量子點/光量子/鑽石/拓撲）、量子讀取架構、多量子位元擴展與 QPU（VIO/Flip-Chip/混合架構）、晶片製程與封裝（8 吋晶圓/Cryo-CMOS/TSV）、控制與串擾（XY/Z/ZZ/flux bia；使用情境：the user asks about quantum bit architecture, qubit modalities, superconducting qubits, Transmon/Fluxonium/Quarton, quantum readou",
+      "trigger": "量子位元架構 | qubit architecture | 超導量子位元 | Transmon | Fluxonium | Quarton | Blochnium | 量子讀取 | QPU 擴展 | 量子晶片製程 | 量子串擾 | 台灣量子",
+      "location": "/home/sam/.opencode/skills/qbit-arch/SKILL.md",
+      "hierarchy": {
+        "references": 9,
+        "referenced_by": 0,
+        "total": 9
+      },
+      "role": "索引型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "qcable-index",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "量子傳輸線技能索引：盤點所有量子傳輸線相關技能（熱負載及其上下級鏈、Polar、Mantaro、整合元件、規格、三視圖、串擾、電性優化、SOP、連接器、拓撲絕緣體），提供使用情境與；使用情境：條件。Use when the user wants a list of all quantum transmission line skills, an index of available skills, or to find which skill to",
+      "trigger": "qcable-index | qcable index",
+      "location": "/home/sam/.opencode/skills/qcable-index/SKILL.md",
+      "hierarchy": {
+        "references": 22,
+        "referenced_by": 6,
+        "total": 28
+      },
+      "role": "索引型",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "quantum-cryogenic-cable",
+      "type": [
+        "technique",
+        "reference",
+        "workflow-automation"
+      ],
+      "use_case": "量子低溫傳輸線設計與重構整合：依規格（CF3/FPC/Uleam1）計算阻抗、熱負載、三視圖、串擾，並提供多目標優化（Optuna/RL/代理模型/LLM）與大型專案重構整合流程；使用情境：the user wants to design/calculate/optimize a quantum cryogenic cable, refactor/integrate a multi-module project, or asks for tran",
+      "trigger": "quantum-cryogenic-cable | quantum cryogenic cable",
+      "location": "/home/sam/.opencode/skills/quantum-cryogenic-cable/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 5,
+        "total": 7
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "quota-mnpl",
+      "type": [
+        "pattern",
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "",
+      "trigger": "quota-mnpl | quota mnpl",
+      "location": "/home/sam/.opencode/skills/quota-mnpl/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 1,
+        "total": 2
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "mnpl/Rakazo 個人多代理與配額工作流系列",
+      "use_case_empty": true
+    },
+    {
+      "name": "refactor",
+      "type": [
+        "reference",
+        "workflow-automation",
+        "technique"
+      ],
+      "use_case": "將大型多模組專案（如 Streamlit 多頁面應用）重構整合的標準流程：實作前反覆詰問建立決策節點、新舊架構並行、分階段遷移、測試與文件沉澱；使用情境：the user wants to refactor/integrate a large multi-module project, repeatedly asks questions before implementing, or needs a struc",
+      "trigger": "refactor",
+      "location": "/home/sam/.opencode/skills/refactor/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 4,
+        "total": 4
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "remotion-cast2svg",
+      "type": [
+        "technique",
+        "media-generation",
+        "workflow-automation"
+      ],
+      "use_case": "",
+      "trigger": "remotion-cast2svg | remotion cast2svg",
+      "location": "/home/sam/.opencode/skills/remotion-cast2svg/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": true
+    },
+    {
+      "name": "remotion-social",
+      "type": [
+        "media-generation",
+        "technique",
+        "workflow-automation"
+      ],
+      "use_case": "",
+      "trigger": "remotion-social | remotion social",
+      "location": "/home/sam/.opencode/skills/remotion-social/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": true
+    },
+    {
+      "name": "route-workers",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "reference"
+      ],
+      "use_case": "OpenCode Route+Workers 設計技能：路由分派任務給 worker subagents（planner/coder/tester/reviewer/worker），含設定與使用指南；使用情境：the user wants to set up OpenCode as route+workers, configure subagents, or design a router-worker architecture",
+      "trigger": "route-workers | route workers",
+      "location": "/home/sam/.opencode/skills/route-workers/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "rust-agent-tui",
+      "type": [
+        "reference",
+        "technique",
+        "pattern"
+      ],
+      "use_case": "",
+      "trigger": "rust-agent-tui | rust agent tui",
+      "location": "/home/sam/.opencode/skills/rust-agent-tui/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": true
+    },
+    {
+      "name": "sci-distill-push",
+      "type": [
+        "reference",
+        "technique",
+        "workflow-automation"
+      ],
+      "use_case": "",
+      "trigger": "sci-distill-push | sci distill push",
+      "location": "/home/sam/.opencode/skills/sci-distill-push/SKILL.md",
+      "hierarchy": {
+        "references": 8,
+        "referenced_by": 4,
+        "total": 12
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": true
+    },
+    {
+      "name": "skill-generator",
+      "type": [
+        "reference",
+        "technique",
+        "discipline-enforcing"
+      ],
+      "use_case": "依 Spec + Repo AST + Inference Policy 生成一套 Skill（核心程式碼 + pytest 測試），以 OpenCode/BEAM 執行，不需 OpenAI API key；使用情境：the user wants to generate a skill from a spec, scan a repo, or run the agent skill generator pipeline",
+      "trigger": "skill-generator | skill generator",
+      "location": "/home/sam/.opencode/skills/skill-generator/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 3,
+        "total": 3
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "skill-hierarchy-viewer",
+      "type": [
+        "other"
+      ],
+      "use_case": "技能層級檢視器：分析技能上下層級與 repo/skills 依賴，支援文字樹、Mermaid、JSON 輸出，並與 hierarchy-visualization 比較；使用情境：the user wants to view skill hierarchy, analyze repo/skill dependencies, or export hierarchy as JSON/Mermaid",
+      "trigger": "skill-hierarchy-viewer | skill hierarchy viewer",
+      "location": "/home/sam/.opencode/skills/skill-hierarchy-viewer/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 5,
+        "total": 7
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "social-media-suite",
+      "type": [
+        "workflow-automation",
+        "reference",
+        "discipline-enforcing"
+      ],
+      "use_case": "Root architecture for all social media skills. Integrates content creation, publishing, analytics, and platform management across Facebook, Instagram, YouTube, TikTok, LinkedIn, Threads, X, and LINE.",
+      "trigger": "social-media-suite | social media suite",
+      "location": "/home/sam/.opencode/skills/social-media-suite/SKILL.md",
+      "hierarchy": {
+        "references": 13,
+        "referenced_by": 1,
+        "total": 14
+      },
+      "role": "索引型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "social-publish",
+      "type": [
+        "reference",
+        "media-generation"
+      ],
+      "use_case": "社群發佈技能：小紅書/Facebook/LINE/Instagram/TikTok 發佈貼文、成立群組、下載相簿，含 API 設定與 OAuth；使用情境：the user wants to publish to social media, create groups, download albums, or manage social media content",
+      "trigger": "social-publish | social publish",
+      "location": "/home/sam/.opencode/skills/social-publish/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "stock-market",
+      "type": [
+        "reference",
+        "workflow-automation",
+        "technique"
+      ],
+      "use_case": "股市主題沉澱技能：台股／美股／個股投資管道（三管道/VOO vs SPY/量子主題ETF）、台股基金ETF比較（0050連結/0056/主動基金）、期權入門（TXO/TEO/TFO）、投資心法（Klarman 8鐵律/巴菲特蒙格）、配對交易動態Beta（PyMC）、開源量化工具鏈（FinMind/yfinance/backtrader）、量化投資平台架構（流光選股 8279 行蒸餾導覽）、自動化實；使用情境：the user asks about 台股、美股、股市、個股、選股、期權、選擇權、配對交易、基金ETF比較、量化投資平台、投資心法、台股本益比 viewer，或要更新 Streamlit 股市主題區塊（data/stock_topics 同步來源）",
+      "trigger": "stock-market | stock market",
+      "location": "/home/sam/.opencode/skills/stock-market/SKILL.md",
+      "hierarchy": {
+        "references": 3,
+        "referenced_by": 2,
+        "total": 5
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "task-changelog",
+      "type": [
+        "reference",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "常態化變更日誌：每當完成 task、新增/修改/刪除技能、功能變更、重構、bug 修復時，在交付前寫下一筆結構化日誌，維護單一真相來源與索引；使用情境：the user says 寫日誌, 變更紀錄, 變更日誌, 記錄這次變更, 記一筆, 記下來, 寫一筆, task log, changelog, log this change, record this change, what did we change",
+      "trigger": "task-changelog | task changelog",
+      "location": "/home/sam/.opencode/skills/task-changelog/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 0,
+        "total": 1
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "text2pptx-pipeline",
+      "type": [
+        "workflow-automation",
+        "technique",
+        "media-generation"
+      ],
+      "use_case": "Text → Markdown → PPTX 轉換 pipeline 技能：將純文字轉為 Markdown 再轉為 PowerPoint，含測試；使用情境：the user wants to convert text to markdown to pptx, create slides from text, or build a text-to-presentation pipeline",
+      "trigger": "text2pptx-pipeline | text2pptx pipeline",
+      "location": "/home/sam/.opencode/skills/text2pptx-pipeline/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "three-view",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "reference"
+      ],
+      "use_case": "三視圖技能：前/側/上視圖繪製，每個視圖為獨立函式，支援字型設定與縮放控制；使用情境：the user wants three-view drawings (front/side/top) of a transmission line, decomposed view functions, or font/zoom control",
+      "trigger": "three-view | three view",
+      "location": "/home/sam/.opencode/skills/three-view/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 3,
+        "total": 5
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "topic-distill",
+      "type": [
+        "pattern",
+        "reference",
+        "workflow-automation"
+      ],
+      "use_case": "主題蒸餾通用 pipeline：特定主題 → 本機找出所有檔案（PDF/MD、md5 去重）→ 分析主題成 subtopics → 蒸餾整合成 md 檔案（含來源註記）→ 逐 subtopic 網路搜尋充實 → 沉澱成技能 references／上傳 Streamlit 網站／發布社群（FB/YouTube/Drive）；使用情境：the user wants to distill or sediment any topic from local documents into structured md files with web enrichment, then publish to",
+      "trigger": "主題沉澱 | 蒸餾主題 | 整理文件成主題文檔 | 泛化貼文流程 | topic distillation pipeline | topic-distill | topic distill",
+      "location": "/home/sam/.opencode/skills/topic-distill/SKILL.md",
+      "hierarchy": {
+        "references": 4,
+        "referenced_by": 10,
+        "total": 14
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "topic-viz",
+      "type": [
+        "reference",
+        "technique",
+        "discipline-enforcing"
+      ],
+      "use_case": "Use when turning refactored/distilled technical documents into an easy-to-understand spec and visualization/demo tools (architecture/flow, data charts, self-contained HTML, or toolkit-viz-style S；使用情境：turning refactored/distilled technical documents into an easy-to-understand spec and visualization/demo tools (architecture/flow,",
+      "trigger": "topic-viz | topic viz",
+      "location": "/home/sam/.opencode/skills/topic-viz/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 1,
+        "total": 3
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "topic-workflow-auto",
+      "type": [
+        "workflow-automation",
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "",
+      "trigger": "topic-workflow-auto | topic workflow auto",
+      "location": "/home/sam/.opencode/skills/topic-workflow-auto/SKILL.md",
+      "hierarchy": {
+        "references": 6,
+        "referenced_by": 2,
+        "total": 8
+      },
+      "role": "索引型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": true
+    },
+    {
+      "name": "topological-insulator",
+      "type": [
+        "reference",
+        "technique",
+        "pattern"
+      ],
+      "use_case": "拓撲絕緣體主題技能：基礎物理（Berry 相位/Z₂/BHZ/TRS）、材料系統（Bi₂Se₃ 家族/MnBi₂Te₄）、計算高通量預測（指標定理/資料庫）、量子傳輸線工程（TIRC 共面波導/低溫製程）、拓撲超導與量子計算（Majorana）、台灣製造與學術生態（陽明交大/NARLabs/臺慶供應鏈）；使用情境：the user wants topological insulator physics, TI materials selection, MnBi2Te4/magnetic TI, topological materials prediction or da",
+      "trigger": "topological-insulator | topological insulator",
+      "location": "/home/sam/.opencode/skills/topological-insulator/SKILL.md",
+      "hierarchy": {
+        "references": 5,
+        "referenced_by": 10,
+        "total": 15
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "txt-genoffice",
+      "type": [
+        "technique",
+        "workflow-automation",
+        "reference"
+      ],
+      "use_case": "GenOffice 文件轉換技能：純文字 → Markdown → PPTX，含 genoffice CLI 轉換、compact 合併、主題 (dark/light/tech/warm + genoffice dark_tech 等)、font-size 自動調整、測試；使用情境：the user wants to convert text to markdown to pptx using GenOffice, create slides from text, or build a text-to-presentation pipel",
+      "trigger": "txt-genoffice | txt genoffice",
+      "location": "/home/sam/.opencode/skills/txt-genoffice/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "txt-proc",
+      "type": [
+        "technique",
+        "workflow-automation",
+        "reference"
+      ],
+      "use_case": "文件轉換 pipeline 技能：純文字 → Markdown → PPTX，含 compact 合併、主題 (dark/light/tech/warm + genoffice dark_tech 等)、font-size 自動調整、genoffice CLI 轉換、測試；使用情境：the user wants to convert text to markdown to pptx, create slides from text, or build a text-to-presentation pipeline",
+      "trigger": "txt-proc | txt proc",
+      "location": "/home/sam/.opencode/skills/txt-proc/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-market-analysis",
+      "type": [
+        "workflow-automation",
+        "media-generation",
+        "technique"
+      ],
+      "use_case": "視頻市場分析技能：分析視頻市場競爭、上傳頻率建議、頻道主題設定、主題比較；使用情境：the user wants to analyze video market, set upload frequency, choose channel topics, or compare content topics",
+      "trigger": "video-market-analysis | video market analysis",
+      "location": "/home/sam/.opencode/skills/video-market-analysis/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-production-pipeline",
+      "type": [
+        "media-generation",
+        "workflow-automation",
+        "technique"
+      ],
+      "use_case": "視頻製作 Pipeline 技能：整合 HyperFrames/OpenMontage/video-toolkit/video-agent-visual/video-agent-voice/ytauto，產出口白+字幕+轉場+圖片搜尋+內容充實+敘事鋪墊+1分鐘短視頻；使用情境：the user wants to produce a complete short video with voiceover, subtitles, transitions, images, and rich content",
+      "trigger": "video-production-pipeline | video production pipeline",
+      "location": "/home/sam/.opencode/skills/video-production-pipeline/SKILL.md",
+      "hierarchy": {
+        "references": 4,
+        "referenced_by": 2,
+        "total": 6
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-script-storyboard",
+      "type": [
+        "media-generation",
+        "technique"
+      ],
+      "use_case": "視頻腳本+分鏡+字幕技能：從腳本到分鏡到字幕的完整工作流，含轉場同步與內容充實；使用情境：the user wants to create video scripts, storyboards, captions/subtitles, or plan video content structure",
+      "trigger": "video-script-storyboard | video script storyboard",
+      "location": "/home/sam/.opencode/skills/video-script-storyboard/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ytauto",
+      "type": [
+        "media-generation",
+        "workflow-automation",
+        "technique"
+      ],
+      "use_case": "YouTube 自動上傳技能：OAuth 授權、頻道核對、視頻上傳（unlisted/public/private）、排程、頻道管理（新增頻道）；使用情境：the user wants to upload to YouTube, manage YouTube channels, set up OAuth, or automate YouTube uploads",
+      "trigger": "ytauto",
+      "location": "/home/sam/.opencode/skills/ytauto/SKILL.md",
+      "hierarchy": {
+        "references": 4,
+        "referenced_by": 14,
+        "total": 18
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "anatask-pstack-impl",
+      "type": [
+        "technique",
+        "reference",
+        "discipline-enforcing"
+      ],
+      "use_case": "Use when the user asks to implement, analyze, or port a pstack-style flow (clone, install, build, test, mount, verify) and to produce usage, test, and example documentation. Triggers on \"實作\", \"安裝\", \"測；使用情境：the user asks to implement, analyze, or port a pstack-style flow (clone, install, build, test, mount, verify) and to produce usage",
+      "trigger": "實作 | 安裝 | 測試 | 使用+測試+範例 說明文件 | export as skill | anatask-pstack-impl | anatask pstack impl",
+      "location": "/home/sam/.agents/skills/anatask-pstack-impl/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "aoci-code-workflow",
+      "type": [
+        "reference",
+        "technique",
+        "workflow-automation"
+      ],
+      "use_case": "Use when installing, initializing, or operating AOCI-CODE (aoci CLI + MCP server) in a repository to build and maintain a governed, Git-versioned codebase/DB cognition index for coding agents. 代碼 工作流程；使用情境：installing, initializing, or operating AOCI-CODE (aoci CLI + MCP server) in a repository to build and maintain a governed, Git-ver",
+      "trigger": "aoci-code-workflow | aoci code workflow",
+      "location": "/home/sam/.agents/skills/aoci-code-workflow/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "uncertain",
+      "note": "描述特定外部工具 AOCI-CODE，可能為官方文件或自建操作筆記；type 為內容推估",
+      "use_case_empty": false
+    },
+    {
+      "name": "audit-skill",
+      "type": [
+        "reference",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "MANDATORY security gate for ANY agent skill work — develop, find, install, update, or re-review. Must be applied before any other skill action. Summarizes content, runs static + semantic scans, triage",
+      "trigger": "audit-skill | audit skill",
+      "location": "/home/sam/.agents/skills/audit-skill/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 4,
+        "total": 6
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "audit-worker-subagent",
+      "type": [
+        "pattern",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "Use when a worker or subagent reports a task as complete, done, succeeded, or \"all todos completed 稽核 工作者 任務 完成 已完成 狀態 清理 未變更\" — especially when git status is clean, HEAD unchanged, or no file diff ex；使用情境：a worker or subagent reports a task as complete, done, succeeded, or \"all todos completed 稽核 工作者 任務 完成 已完成 狀態 清理 未變更\" — especially",
+      "trigger": "audit-worker-subagent | audit worker subagent",
+      "location": "/home/sam/.agents/skills/audit-worker-subagent/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 23,
+        "total": 23
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "auto-skill",
+      "type": [
+        "reference",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "在使用者明確同意的前提下，管理 Agent 任務的本地知識庫與跨技能經驗索引；當需要讀取、整理、驗證或回寫可重用的工作經驗時使用。絕不自動修改 IDE 或 Agent 全域規則",
+      "trigger": "auto-skill | auto skill",
+      "location": "/home/sam/.agents/skills/auto-skill/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "bkup-archive",
+      "type": [
+        "workflow-automation",
+        "technique",
+        "reference"
+      ],
+      "use_case": "Use when 要備份或還原家目錄到 Google Drive、安裝或調整每月備份排程、排查備份失敗（gws 認證或 keyring 錯誤、403 accessNotConfigured、雲端配額不足、postgres uid 70 打包失敗、gws JSON 輸出解析失敗）、執行雲端備份輪替、決定是否將 .config/{gws,ytauto}（OAuth 憑證）一併備份，或需要 home-b；使用情境：要備份或還原家目錄到 Google Drive、安裝或調整每月備份排程、排查備份失敗（gws 認證或 keyring 錯誤、403 accessNotConfigured、雲端配額不足、postgres uid 70 打包失敗、gws JSON 輸出解析失敗）",
+      "trigger": "備份 backup tar | bkup-archive | bkup archive",
+      "location": "/home/sam/.agents/skills/bkup-archive/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 1,
+        "total": 2
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "dao-classics",
+      "type": [
+        "reference",
+        "pattern",
+        "discipline-enforcing"
+      ],
+      "use_case": "Use when the user asks about 大學 (The Great Learning), 中庸 (Doctrine of the Mean), 道 (Tao), 理 (Principle), 天命 (Mandate of Heaven), 儒家哲學, or Chinese classical philosophy. Covers the Four Books, Taoist ph；使用情境：the user asks about 大學 (The Great Learning), 中庸 (Doctrine of the Mean), 道 (Tao), 理 (Principle), 天命 (Mandate of Heaven), 儒家哲學, or C",
+      "trigger": "dao-classics | dao classics",
+      "location": "/home/sam/.agents/skills/dao-classics/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 4,
+        "total": 5
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "deploy-rakazo",
+      "type": [
+        "workflow-automation",
+        "reference",
+        "media-generation"
+      ],
+      "use_case": "Deploy Rakazo (open-source self-hosted AI agent platform) to GitHub Codespaces, configure model providers (including OpenCode Go), and set up sandbox providers；使用情境：the user wants to deploy Rakazo, set up Rakazo in Codespaces, configure Rakazo model API keys, connect OpenCode Go to Rakazo, or t",
+      "trigger": "deploy rakazo | rakazo codespaces | rakazo setup | rakazo model key | opencode go rakazo | rakazo sandbox | 佈署 rakazo | rakazo 佈署 | rakazo 設定 | rakazo 模型 | rakazo 沙盒 | \"deploy rakazo\"",
+      "location": "/home/sam/.agents/skills/deploy-rakazo/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "mnpl/Rakazo 個人多代理與配額工作流系列",
+      "use_case_empty": false
+    },
+    {
+      "name": "em-llm",
+      "type": [
+        "technique",
+        "workflow-automation",
+        "reference"
+      ],
+      "use_case": "Use when the user wants to run local LLM-driven electromagnetic simulation, computation, Meep/FDTD script generation, SymPy EM derivations, or EM RAG/KeplerAgent workflows per /home/sam/em-simulation-；使用情境：the user wants to run local LLM-driven electromagnetic simulation, computation, Meep/FDTD script generation, SymPy EM derivations,",
+      "trigger": "EM simulation with LLM | Meep script | electromagnetic calculation | CPW/antenna/PCB simulation | Maxwell derivation | em-llm 使用者 本機 首頁 生成 驗證 | \"EM simulation with LLM\" | \"Meep script\" | \"electromagnetic calculation\" | \"CPW | antenna | PCB simulation\"",
+      "location": "/home/sam/.agents/skills/em-llm/SKILL.md",
+      "hierarchy": {
+        "references": 3,
+        "referenced_by": 0,
+        "total": 3
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "em-simulation-llm",
+      "type": [
+        "reference",
+        "pattern",
+        "technique"
+      ],
+      "use_case": "Use when combining LLM with electromagnetic simulation. Covers LLM-driven EM automation, Hugging Face EM models, Maxwell deep learning, Meep solver strategies, GPU model selection, and Tool-Use integr；使用情境：combining LLM with electromagnetic simulation. Covers LLM-driven EM automation, Hugging Face EM models, Maxwell deep learning, Mee",
+      "trigger": "em-simulation-llm | em simulation llm",
+      "location": "/home/sam/.agents/skills/em-simulation-llm/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 3,
+        "total": 5
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "fb-app-post",
+      "type": [
+        "media-generation",
+        "reference",
+        "technique"
+      ],
+      "use_case": "Use when posting to Facebook via Graph API, setting up Facebook App for page posting, obtaining Page Access Token with pages_manage_posts permission, or troubleshooting Facebook API posting errors. Tr；使用情境：posting to Facebook via Graph API, setting up Facebook App for page posting, obtaining Page Access Token with pages_manage_posts p",
+      "trigger": "Facebook 發文 | Graph API 發文 | Page Access Token | pages_manage_posts | Facebook App 設定 | fb-app-post | 臉書自動化貼文 | \"Facebook 發文\" | \"Graph API 發文\" | \"Page Access Token\" | \"pages_manage_posts\" | \"Facebook App 設定\"",
+      "location": "/home/sam/.agents/skills/fb-app-post/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 4,
+        "total": 5
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "file-distill",
+      "type": [
+        "reference",
+        "technique",
+        "discipline-enforcing"
+      ],
+      "use_case": "Use when 要把一個雜亂目錄（Documents／Desktop／Downloads／專案資料夾）依主題整理成 subtopic 子目錄，或使用者提到 檔案分類、整理資料夾、主題歸類、檔案沉澱、去重、搬移計畫、產生索引、file-distill、topic folders；也用在需要判斷大量文件各屬哪個主題、或既有的關鍵字分類一直把論文歸錯類的時候。；使用情境：要把一個雜亂目錄（Documents／Desktop／Downloads／專案資料夾）依主題整理成 subtopic 子目錄，或使用者提到 檔案分類、整理資料夾、主題歸類、檔案沉澱、去重、搬移計畫、產生索引、file-distill、topic folders",
+      "trigger": "file-distill | file distill",
+      "location": "/home/sam/.agents/skills/file-distill/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "grill-me",
+      "type": [
+        "other"
+      ],
+      "use_case": "A relentless interview to sharpen a plan or design. 規劃 設計",
+      "trigger": "grill-me | grill me",
+      "location": "/home/sam/.agents/skills/grill-me/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "uncertain",
+      "note": "描述極簡，可能是 superpowers 系外部 skill 或自建精簡版；type 為內容推估",
+      "use_case_empty": false
+    },
+    {
+      "name": "hermes-agent-skill-authoring",
+      "type": [
+        "technique",
+        "reference",
+        "pattern"
+      ],
+      "use_case": "Author in-repo SKILL.md files: frontmatter and structure. 倉庫",
+      "trigger": "hermes-agent-skill-authoring | hermes agent skill authoring",
+      "location": "/home/sam/.agents/skills/hermes-agent-skill-authoring/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "impl-skill",
+      "type": [
+        "technique",
+        "reference",
+        "workflow-automation"
+      ],
+      "use_case": "Use when sedimenting or implementing a reusable skill from completed work, conversation learnings, or local workflows, especially to turn ad-hoc fixes into a documented ~/.agents/skills entry with scr；使用情境：sedimenting or implementing a reusable skill from completed work, conversation learnings, or local workflows, especially to turn a",
+      "trigger": "impl-skill | impl skill",
+      "location": "/home/sam/.agents/skills/impl-skill/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 2,
+        "total": 4
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "implement-spec",
+      "type": [
+        "technique",
+        "reference"
+      ],
+      "use_case": "Implement the result of /to-spec and /to-tickets in code. 規格 代碼",
+      "trigger": "implement-spec | implement spec",
+      "location": "/home/sam/.agents/skills/implement-spec/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "uncertain",
+      "note": "極簡描述且屬通用規格實作流程，缺乏個人慣例訊號；type 為內容推估",
+      "use_case_empty": false
+    },
+    {
+      "name": "input-xjs",
+      "type": [
+        "technique",
+        "workflow-automation",
+        "discipline-enforcing"
+      ],
+      "use_case": "Use when setting up or troubleshooting the XiangJingSheng (象鯨聲) custom Chinese input table (0XiangJingSheng.cin) on Windows DIME or Linux Fcitx5, regenerating the .cin with xjsMNPL.py, converting .cin；使用情境：setting up or troubleshooting the XiangJingSheng (象鯨聲) custom Chinese input table (0XiangJingSheng.cin) on Windows DIME or Linux F",
+      "trigger": "input-xjs | input xjs",
+      "location": "/home/sam/.agents/skills/input-xjs/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "kpi-contract-impl",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "pattern"
+      ],
+      "use_case": "Use when adjusting KPI budget plans when project duration changes. Recalculates personnel, business, and management fees while keeping management fee at exactly 10% of total. Covers 14-month to 12-mon；使用情境：adjusting KPI budget plans when project duration changes. Recalculates personnel, business, and management fees while keeping mana",
+      "trigger": "kpi-contract-impl | kpi contract impl",
+      "location": "/home/sam/.agents/skills/kpi-contract-impl/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 0,
+        "total": 2
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "live-sharing-writer",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "Use when user wants to prepare a live sharing script, livestream talk, or presentation speech. Triggers include \"写分享稿\", \"准备直播\", \"做一个分享\", \"帮我写演讲稿\", \"直播分享\".；使用情境：user wants to prepare a live sharing script, livestream talk, or presentation speech. Triggers include \"写分享稿\", \"准备直播\", \"做一个分享\", \"帮",
+      "trigger": "写分享稿 | 准备直播 | 做一个分享 | 帮我写演讲稿 | 直播分享 | \"写分享稿\" | \"准备直播\" | \"做一个分享\" | \"帮我写演讲稿\" | \"直播分享\" | live-sharing-writer | live sharing writer",
+      "location": "/home/sam/.agents/skills/live-sharing-writer/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-analogy",
+      "type": [
+        "discipline-enforcing",
+        "workflow-automation",
+        "technique"
+      ],
+      "use_case": "基於結構對映理論，為場景或兩個物件的差異尋找精妙類比與關係隱喻，保留關鍵關係、解釋增量與遷移邊界。USE WHEN 使用者說「找個類比」「打個比方」「有什麼精妙的隱喻」「用類比講清兩者區別」「換個場景理解」或呼叫 ljg-analogy。NOT FOR 只解釋現成比喻、純修辭潤色、理論定義或把類比當作事實證明",
+      "trigger": "ljg-analogy | ljg analogy",
+      "location": "/home/sam/.agents/skills/ljg-analogy/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-blind",
+      "type": [
+        "reference",
+        "pattern",
+        "discipline-enforcing"
+      ],
+      "use_case": "盲區掃描——讀昨天你與 AI 的全部對話，照出暴露的思維盲區（不是不懂的知識，是讓某類真相一直看不見的思維習慣），再從微信讀書挑一本書的一章精準補上，落成一篇完整分析筆記；使用情境：user says '掃盲區', '盲區', '照盲區', '看看我的思維盲區', '我昨天想漏了什麼', 'blind spot', 'ljg-blind', '/ljg-blind', or wants yesterday's AI conversatio",
+      "trigger": "掃盲區 | 盲區 | 照盲區 | 看看我的思維盲區 | 我昨天想漏了什麼 | blind spot | ljg-blind | /ljg-blind | ljg blind",
+      "location": "/home/sam/.agents/skills/ljg-blind/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-book",
+      "type": [
+        "pattern",
+        "technique",
+        "reference"
+      ],
+      "use_case": "Explain a whole book to readers without specialist knowledge: what it follows, how its main threads connect, where it ends, and how its evidence or events change understanding. Keep the book's specifi",
+      "trigger": "ljg-book | ljg book",
+      "location": "/home/sam/.agents/skills/ljg-book/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-business-model",
+      "type": [
+        "media-generation",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "基於《商業模式新生代》的 Business Model Canvas，把使用者提供的專案介紹、訪談、產品資料或商業計劃整理成九模組商業模式畫布卡片，交付 PNG 與可修改的 HTML。USE WHEN 使用者呼叫 ljg-business-model、要求畫商業模式畫布、九宮格商業模式或把商業資訊做成畫布卡片。NOT FOR 普通商業分析、投資估值、Lean Canvas 或只解釋商業模式概念",
+      "trigger": "ljg-business-model | ljg business model",
+      "location": "/home/sam/.agents/skills/ljg-business-model/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-card",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "Content caster (鑄). Transforms text into PNG through precise HTML typography and, when the mold needs it, generated raster imagery. Four molds: -l (default) long reading card, -f source-faithful full",
+      "trigger": ", | , or | ljg-card | ljg card",
+      "location": "/home/sam/.agents/skills/ljg-card/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-classic",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "media-generation"
+      ],
+      "use_case": "古文逐字註解、組合排版、章節意旨圖與全章解讀生成器。把原文、字詞注、句義注、無字頂部配圖和章節解讀排成一張可讀的長 PNG。USE WHEN 使用者呼叫 ljg-classic OR 要求給文言文、古詩文、經史子集做逐字註解、彩色夾註、章節解讀、古文講義圖、章節配圖。NOT FOR 只翻譯一句古文、只寫現代文章或通用內容卡片",
+      "trigger": "ljg-classic | ljg classic",
+      "location": "/home/sam/.agents/skills/ljg-classic/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 0,
+        "total": 2
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-constraint",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "pattern"
+      ],
+      "use_case": "給一個領域、專業、角色、產品或爭論找出真正框住它的幾條約束，判明它們屬於世界/規則/解釋（硬/軟/自設），看這組約束如何定義身份、補全問題、框出解空間並解釋實際行為；尤其用於區分目標相同但約束不同導致的方案分歧，識別被誤當硬事實的舊解釋。USE WHEN 使用者說 '約束', '找約束', '這個領域的約束是什麼', '本質約束', '什麼框住了它', '硬約束還是自設約束', '邊界在哪', '",
+      "trigger": "約束 | 找約束 | 這個領域的約束是什麼 | 本質約束 | 什麼框住了它 | 硬約束還是自設約束 | 邊界在哪 | 這行為什麼這麼做 | constraint | /ljg-constraint | ljg-constraint | ljg constraint",
+      "location": "/home/sam/.agents/skills/ljg-constraint/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-explain",
+      "type": [
+        "technique",
+        "pattern",
+        "discipline-enforcing"
+      ],
+      "use_case": "把概念、公式、機制與原理講到能辨認、能推導、能遷移：用通俗中文接通具體情境、判別依據、運作過程和成立條件。USE WHEN 使用者呼叫 ljg-explain、說「通俗易懂地講解」「講透這個概念或公式」「費曼講解」「ELI5」，或希望從零理解一個知識點並能用於新情境。NOT FOR 單純潤色或翻譯、整篇伴讀、整本書或論文解讀、只要求形式證明或操作步驟",
+      "trigger": "ljg-explain | ljg explain",
+      "location": "/home/sam/.agents/skills/ljg-explain/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-invest",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "pattern"
+      ],
+      "use_case": "投資分析。給一個專案（公司名、BP、創始人對話記錄），寫一份深度投資分析報告。不走傳統投資分析的路——核心判斷只有一個：這個專案是不是一臺「秩序創造機器」；使用情境：user says '投資報告', '投資分析', '分析這個專案', '寫投資報告', 'investment report', 'invest analysis', or provides entrepreneur conversation records",
+      "trigger": "投資報告 | 投資分析 | 分析這個專案 | 寫投資報告 | investment report | invest analysis | ljg-invest | ljg invest",
+      "location": "/home/sam/.agents/skills/ljg-invest/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-is",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "workflow-automation"
+      ],
+      "use_case": "把一個名詞或概念寫成可使用的理解：先用普通話講清它是什麼、與相鄰概念差在哪裡，再說明它怎樣運作、會改寫什麼判斷，最後給出面對它時的行動抓手。USE WHEN 使用者問 X 是什麼、怎麼理解、意味著什麼、為什麼重要、以後怎樣判斷或使用；尤其適合技術概念、制度、產品、角色、方法、規範與實踐。NOT FOR 單純查事實、公式證明、逐步操作教程、縱向因果深挖（用 ljg-think）或母題結構（用 ljg",
+      "trigger": "ljg-is | ljg is",
+      "location": "/home/sam/.agents/skills/ljg-is/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-learn",
+      "type": [
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "Deep concept anatomist that deconstructs any concept through 8 exploration dimensions (history, dialectics, phenomenology, linguistics, formalization, existentialism, aesthetics, meta-philosophy) and ；使用情境：user asks to explain, dissect, or deeply understand a concept, term, or idea. Triggers on '解剖概念', '概念解剖', 'explain concept', 'lear",
+      "trigger": "解剖概念 | 概念解剖 | explain concept | learn concept | /ljg-learn | ljg-learn | ljg learn",
+      "location": "/home/sam/.agents/skills/ljg-learn/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-map",
+      "type": [
+        "workflow-automation",
+        "technique",
+        "pattern"
+      ],
+      "use_case": "以《學習觀》的知識觀洞察使用者文稿，提煉概念、判別依據與有條件的聯結，按文稿自身的關係繪製通俗的形式化知識地圖；每個節點都有白話定義、短公式和具體語義，圖形不預設層級。USE WHEN 使用者呼叫 /ljg-map，或要求把文章、筆記、講稿畫成形式化地圖、思考地形圖、概念判別與關係圖。NOT FOR 普通摘要、逐段改寫、地理地圖或單獨的公式證明",
+      "trigger": "ljg-map | ljg map",
+      "location": "/home/sam/.agents/skills/ljg-map/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-mechanism",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "workflow-automation"
+      ],
+      "use_case": "針對使用者提供的現象，用「看反常—追過程—分解釋—帶條件遷移」生成機制猜想，並聯網核對現象、檢驗關鍵因果與競爭解釋，交付證據最能支撐的機制及其邊界。USE WHEN 使用者呼叫 ljg-mechanism、說「找機制」「機制研究」「用四步框架走一遍」「聯網驗證這個解釋」，或希望研究一個現象怎樣發生。NOT FOR 純概念定義、普通摘要、已有唯一解的操作題或只畫地圖",
+      "trigger": "ljg-mechanism | ljg mechanism",
+      "location": "/home/sam/.agents/skills/ljg-mechanism/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-paper",
+      "type": [
+        "reference",
+        "technique",
+        "discipline-enforcing"
+      ],
+      "use_case": "Explain research papers to readers without a specialist background: what the paper studies, what the authors contribute, how the findings follow, and what the evidence does not establish. USE WHEN the",
+      "trigger": "ljg-paper | ljg paper",
+      "location": "/home/sam/.agents/skills/ljg-paper/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-present",
+      "type": [
+        "reference",
+        "technique",
+        "workflow-automation"
+      ],
+      "use_case": "Unix 氣質的演講設計與保真排版。把 Org/Markdown 提綱或經授權提煉的講稿製成單檔案離線 HTML；以語義角色選擇巨句、對照、Unicode 關係圖、證據與章節版式。預設深色，支援講稿層、原生圖表與翻頁筆。USE WHEN present、做演講、slides、按 outline 美化、把講述精髓放上螢幕。NOT FOR 未經授權改寫作者內容或生成企業 PPT",
+      "trigger": "ljg-present | ljg present",
+      "location": "/home/sam/.agents/skills/ljg-present/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-push",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "把 ~/.agents/skills/ljg-* 裡所有更新過的 skills 同步到 github repo (ljg-skills)，先推 master 分支（org-mode 輸出風格），再切 md 分支（markdown 輸出風格）做基礎 markdown 化後推；使用情境：user says '/ljg-push', 'push skills', '推送 skills', '同步 skills', 'sync ljg', or whenever ljg-* skills get updated and need shipping",
+      "trigger": "/ljg-push | push skills | 推送 skills | 同步 skills | sync ljg | ljg-push | ljg push",
+      "location": "/home/sam/.agents/skills/ljg-push/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 0,
+        "total": 1
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-qa",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "pattern"
+      ],
+      "use_case": "資訊提問機。給一篇文章/論文/書，把核心觀點抽成 Q-A 對——Question 切要害，不教科書；Answer 簡潔清晰，有形式化收口，邏輯鏈完整。讀者順 Q 鏈走過，每個 A 砸下一枚釘子，復現作者整套推理；使用情境：user says '問答', 'Q&A', 'QA', '提問', '抽取問題', '/ljg-qa', or shares an article/paper/book and asks for Q-A extraction. Triggers when t",
+      "trigger": "問答 | Q&A | QA | 提問 | 抽取問題 | /ljg-qa | ljg-qa | ljg qa",
+      "location": "/home/sam/.agents/skills/ljg-qa/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-rank",
+      "type": [
+        "technique",
+        "reference",
+        "discipline-enforcing"
+      ],
+      "use_case": "給一個領域，找出背後真正撐著它的幾根獨立的力。十幾個現象砍到不可再少的生成器——砍完能把現象一個個生回來，才算數；使用情境：user says '降秩', '找秩', '秩是什麼', '這個領域靠什麼撐著', '背後是什麼', or wants to decompose any domain to its irreducible generators",
+      "trigger": "降秩 | 找秩 | 秩是什麼 | 這個領域靠什麼撐著 | 背後是什麼 | ljg-rank | ljg rank",
+      "location": "/home/sam/.agents/skills/ljg-rank/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-read",
+      "type": [
+        "pattern",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "用《學習觀》的「下上結構」講透使用者提供的文本：從具體情境接通概念、判別依據與有條件的關係，讓讀者理解原意並能遷移判斷；預設直接在對話中展示。USE WHEN 使用者說「伴讀」「陪我讀」「讀這篇」「講透這段」「read with me」或提供文本希望深入淺出地講解。NOT FOR 單純翻譯、整本書拆解或只畫概念地圖",
+      "trigger": "ljg-read | ljg read",
+      "location": "/home/sam/.agents/skills/ljg-read/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-relationship",
+      "type": [
+        "reference",
+        "pattern",
+        "technique"
+      ],
+      "use_case": "- Relationship analyst combining structural diagnostics (5-layer framework) with psychoanalytic depth (transference, unconscious patterns, resistance). Guides users through dialogue to \"see\" the real；使用情境：user says \"關係分析\", \"分析關係\", \"relationship\", \"人際關係\", or describes a specific relationship problem they want to understand",
+      "trigger": "see | 關係分析 | 分析關係 | relationship | 人際關係 | ljg-relationship | ljg relationship",
+      "location": "/home/sam/.agents/skills/ljg-relationship/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-roundtable",
+      "type": [
+        "technique",
+        "reference",
+        "discipline-enforcing"
+      ],
+      "use_case": "- 一個議題，一場圓桌：主持人請來 3-5 位真實人物，定義開場，逐輪交鋒， 每輪收一張 ASCII 結構圖，使用者用指令控節奏（可/止/深入此節/引入新人物）， 散場後全文存入 Markdown 筆記；使用情境：user says \"圓桌討論\", \"圓桌\", \"roundtable\", \"辯論\", or wants to explore a topic through multi-perspective structured debate",
+      "trigger": "圓桌討論 | 圓桌 | roundtable | 辯論 | ljg-roundtable | ljg roundtable",
+      "location": "/home/sam/.agents/skills/ljg-roundtable/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-structure",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "pattern"
+      ],
+      "use_case": "找出一段資訊中母題級別的結構，把抽象關係展開回具體可見的現象，再用風洞檢驗關鍵因果與邊界。USE WHEN user says '找結構', '母題是什麼', '結構風洞', '背後的結構', '不要只做AB測試', or wants the generative mechanism beneath a problem. 僅當用戶明確要求時展開跨域來源或多母題組合。NOT FOR 普通摘要、單個類",
+      "trigger": "找結構 | 母題是什麼 | 結構風洞 | 背後的結構 | 不要只做AB測試 | ljg-structure | ljg structure",
+      "location": "/home/sam/.agents/skills/ljg-structure/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-teach",
+      "type": [
+        "discipline-enforcing",
+        "pattern",
+        "technique"
+      ],
+      "use_case": "用體驗而不是定義來教授概念、原理或檢驗觀點：先給與學習者認知水平相稱的局面，讓其選擇，再用公平的意外顯化認知缺口，結構化後才命名，並以遷移局面迴圈複測。USE WHEN 使用者呼叫 '/ljg-teach'、說 '用情境教我'、'別先講答案'、'通過案例讓我學會'，或希望通過選擇與反饋理解一個概念或觀點。NOT FOR 直接定義查詢（用 ljg-is/ljg-word）、八維概念解剖（用 ljg-",
+      "trigger": "/ljg-teach | 用情境教我 | 別先講答案 | 通過案例讓我學會 | ljg-teach | ljg teach",
+      "location": "/home/sam/.agents/skills/ljg-teach/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-think",
+      "type": [
+        "discipline-enforcing",
+        "pattern"
+      ],
+      "use_case": "追本之箭——縱向深鑽思維工具。給一個觀點、現象或問題，像箭一樣一路向下鑽到不可再分的本質；使用情境：user says '想透', '追本', '本質是什麼', '為什麼會這樣', '深挖', '鑽到底', 'think deep', 'drill down', or wants to trace any idea/phenomenon vertically",
+      "trigger": "想透 | 追本 | 本質是什麼 | 為什麼會這樣 | 深挖 | 鑽到底 | think deep | drill down | ljg-think | ljg think",
+      "location": "/home/sam/.agents/skills/ljg-think/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-word",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "reference"
+      ],
+      "use_case": "Deep-dive English word mastery tool. Deconstructs a single English word into core semantics and epiphany；使用情境：user asks to explain/master a specific English word. 工具 使用者",
+      "trigger": "ljg-word | ljg word",
+      "location": "/home/sam/.agents/skills/ljg-word/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ljg-writes",
+      "type": [
+        "technique",
+        "workflow-automation",
+        "reference"
+      ],
+      "use_case": "寫作引擎。把一個觀點寫成可理解、可遷移、經得住反例的 1000-1500 字中文文章。USE WHEN 寫文章 OR 最佳化思想內容 OR 展開觀點 OR 改寫成邏輯遞進的中文。NOT FOR 普通摘要、事實查詢或結構風洞（用 ljg-structure）",
+      "trigger": "ljg-writes | ljg writes",
+      "location": "/home/sam/.agents/skills/ljg-writes/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "ljg-* 個人思維工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "mnpl-agent",
+      "type": [
+        "technique",
+        "reference",
+        "workflow-automation"
+      ],
+      "use_case": "Generic multi-agent Router+Workers architecture for any platform. Deploy, regulate, and dispatch tasks across multiple AI agents with distinct roles (router, planner, coder, reviewer, worker). Suppo；使用情境：the user wants to set up multi-agent collaboration, deploy Router+Workers, configure agent roles, dispatch tasks to specialized ag",
+      "trigger": "mnpl-agent | multi-agent | router workers | agent roles | task dispatch | agent deployment | agent regulation | 多代理 | 路由工作者 | 任務分派 | 代理佈署 | 角色分工",
+      "location": "/home/sam/.agents/skills/mnpl-agent/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 0,
+        "total": 1
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "mnpl/Rakazo 個人多代理與配額工作流系列",
+      "use_case_empty": false
+    },
+    {
+      "name": "mnpl-rakazo",
+      "type": [
+        "technique",
+        "workflow-automation",
+        "discipline-enforcing"
+      ],
+      "use_case": "Set up 4 AI agents (Router + Workers) in Rakazo with role-based task routing. Deploy Router+Workers architecture in Rakazo: create bots with distinct roles (planner, coder, reviewer, worker), config；使用情境：the user wants to create multiple AI agents in Rakazo, set up Router+Workers in Rakazo, configure Rakazo bot roles, or deploy mult",
+      "trigger": "mnpl-rakazo | rakazo multi-agent | rakazo router workers | rakazo 4 agents | rakazo 角色分工 | rakazo 多代理 | rakazo 路由工作者 | \"mnpl-rakazo\" | \"rakazo multi-agent\" | \"rakazo router workers\" | \"rakazo 4 agents\" | \"rakazo 角色分工\"",
+      "location": "/home/sam/.agents/skills/mnpl-rakazo/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "mnpl/Rakazo 個人多代理與配額工作流系列",
+      "use_case_empty": false
+    },
+    {
+      "name": "motion-showreel",
+      "type": [
+        "reference",
+        "media-generation",
+        "technique"
+      ],
+      "use_case": "用代码制作图形、文字或界面动画视频，输出 MP4 和可编辑源码，最长 20 分钟。适用于动效作品集、产品片、UI 动效、动态排版、Logo 片头、生成艺术与讲解视频；支持独立选择 BGM/音效来源、用户口播，以及用用户提供的口播稿通过 TTS 合成语音。不用于实拍制作、写实人物生成或一般视频剪辑。 動態作品集 動態展示",
+      "trigger": "motion-showreel | motion showreel",
+      "location": "/home/sam/.agents/skills/motion-showreel/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "nas-backup",
+      "type": [
+        "workflow-automation"
+      ],
+      "use_case": "Use when backing up local Windows user folders (Desktop, Downloads, Documents) to a NAS over SSH, or when organizing/freeing disk space by archiving large directories to a remote NAS. Triggers include；使用情境：backing up local Windows user folders (Desktop, Downloads, Documents) to a NAS over SSH, or when organizing/freeing disk space by",
+      "trigger": "備份到 nas | 整理硬碟空間 | scp -r ... nas | \"備份到 nas\" | \"整理硬碟空間\" | \"scp -r | nas-backup | nas backup",
+      "location": "/home/sam/.agents/skills/nas-backup/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "nature-paper-card",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "Build a structured deep-reading Paper Card for one scientific paper, analysing methods, experiment-to-claim evidence, limitations, and research ideas. Use for 论文精读卡、方法拆解、证据链分析; not full-paper bilingua",
+      "trigger": "nature-paper-card | nature paper card",
+      "location": "/home/sam/.agents/skills/nature-paper-card/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 0,
+        "total": 1
+      },
+      "role": "混合型",
+      "origin": "uncertain",
+      "note": "中文學術流程，疑似自建但無 topic-seek 索引佐證，亦可能是外部套件；type 為內容推估",
+      "use_case_empty": false
+    },
+    {
+      "name": "nature-paper2ppt",
+      "type": [
+        "reference",
+        "technique",
+        "workflow-automation"
+      ],
+      "use_case": "Create or improve a Chinese academic PPTX from a scientific paper or research reading notes, with source figures and speaker notes. Use for 论文做PPT、文献汇报、组会PPT and paper-based conference or defense pres",
+      "trigger": "nature-paper2ppt | nature paper2ppt",
+      "location": "/home/sam/.agents/skills/nature-paper2ppt/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "uncertain",
+      "note": "中文學術投影片流程，疑似自建但無 topic-seek 索引佐證，亦可能是外部套件；type 為內容推估",
+      "use_case_empty": false
+    },
+    {
+      "name": "poi-showcase",
+      "type": [
+        "reference"
+      ],
+      "use_case": "Use when showcasing Taiwan POI (Points of Interest) with transportation routes and vegetarian restaurant comparisons. Covers Taiwan's six municipalities (六都), MRT/bus/walking routes, and vegetarian re；使用情境：showcasing Taiwan POI (Points of Interest) with transportation routes and vegetarian restaurant comparisons. Covers Taiwan's six m",
+      "trigger": "poi-showcase | poi showcase",
+      "location": "/home/sam/.agents/skills/poi-showcase/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "push-repo",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "reference"
+      ],
+      "use_case": "-；使用情境：the user wants a directory turned into its own git repository and pushed to a remote — 「把這個資料夾獨立成一個 repo」「推上 GitHub」「git push」 「推送",
+      "trigger": "push-repo | push repo",
+      "location": "/home/sam/.agents/skills/push-repo/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "qcable-usage",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "",
+      "trigger": "qcable-usage | qcable usage",
+      "location": "/home/sam/.agents/skills/qcable-usage/SKILL.md",
+      "hierarchy": {
+        "references": 30,
+        "referenced_by": 0,
+        "total": 30
+      },
+      "role": "索引型",
+      "origin": "locally_developed",
+      "note": "量子傳輸線/熱負載主題；topic-seek 索引列為自建",
+      "use_case_empty": true
+    },
+    {
+      "name": "qmd-skill",
+      "type": [
+        "technique",
+        "reference",
+        "workflow-automation"
+      ],
+      "use_case": "Use when setting up or using QMD (Query Markup Documents) for semantic search over markdown knowledge bases. Covers installation, collection management, embedding, search modes (BM25/vector/hybrid), a；使用情境：setting up or using QMD (Query Markup Documents) for semantic search over markdown knowledge bases. Covers installation, collectio",
+      "trigger": "qmd-skill | qmd skill",
+      "location": "/home/sam/.agents/skills/qmd-skill/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 0,
+        "total": 2
+      },
+      "role": "混合型",
+      "origin": "uncertain",
+      "note": "描述外部 QMD 工具並與 self-built auto-skill 整合，無法判定說明文件或自建封裝；type 為內容推估",
+      "use_case_empty": false
+    },
+    {
+      "name": "quantum-algo-qkd",
+      "type": [
+        "reference",
+        "technique",
+        "workflow-automation"
+      ],
+      "use_case": "Use when the user asks about quantum algorithms, QKD, quantum key distribution, Shor's algorithm, QAOA, quantum cryptography, post-quantum security, or quantum computing. Covers latest arXiv research ；使用情境：the user asks about quantum algorithms, QKD, quantum key distribution, Shor's algorithm, QAOA, quantum cryptography, post-quantum",
+      "trigger": "quantum-algo-qkd | quantum algorithms qkd",
+      "location": "/home/sam/.agents/skills/quantum-algo-qkd/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 4,
+        "total": 5
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "quixer-quantum-transformer",
+      "type": [
+        "reference",
+        "pattern",
+        "technique"
+      ],
+      "use_case": "Use when the user asks about Quixer, quantum transformer, quantum machine learning, LCU, QSVT, quantum NLP, or quantum attention. Covers the first quantum transformer applied to language modelling. 使用；使用情境：the user asks about Quixer, quantum transformer, quantum machine learning, LCU, QSVT, quantum NLP, or quantum attention. Covers th",
+      "trigger": "quixer-quantum-transformer | quixer quantum transformer",
+      "location": "/home/sam/.agents/skills/quixer-quantum-transformer/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ralph-loop",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "reference"
+      ],
+      "use_case": "Start or manage a Ralph loop: an iterative development loop where the same prompt is fed back after every turn until the completion promise, the iteration limit, or /ralph-cancel. OpenCode V2 port of",
+      "trigger": "ralph-loop | ralph loop",
+      "location": "/home/sam/.agents/skills/ralph-loop/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "ralph-loop",
+      "type": [
+        "reference",
+        "technique",
+        "workflow-automation"
+      ],
+      "use_case": "Start a Ralph Loop for iterative self-referential development；使用情境：the user asks to run a ralph loop, start an iterative loop, or wants repeated autonomous iteration on a task until completion",
+      "trigger": "ralph-loop | ralph loop",
+      "location": "/home/sam/.agents/skills/ralph-loop/upstream/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "rev-skill",
+      "type": [
+        "discipline-enforcing",
+        "reference",
+        "workflow-automation"
+      ],
+      "use_case": "Use when reviewing, fixing, patching, or updating an existing agent skill — especially when tempted to skip the pre-change audit, add a print/fix \"directly\" because the answer seems obvious, trust \"we；使用情境：reviewing, fixing, patching, or updating an existing agent skill — especially when tempted to skip the pre-change audit, add a pri",
+      "trigger": "directly | we audited it last time | later | fix this skill | rev-skill | rev skill",
+      "location": "/home/sam/.agents/skills/rev-skill/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 0,
+        "total": 2
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "sci-research-distill",
+      "type": [
+        "reference",
+        "technique",
+        "pattern"
+      ],
+      "use_case": "Use when sedimenting a scientific/technical product concept into a market research and business plan document, or when the user asks to turn a development process into a reusable skill. Triggers inclu；使用情境：sedimenting a scientific/technical product concept into a market research and business plan document, or when the user asks to tur",
+      "trigger": "市場研究 | 獲利模式 | business plan | market research | sci-research-distill | 沉澱 | distill | MYC-8 | \"市場研究\" | \"獲利模式\" | \"business plan\" | \"market research\"",
+      "location": "/home/sam/.agents/skills/sci-research-distill/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 2,
+        "total": 3
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "shorts-acceptance",
+      "type": [
+        "workflow-automation",
+        "discipline-enforcing",
+        "media-generation"
+      ],
+      "use_case": "Use when the user wants to verify Short-form video deliverables against acceptance checks (encoding/size/duration/audio/loudness/subtitles/hook/thumbnail/captions/metadata/upload package), inspect or ；使用情境：the user wants to verify Short-form video deliverables against acceptance checks (encoding/size/duration/audio/loudness/subtitles/",
+      "trigger": "shorts-acceptance | shorts acceptance",
+      "location": "/home/sam/.agents/skills/shorts-acceptance/SKILL.md",
+      "hierarchy": {
+        "references": 6,
+        "referenced_by": 7,
+        "total": 13
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "shorts-pipeline",
+      "type": [
+        "workflow-automation",
+        "discipline-enforcing",
+        "media-generation"
+      ],
+      "use_case": "Use when the user wants to run or plan an end-to-end Short-form video pipeline (topic selection, production, acceptance, caption/upload packages, YouTube upload, scheduling/weekly ops) for a Tradition；使用情境：the user wants to run or plan an end-to-end Short-form video pipeline (topic selection, production, acceptance, caption/upload pac",
+      "trigger": "shorts-pipeline | shorts pipeline",
+      "location": "/home/sam/.agents/skills/shorts-pipeline/SKILL.md",
+      "hierarchy": {
+        "references": 6,
+        "referenced_by": 6,
+        "total": 12
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "shorts-production",
+      "type": [
+        "media-generation",
+        "workflow-automation",
+        "technique"
+      ],
+      "use_case": "Use when the user wants to create or modify Short-form video production specs/assets (content spec JSON, TTS narration, cards/scenes, ffmpeg composition, burned subtitles, thumbnail, metadata/captions；使用情境：the user wants to create or modify Short-form video production specs/assets (content spec JSON, TTS narration, cards/scenes, ffmpe",
+      "trigger": "shorts-production | shorts production",
+      "location": "/home/sam/.agents/skills/shorts-production/SKILL.md",
+      "hierarchy": {
+        "references": 5,
+        "referenced_by": 7,
+        "total": 12
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "shorts-upload-troubleshooting",
+      "type": [
+        "workflow-automation",
+        "media-generation",
+        "discipline-enforcing"
+      ],
+      "use_case": "Use when a Shorts/YouTube upload is stuck, ambiguous, or failing (Studio 儲存中/no video-id, timeout, scrim/selector drift, hidden next button, duplicate drafts, OAuth consent/Test users block, channel m；使用情境：a Shorts/YouTube upload is stuck, ambiguous, or failing (Studio 儲存中/no video-id, timeout, scrim/selector drift, hidden next button",
+      "trigger": "shorts-upload-troubleshooting | shorts upload troubleshooting",
+      "location": "/home/sam/.agents/skills/shorts-upload-troubleshooting/SKILL.md",
+      "hierarchy": {
+        "references": 6,
+        "referenced_by": 5,
+        "total": 11
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "skill-dependency-hook",
+      "type": [
+        "discipline-enforcing",
+        "technique",
+        "workflow-automation"
+      ],
+      "use_case": "Use when managing skill dependencies and auto-hooking. When a skill depends on other skills, automatically load and invoke them. Covers skill hierarchy, dependency resolution, and auto-hook mechanism.；使用情境：managing skill dependencies and auto-hooking. When a skill depends on other skills, automatically load and invoke them. Covers ski",
+      "trigger": "skill-dependency-hook | skill dependency hook",
+      "location": "/home/sam/.agents/skills/skill-dependency-hook/SKILL.md",
+      "hierarchy": {
+        "references": 7,
+        "referenced_by": 1,
+        "total": 8
+      },
+      "role": "索引型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "skill-name",
+      "type": [
+        "pattern",
+        "technique"
+      ],
+      "use_case": "A clear, concise description of what this skill does (1-2 sentences). Focus on the VALUE it provides to the user. 名稱 清除 描述 焦點 值 使用者",
+      "trigger": "skill-name | skill name",
+      "location": "/home/sam/.agents/skills/skill-name/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "uncertain",
+      "note": "frontmatter 為模板範例文字，疑似未完成的自建草稿或外部模板殘留；type 為內容推估",
+      "use_case_empty": false
+    },
+    {
+      "name": "social-post",
+      "type": [
+        "reference",
+        "technique",
+        "discipline-enforcing"
+      ],
+      "use_case": "依使用者真實貼文與成效寫 Facebook／Instagram／YouTube／Threads／X 文案，包含 ChatGPT Chat 的「寫文」「Mode C」「用我的格式／口氣」「黑底白字」；本機工作台、規劃、確認後發布、留言回覆及成效學習。使用者說「發文」「文案」「Social Post 介面」「回覆留言」「查流量」「把數據訓練進去」「比較貼文」「優化 pattern」時使用",
+      "trigger": "social-post | social post",
+      "location": "/home/sam/.agents/skills/social-post/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 7,
+        "total": 7
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "social-publisher",
+      "type": [
+        "media-generation",
+        "workflow-automation",
+        "technique"
+      ],
+      "use_case": "Multi-platform social media publishing automation - schedule, post, and track content across TikTok, Instagram, YouTube, LinkedIn, and more 發布者 媒體 自動化 排程 POST 追蹤 內容",
+      "trigger": "social-publisher | social publisher",
+      "location": "/home/sam/.agents/skills/social-publisher/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "uncertain",
+      "note": "通用多平台社群發布描述，與自建 social-post/social-publish 相似但無明確自建訊號；type 為內容推估",
+      "use_case_empty": false
+    },
+    {
+      "name": "speckit-specify-zh",
+      "type": [
+        "reference",
+        "technique",
+        "workflow-automation"
+      ],
+      "use_case": "中文功能规范创建工具，用于将自然语言功能描述转换为结构化的功能规范文档。支持自动生成分支名称、创建Git分支、初始化规范文件和质量验证。触发词包括：\"speckit规范\"、\"功能规范\"、\"创建规范\"、\"功能描述转换\"、\"speckit-specify\"。当用户需要将功能想法转换为结构化规范时使用此技能",
+      "trigger": "speckit规范 | 功能规范 | 创建规范 | 功能描述转换 | speckit-specify | speckit-specify-zh | speckit specify zh",
+      "location": "/home/sam/.agents/skills/speckit-specify-zh/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "uncertain",
+      "note": "中文翻譯/本地化 speckit 流程，可能自建也可能源自外部中文套件；type 為內容推估",
+      "use_case_empty": false
+    },
+    {
+      "name": "sssn-output",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "Use when the user wants to list OpenCode sessions, find a session id, back up or export an OpenCode conversation to Markdown before compaction, preserve chat transcripts as readable .md files, or sear；使用情境：the user wants to list OpenCode sessions, find a session id, back up or export an OpenCode conversation to Markdown before compact",
+      "trigger": "列 session | 列出對話 | 列出所有 session | session id | 備份對話 | 匯出 markdown | export session | save conversation | compact 前存檔 | 保留對話 | 跨 session 搜尋 | 關鍵字出現在哪些對話",
+      "location": "/home/sam/.agents/skills/sssn-output/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "streamlit-columns-layout",
+      "type": [
+        "reference",
+        "workflow-automation",
+        "technique"
+      ],
+      "use_case": "Use when building Streamlit apps with left/right column layouts for content presentation. Covers st.columns([2,8]) ratio, radio selection in left column, content display in right column, and sidebar t；使用情境：building Streamlit apps with left/right column layouts for content presentation. Covers st.columns([2,8]) ratio, radio selection i",
+      "trigger": "streamlit-columns-layout | streamlit columns layout",
+      "location": "/home/sam/.agents/skills/streamlit-columns-layout/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 0,
+        "total": 1
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "task_pipe_auto",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "Use when the CEO/router needs to automatically dispatch a completed platform or workflow to other company roles (Architect, DevOps, MarketSales) in Paperclip — creating self-contained assigned issues,；使用情境：the CEO/router needs to automatically dispatch a completed platform or workflow to other company roles (Architect, DevOps, MarketS",
+      "trigger": "派送任務 | 自動發送至其它角色 | CEO 委派 | dispatch to roles | task pipe | sediment dispatch pattern | \"派送任務\" | \"自動發送至其它角色\" | \"CEO 委派\" | \"dispatch to roles\" | \"task pipe\" | or \"sediment dispatch pattern\"",
+      "location": "/home/sam/.agents/skills/task_pipe_auto/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "mnpl/Rakazo 個人多代理與配額工作流系列",
+      "use_case_empty": false
+    },
+    {
+      "name": "topic-distill-pipeline",
+      "type": [
+        "pattern",
+        "technique",
+        "reference"
+      ],
+      "use_case": "Use when the user wants to distill a topic from local files into a structured skill with mindmap, covering the full pipeline from topic input to skill output. Triggers include '蒸餾', 'distill', '主題沉澱',；使用情境：the user wants to distill a topic from local files into a structured skill with mindmap, covering the full pipeline from topic inp",
+      "trigger": "蒸餾 | distill | 主題沉澱 | topic distill | mindmap | 心智圖 | '蒸餾' | 'distill' | '主題沉澱' | 'topic distill' | 'mindmap' | '心智圖'",
+      "location": "/home/sam/.agents/skills/topic-distill-pipeline/SKILL.md",
+      "hierarchy": {
+        "references": 3,
+        "referenced_by": 0,
+        "total": 3
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "topic-post",
+      "type": [
+        "reference",
+        "technique",
+        "workflow-automation"
+      ],
+      "use_case": "Use when organizing documents/PDFs on a topic (PQC, QKD, quantum, etc.) into condensed social media posts for Facebook/YouTube. Triggers include \"整理文件成貼文\", \"PQC貼文\", \"QKD貼文\", \"topic post\", \"將文件精簡成topic；使用情境：organizing documents/PDFs on a topic (PQC, QKD, quantum, etc.) into condensed social media posts for Facebook/YouTube. Triggers in",
+      "trigger": "整理文件成貼文 | PQC貼文 | QKD貼文 | topic post | 將文件精簡成topic | 整理PDF成貼文 | post to Facebook | post to YouTube | \"整理文件成貼文\" | \"PQC貼文\" | \"QKD貼文\" | \"topic post\"",
+      "location": "/home/sam/.agents/skills/topic-post/SKILL.md",
+      "hierarchy": {
+        "references": 5,
+        "referenced_by": 3,
+        "total": 8
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "topic-seek",
+      "type": [
+        "reference",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "本機自行開發技能索引：依關鍵字/Pattern 搜尋並定位技能，提供檔案位置、用法與功能說明；使用情境：the user asks to find/search/locate locally developed skills, or mentions topic-seek, 尋找技能, 技能索引, 技能位置, 技能功能",
+      "trigger": "topic-seek | 尋找技能 | 技能索引 | 技能位置 | 技能功能 | topic seek",
+      "location": "/home/sam/.agents/skills/topic-seek/SKILL.md",
+      "hierarchy": {
+        "references": 69,
+        "referenced_by": 0,
+        "total": 69
+      },
+      "role": "索引型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "topic-viz",
+      "type": [
+        "reference",
+        "technique",
+        "discipline-enforcing"
+      ],
+      "use_case": "Use when the user wants to turn refactored/distilled technical documents into an easy-to-understand spec and a visualization & demo tool, including architecture/flow diagrams, data-driven charts, and ；使用情境：the user wants to turn refactored/distilled technical documents into an easy-to-understand spec and a visualization & demo tool, i",
+      "trigger": "topic-viz | topic viz",
+      "location": "/home/sam/.agents/skills/topic-viz/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "trigger-skill",
+      "type": [
+        "workflow-automation",
+        "technique",
+        "reference"
+      ],
+      "use_case": "Verify whether a given phrase triggers a specific skill by checking the skill's description against the trigger phrase；使用情境：the user wants to verify skill triggering, test if a phrase matches a skill, check skill activation, or validate skill description",
+      "trigger": "trigger skill | verify trigger | does this trigger | skill activation | check trigger | test skill match | \"trigger skill\" | \"verify trigger\" | \"does this trigger\" | \"skill activation\" | \"check trigger\" | \"test skill match\"",
+      "location": "/home/sam/.agents/skills/trigger-skill/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 0,
+        "total": 1
+      },
+      "role": "混合型",
+      "origin": "uncertain",
+      "note": "通用技能觸發驗證工具，可能為 skill 工程自建 auxiliary，也可能外部；type 為內容推估",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-agent-editor",
+      "type": [
+        "technique",
+        "media-generation",
+        "reference"
+      ],
+      "use_case": "视频团队的剪辑师。将音频、视觉素材、字幕合并为完整时间轴， 通过 DaVinci Resolve Studio Python API 直接导入达芬奇项目。 同时处理美术师标记的\"后期制作\"镜头（文字动效、数据动效、分屏）。 当收到\"生成时间轴\"\"导入达芬奇\"\"构建项目\"时触发， 或由制片人（producer）调度时自动触发",
+      "trigger": "后期制作 | 生成时间轴 | 导入达芬奇 | 构建项目 | video-agent-editor | video agent editor",
+      "location": "/home/sam/.agents/skills/video-agent-editor/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-agent-jianying-editor",
+      "type": [
+        "reference",
+        "media-generation",
+        "technique"
+      ],
+      "use_case": "视频团队的剪映剪辑师。将音频、视觉素材、字幕合并为完整时间轴， 通过 VectCutAPI 生成剪映/CapCut 可直接导入的草稿项目。 与达芬奇剪辑师（video-agent-editor）并行工作，共享同一套输入文件， 由制片人（producer）决定调度哪个剪辑师。 当收到\"导出剪映\"\"生成剪映草稿\"\"构建剪映项目\"时触发， 或由制片人调度时自动触发",
+      "trigger": "导出剪映 | 生成剪映草稿 | 构建剪映项目 | video-agent-jianying-editor | video agent jianying editor",
+      "location": "/home/sam/.agents/skills/video-agent-jianying-editor/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-agent-operator",
+      "type": [
+        "reference",
+        "media-generation",
+        "workflow-automation"
+      ],
+      "use_case": "视频团队的运营分析师。分析抖音多账号数据，识别高表现内容特征， 给出选题建议和竞品洞察。支持从 CSV/Excel 文件或飞书多维表格读取数据。 当用户说\"分析数据\"\"看看最近表现\"\"下期做什么选题\"时触发",
+      "trigger": "分析数据 | 看看最近表现 | 下期做什么选题 | video-agent-operator | video agent operator",
+      "location": "/home/sam/.agents/skills/video-agent-operator/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-agent-producer",
+      "type": [
+        "media-generation",
+        "technique",
+        "reference"
+      ],
+      "use_case": "视频团队的制片人/总调度。接收用户主题，拆解为子任务，按顺序调度其他 Agent （operator → researcher → writer → storyboarder → voice + visual → editor(s) → publisher）， 管理检查点和断点恢复。支持双剪辑师调度（达芬奇/剪映/两者）。 触发条件：\"开始制作视频\"、\"创建视频项目\"、\"视频项目状态\"、\"继续",
+      "trigger": "开始制作视频 | 创建视频项目 | 视频项目状态 | 继续视频项目 | video-agent-producer | video agent producer",
+      "location": "/home/sam/.agents/skills/video-agent-producer/SKILL.md",
+      "hierarchy": {
+        "references": 4,
+        "referenced_by": 0,
+        "total": 4
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-agent-publisher",
+      "type": [
+        "technique",
+        "reference",
+        "media-generation"
+      ],
+      "use_case": "视频团队的发布员。生成各平台（抖音/B站/YouTube）的发布元数据， 包括标题、描述、标签、BGM推荐，以及引用出处列表。 触发条件：\"准备发布素材\"、\"生成封面和标题\"、\"生成发布信息",
+      "trigger": "准备发布素材 | 生成封面和标题 | video-agent-publisher | video agent publisher",
+      "location": "/home/sam/.agents/skills/video-agent-publisher/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-agent-researcher",
+      "type": [
+        "technique",
+        "media-generation",
+        "reference"
+      ],
+      "use_case": "视频团队的通用调研员。围绕任意主题搜集网页文章和 YouTube 字幕， 分析素材提取核心论点，生成结构化大纲。当用户已有完整素材时， 切换为\"整理模式\"，按视频叙事逻辑重组素材并产出详细整理稿。 触发条件：\"搜索关于[主题]的素材\"、\"收集资料\"、\"帮我找文章和视频\"、 \"整理这篇文章\"、\"把这个素材变成大纲\"、\"用这篇文章出视频",
+      "trigger": "整理模式 | 搜索关于[主题]的素材 | 收集资料 | 帮我找文章和视频 | 整理这篇文章 | 把这个素材变成大纲 | video-agent-researcher | video agent researcher",
+      "location": "/home/sam/.agents/skills/video-agent-researcher/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-agent-storyboarder",
+      "type": [
+        "technique",
+        "media-generation",
+        "reference"
+      ],
+      "use_case": "视频团队的分镜师。将编剧的逐字稿拆解为逐句分镜表，为每句话设计具体的画面镜头。 通过 Python 脚本调用 Gemini Flash API 批量生成分镜，低成本高效率。 产出 storyboard.json（结构化数据）+ storyboard.md（可读版本）。 当收到\"生成分镜表\"\"设计画面\"\"拆分镜头\"时触发， 或由制片人（producer）调度时自动触发",
+      "trigger": "生成分镜表 | 设计画面 | 拆分镜头 | video-agent-storyboarder | video agent storyboarder",
+      "location": "/home/sam/.agents/skills/video-agent-storyboarder/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-agent-visual",
+      "type": [
+        "reference",
+        "technique",
+        "media-generation"
+      ],
+      "use_case": "视频团队的美术师。读取 storyboard.json，通过 GPTIMG2（gpt-image-2，OpenAI 兼容 API） 批量生成 2K 图片素材，支持并发调用和风格配置。 产出 visuals/*.png + visual-timeline.json + visual-report.md。 当收到\"准备画面素材\"\"获取视觉素材\"\"生成图片\"时触发， 或由制片人（producer）调",
+      "trigger": "准备画面素材 | 获取视觉素材 | 生成图片 | video-agent-visual | video agent visual",
+      "location": "/home/sam/.agents/skills/video-agent-visual/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-agent-voice",
+      "type": [
+        "media-generation",
+        "technique",
+        "reference"
+      ],
+      "use_case": "视频团队的配音师。将逐字稿转为语音和字幕，支持 MiniMax Speech-02（中文首选，全球#1）、 Edge-TTS（免费）、ElevenLabs（英文）、自录音四种模式。 MiniMax 支持 10 秒声音克隆，中文 WER 仅 2.25%。 能读取分镜表的情绪标注，生成带语速和情感控制的配音， 以及供自录音参考的配音指导表。 当收到\"生成语音\"\"处理音频\"\"我录好音了\"时触发， 或",
+      "trigger": "生成语音 | 处理音频 | 我录好音了 | video-agent-voice | video agent voice",
+      "location": "/home/sam/.agents/skills/video-agent-voice/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "video-agent-writer",
+      "type": [
+        "reference",
+        "technique",
+        "discipline-enforcing"
+      ],
+      "use_case": "视频团队的编剧。根据大纲生成逐字稿，负责文字内容、叙事结构、节奏控制。 支持反常识/故事/问题 3 种开头模式。编剧只写文字，画面设计由分镜师负责。 当收到\"生成逐字稿\"\"根据大纲写稿\"\"把大纲扩展成完整脚本\"时触发， 或由制片人（producer）调度时自动触发",
+      "trigger": "生成逐字稿 | 根据大纲写稿 | 把大纲扩展成完整脚本 | video-agent-writer | video agent writer",
+      "location": "/home/sam/.agents/skills/video-agent-writer/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 0,
+        "total": 0
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "主題蒸餾/影音個人工作流；topic-seek 索引或自建命名",
+      "use_case_empty": false
+    },
+    {
+      "name": "x-article-draft-uploader",
+      "type": [
+        "workflow-automation",
+        "media-generation",
+        "technique"
+      ],
+      "use_case": "将 Obsidian 或本地 Markdown 文章上传到 X/Twitter Articles 草稿；支持 Markdown pipe 表格转成 X 原生表格块；如果文章最上方有图片，则按当前 X 界面提示的 5:2 封面图上传；如果没有封面图，则跳过封面区域，直接上传标题、正文、表格和正文图片，完成后提醒用户补一张 5:2 封面。X Article 当前实测正文最多 25 个媒体项，封面单独上",
+      "trigger": "x-article-draft-uploader | x article draft uploader",
+      "location": "/home/sam/.agents/skills/x-article-draft-uploader/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-agent-memory",
+      "type": [
+        "reference",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "安装、升级、检索或维护 Agent Memory Vault 共享记忆系统；用于明确的记忆系统任务。普通业务的历史回忆按 Vault 入口读取，不启动安装或维护流程",
+      "trigger": "yichen-agent-memory | yichen agent memory",
+      "location": "/home/sam/.agents/skills/yichen-agent-memory/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-asr",
+      "type": [
+        "technique",
+        "reference",
+        "media-generation"
+      ],
+      "use_case": "逸尘自用的唯一音视频转写入口，统一管理 StepFun Step ASR、火山引擎豆包 ASR 与本地 Whisper 三个后端：纯文本转写按参数、已保存的引擎偏好、默认 StepFun 的顺序选择引擎并处理首次选择提示；时间戳、SRT 字幕与口播粗剪转写在 Step 国内站与豆包之间按输出需求、安全边界和可用状态路由；另含转写前体检。适用于本地音频或视频，包括小宇宙、B 站等已下载的音视频、会议；使用情境：a local audio or video file needs transcription, timestamps or subtitles, or when the user names $yichen-asr, $step-asr or $volc-a",
+      "trigger": "yichen-asr | yichen asr",
+      "location": "/home/sam/.agents/skills/yichen-asr/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 3,
+        "total": 5
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-bookmarks-export",
+      "type": [
+        "reference",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "在用户当轮明确授权后，只读导出其小红书收藏、抖音收藏或 X/Twitter 书签为本地链接文件；本 Skill 直接完成收藏页滚动、链接提取、去重、数量核验、Field Theory GraphQL-only 导出和抽样验证。用于“导出/备份/同步我的收藏或书签链接”等私人数据导出任务；不得用于公开搜索、收藏内容分析、媒体下载、正文归档、推荐发现或未获当轮授权的私人读取",
+      "trigger": "yichen-bookmarks-export | yichen bookmarks export",
+      "location": "/home/sam/.agents/skills/yichen-bookmarks-export/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 3,
+        "total": 4
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-chatgpt-web-research",
+      "type": [
+        "reference",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "Use the user's already signed-in official ChatGPT website account, especially GPT-5.5 Pro / ChatGPT Pro, to perform product research, market research, competitor research, second-opinion analysis, or",
+      "trigger": "yichen-chatgpt-web-research | yichen chatgpt web research",
+      "location": "/home/sam/.agents/skills/yichen-chatgpt-web-research/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-codex-chatgpt",
+      "type": [
+        "reference",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "Use the signed-in ChatGPT website in Chat UI Pro mode, never Work mode, to research, architect, and review one local project through a configured Secure Tunnel and read-only MCP, while Codex alone edi",
+      "trigger": "yichen-codex-chatgpt | yichen codex chatgpt",
+      "location": "/home/sam/.agents/skills/yichen-codex-chatgpt/SKILL.md",
+      "hierarchy": {
+        "references": 1,
+        "referenced_by": 1,
+        "total": 2
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-content-archive",
+      "type": [
+        "discipline-enforcing",
+        "reference",
+        "technique"
+      ],
+      "use_case": "按用户当轮要求读取、下载或归档已知网页/社交媒体链接、URL 清单、已确认候选或明确的有限容器。支持显式有界站点归档；不用于关键词发现、推荐扩展或私人收藏导出",
+      "trigger": "yichen-content-archive | yichen content archive",
+      "location": "/home/sam/.agents/skills/yichen-content-archive/SKILL.md",
+      "hierarchy": {
+        "references": 4,
+        "referenced_by": 5,
+        "total": 9
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-mac-wechat-dual-open",
+      "type": [
+        "technique",
+        "discipline-enforcing",
+        "reference"
+      ],
+      "use_case": "Create, inspect, repair, and polish a second WeChat app on macOS by copying WeChat, changing the bundle identifier, ad-hoc re-signing, preparing it for the user to open manually, setting Chinese langu；使用情境：the user asks whether Mac WeChat dual-open methods from X/Twitter or scripts are reliable, asks to prepare a second WeChat app, fi",
+      "trigger": "yichen-mac-wechat-dual-open | yichen mac wechat dual open",
+      "location": "/home/sam/.agents/skills/yichen-mac-wechat-dual-open/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-unified-search",
+      "type": [
+        "technique",
+        "reference",
+        "discipline-enforcing"
+      ],
+      "use_case": "统一编排关键词驱动的公共网页、AI 最新动态（含用户点名 AI HOT 的精选、日报与分类条目）、垂直领域和社交平台搜索，返回标准化候选；支持有界 X Research、显式站点 Map，以及本次搜索所得候选的轻量核验。不用于读取或下载用户直接给出的已知 URL，此类任务使用 yichen-content-archive",
+      "trigger": "yichen-unified-search | yichen unified search",
+      "location": "/home/sam/.agents/skills/yichen-unified-search/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 3,
+        "total": 5
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-web-research",
+      "type": [
+        "reference",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "编排需要搜索、来源核验和综合分析的多阶段互联网研究（如先搜索再归档、跨平台证据汇总），含历史演进与当前格局交叉的横纵研究，以及研究前的多后端离线体检。单次搜索、已知链接读取、收藏导出、音视频转写和给定全文总结直接处理或使用对应 Skill",
+      "trigger": "yichen-web-research | yichen web research",
+      "location": "/home/sam/.agents/skills/yichen-web-research/SKILL.md",
+      "hierarchy": {
+        "references": 4,
+        "referenced_by": 3,
+        "total": 7
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-wechat-local-vault",
+      "type": [
+        "reference",
+        "technique",
+        "workflow-automation"
+      ],
+      "use_case": "| 微信本地数字资产库：支持 macOS 与已实测 Windows 环境的本地全量解析，包括全库采集、认证解密、聊天记录读取/搜索/导出，以及朋友圈和收藏正文解析。Mac 另支持增量刷新和漏看/待回复检查，默认微信1，微信2须明确指定。Windows 本机采集走 windows，离线聊天查询走 snapshot，朋友圈/收藏复用包内纯函数工作流；不触发 Mac 配置或流程。依赖最新聊天时必须先刷新",
+      "trigger": "yichen-wechat-local-vault | yichen wechat local vault",
+      "location": "/home/sam/.agents/skills/yichen-wechat-local-vault/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-wechat-mp-batch-exporter",
+      "type": [
+        "technique",
+        "reference",
+        "discipline-enforcing"
+      ],
+      "use_case": "批量下载微信公众号文章正文、历史文章列表、原创文章筛选、历史计数口径、阅读量、点赞/转发等指标、评论和评论回复；使用情境：the user asks to batch fetch mp.weixin.qq.com articles, export WeChat public-account history, distinguish publish groups vs expand",
+      "trigger": "yichen-wechat-mp-batch-exporter | yichen wechat mp batch exporter",
+      "location": "/home/sam/.agents/skills/yichen-wechat-mp-batch-exporter/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-wecom-local-vault",
+      "type": [
+        "technique",
+        "reference",
+        "media-generation"
+      ],
+      "use_case": "Read, decrypt, query, search, and export local WeCom/企业微信 5.x desktop databases on macOS into a private read-only vault, and match message images, files, voice and video to the client's local cache；使用情境：the user asks to parse 企业微信本地数据、企微聊天记录、企微图片/文件/原图、WeCom/WXWork contacts, sessions, groups, customers, message history, local datab",
+      "trigger": "yichen-wecom-local-vault | yichen wecom local vault",
+      "location": "/home/sam/.agents/skills/yichen-wecom-local-vault/SKILL.md",
+      "hierarchy": {
+        "references": 2,
+        "referenced_by": 1,
+        "total": 3
+      },
+      "role": "混合型",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-wecom-operations",
+      "type": [
+        "technique",
+        "reference",
+        "discipline-enforcing"
+      ],
+      "use_case": "企业微信官方 wecom-cli 操作入口。用于把本地 Markdown 创建为普通或智能文档、在用户另行配置图片上传 helper 后生成含本地图片的智能文档、读取或覆写企微文档、创建与管理待办，并在企业权限开放时预约、查询、更新或取消会议和日程。用户提到“企微文档”“智能文档”“上传 Markdown”“预定会议”“企微会议”“企微日程”“企微待办”时使用；不用于消息发送或企业微信客户端操作",
+      "trigger": "yichen-wecom-operations | yichen wecom operations",
+      "location": "/home/sam/.agents/skills/yichen-wecom-operations/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 2,
+        "total": 2
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "yichen-x-slicer",
+      "type": [
+        "media-generation",
+        "discipline-enforcing",
+        "technique"
+      ],
+      "use_case": "将公开 X 推文、Quote 或同作者 Thread 转为 1080×1440 图片切片和 MP4；也支持显式 source-only 素材桥接。保留所选原生视频及对应音频，不发布",
+      "trigger": "yichen-x-slicer | yichen x slicer",
+      "location": "/home/sam/.agents/skills/yichen-x-slicer/SKILL.md",
+      "hierarchy": {
+        "references": 0,
+        "referenced_by": 1,
+        "total": 1
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "yichen-* 個人工具系列；topic-seek 索引列為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "youtube-oauth-upload",
+      "type": [
+        "workflow-automation",
+        "technique",
+        "reference"
+      ],
+      "use_case": "Use when the user wants to upload or schedule a Short/video via the YouTube Data API with an OAuth client (desktop app credentials), manage auth/token/consent/test-user blockers, check target channel,；使用情境：the user wants to upload or schedule a Short/video via the YouTube Data API with an OAuth client (desktop app credentials), manage",
+      "trigger": "youtube-oauth-upload | youtube oauth upload",
+      "location": "/home/sam/.agents/skills/youtube-oauth-upload/SKILL.md",
+      "hierarchy": {
+        "references": 6,
+        "referenced_by": 7,
+        "total": 13
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    },
+    {
+      "name": "youtube-studio-browser-upload",
+      "type": [
+        "workflow-automation",
+        "discipline-enforcing",
+        "media-generation"
+      ],
+      "use_case": "Use when the user wants to upload a Short/video to YouTube Studio through browser automation (Playwright/profile), verify Studio UI state, handle login/profile/channel checks, or debug browser upload ；使用情境：the user wants to upload a Short/video to YouTube Studio through browser automation (Playwright/profile), verify Studio UI state,",
+      "trigger": "youtube-studio-browser-upload | youtube studio browser upload",
+      "location": "/home/sam/.agents/skills/youtube-studio-browser-upload/SKILL.md",
+      "hierarchy": {
+        "references": 6,
+        "referenced_by": 7,
+        "total": 13
+      },
+      "role": "基礎件",
+      "origin": "locally_developed",
+      "note": "topic-seek 索引或個人脈絡訊號判定為自建",
+      "use_case_empty": false
+    }
+  ],
+  "deliverables": [
+    {
+      "name": "skill_inventory_spec.md",
+      "role": "規格 MD（目標／範圍／SSOT／契約／視圖／限制）"
+    },
+    {
+      "name": "skill_inventory_viz_data.json",
+      "role": "同源快照（本檔）"
+    },
+    {
+      "name": "skill_inventory_viz_demo.html",
+      "role": "單檔自包含離線 HTML"
+    },
+    {
+      "name": "skill_inventory_viz_demo.xlsx",
+      "role": "五分頁 Excel（由本快照產生）"
+    },
+    {
+      "name": "scripts/build_skill_inventory_viz.py",
+      "role": "產生 JSON + HTML"
+    },
+    {
+      "name": "scripts/build_skill_inventory_excel.py",
+      "role": "產生 XLSX"
+    }
+  ],
+  "reproduce": "cd /home/sam/skill-inventory-viz/scripts && python3 build_skill_inventory_viz.py && python3 build_skill_inventory_excel.py",
+  "errors": []
+}

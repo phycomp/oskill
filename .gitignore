@@ -1,0 +1,9 @@
+
+
+# push-repo 排除決策（帳本見 _repo_excluded.tsv）
+__pycache__/
+*.pyc
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/

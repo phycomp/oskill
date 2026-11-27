@@ -1,0 +1,11 @@
+# em-llm paths
+- Project: /home/sam/em-llm
+- Specs: /home/sam/em-simulation-llm
+- Workflow (install/deploy/impl/test): /home/sam/em-llm/docs/DEV_WORKFLOW.md
+- EM software list: /home/sam/em-llm/docs/FEM_FDTD_自由軟體.md
+- Python (recommended): /home/sam/flex/bin/python
+- Ollama: http://localhost:11434
+- RAG docs: /home/sam/em-llm/docs/RAG.md
+- Local model weights: /mnt/d/models/unsloth-embeddinggemma-300m (base), /mnt/d/models/electrical-embeddinggemma-ir_lora (LoRA)
+- Key examples: /home/sam/em-llm/examples/run_mesh_em.py, /home/sam/em-llm/examples/run_formula.py
+- Tests: cd /home/sam/em-llm && /home/sam/flex/bin/python -m pytest -q tests/

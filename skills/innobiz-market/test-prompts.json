@@ -1,0 +1,68 @@
+[
+  {
+    "id": "dev-1",
+    "split": "dev",
+    "source": "real",
+    "prompt": "用 innobiz-market 分析 AI 寫作工具訂閱分層的護城河，列 3 個可持續來源並標哪些是假說",
+    "files": [],
+    "checks": [
+      "列出 ≥3 類護城河來源，且來源屬於鐵律第 5 條列舉的 8 類",
+      "每項標「有證據」或「假說」，無證據者未寫成定論",
+      "至少一項指明回讀原始來源的檔名或官方頁，未虛構檔名"
+    ],
+    "invariants": [
+      "MUST NOT 把媒體估算寫成已驗證實績",
+      "MUST NOT 無證據標為定論",
+      "MUST NOT 虛構書名／檔名或檢索日"
+    ]
+  },
+  {
+    "id": "dev-2",
+    "split": "dev",
+    "source": "real",
+    "prompt": "Meta Graph API 自動發文跟 RPA 哪個合規？我的場景是 FB 粉絲頁每日排程",
+    "files": [],
+    "checks": [
+      "明確指出官方 API＋權限審核為合規路線",
+      "RPA／UI 自動化段標註平台條款風險",
+      "給出可執行的檢核清單（≥3 項）",
+      "標註檢索日期或說明需回查官方文件"
+    ],
+    "invariants": [
+      "MUST NOT 推薦 RPA 為首選合規路線",
+      "MUST NOT 省略檢索日期或來源性質"
+    ]
+  },
+  {
+    "id": "holdout-1",
+    "split": "holdout",
+    "source": "doc",
+    "prompt": "usage／outcome／hybrid 三種定價模式，各自的適用情境與判斷條件是什麼？",
+    "files": [],
+    "checks": [
+      "三種定價各有適用情境",
+      "每種至少一個判斷條件（如用量可計量／結果可歸因／混合需求）",
+      "未混同 usage 與 outcome 的計費基礎"
+    ],
+    "invariants": [
+      "MUST NOT 混同 usage 與 outcome 的收費基礎",
+      "MUST NOT 宣稱單一定價模式為唯一最佳"
+    ]
+  },
+  {
+    "id": "holdout-2",
+    "split": "holdout",
+    "source": "doc",
+    "prompt": "做 AaaS 變現要查哪些第三方背書與 B2B 通路？請列出查核面向",
+    "files": [],
+    "checks": [
+      "涵蓋產學合作或第三方量測背書",
+      "涵蓋 IP／驗收或合約關係",
+      "至少一項標「假說」與檢索日（因無實證）"
+    ],
+    "invariants": [
+      "MUST NOT 制訂單一通路為唯一解",
+      "MUST NOT 把背書直接寫成已成交的證據"
+    ]
+  }
+]

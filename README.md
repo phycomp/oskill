@@ -52,3 +52,21 @@ cp -r skills/paperclip-launch ~/.agents/skills/
 
 Skills live under `~/.agents/skills/` or `~/.opencode/skills/` depending on which agent
 runtime reads them; both layouts work, the folder content is the same.
+
+### 本機自建技能（2026-11-27 彙入）
+
+| Skill | 來源 |
+| --- | --- |
+| `inkling-mini` | `.agents/skills/inkling-mini` |
+| `llm-router` | `.agents/skills/llm-router` |
+| `physics-sympy` | `.agents/skills/physics-sympy` |
+| `push-repo` | `.agents/skills/push-repo` |
+| `push-router` | `.agents/skills/push-router` |
+| `quantum-llm` | `.agents/skills/quantum-llm` |
+| `em-llm` | `.agents/skills/em-llm` |
+| `skillrule-viz` | `.opencode/skills/skillrule-viz` |
+| `innobiz-market` | `.opencode/skills/innobiz-market` |
+| `physim-topics` | `.opencode/skills/physim-topics` |
+| `qc-skill` | `.opencode/skills/quantum-website` |
+| `task-changelog` | `.opencode/skills/task-changelog` |
+| `toolkit-viz` | `.opencode/skills/toolkit-viz` |

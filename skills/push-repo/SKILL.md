@@ -108,6 +108,45 @@ cp <DIR 上層>/<dirname>_preflight/excluded_draft.tsv <DIR>/_repo_excluded.tsv
 
 `path` 以 `/` 結尾代表整個目錄，含 `*` 視為 glob，其餘視為單一檔案。`backup` 空白 = 未交代，驗證會 FAIL。欄位定義、`reason`/`backup` 的可用詞彙、正確與錯誤範例見 `references/exclusions.md`。
 
+### Push 時機：五項 gate 全綠 → 自動 push（免再次核准）
+
+本技能預設是「未明確授權不 push」；但當下列**五項 gate 全部成立**時，視為已取得核准，可**直接自動 push，不需再逐次向使用者核准**。
+
+| # | Gate | 判定 |
+| --- | --- | --- |
+| 1 | 明確授權 | 使用者在**本次 session 明確授權 audit→修正→更新→push**（原話須含 push／推送／publish／deploy 等對外意圖）。**不沿用舊授權**：跨 session 或其它對話的授權不構成本次授權（claim ≠ evidence）；「先前授權過五項成立即自動 push」不算。僅 commit 不算 push 授權。 |
+| 2 | remote 就緒 | remote 已存在且 URL 不含 token；token 身分／權限已確認（`curl .../user` 對上預期 owner）；已知 remote 現況（已 `git fetch`，無他人新 commit 需 rebase）。**含 credential 的 repo 一律 private**：涉及 credential（token／私鑰／API key／client secret／credentials 清冊）時，即使授意明確也不得推 public；public 視為未授權，先停在鐵律要求擁有者裁決建 private repo（與 `push-router` §0.6 一致）。 |
+| 3 | commit 完成且驗證通過 | commit 已建立，`git log` 可見；可先用 `verify_push.py` 或 `git fsck` 做本機驗證，無 FAIL。 |
+| 4 | 機密檢查通過 | `git status --short | grep -E '\.env$|credential|\.pem|\.key'` 為空；preflight 的歷史機密一節無未處理項。 |
+| 5 | 一批一次 push | 相關 commits 已整備完成，一次 `push -u origin "$BRANCH"`，不逐 commit push。**精確 stage 白名單**：只用 `git add <明確檔清單>`；**禁用 `git add -A`／`git add .`** —— 它會把其它流程的 uncommitted 變更一起 stage→commit→push（實測工作區有其它 tracked 變更時造成 merge 混亂）。stage 後用 `git diff --cached --name-only` 核對白名單，混入非預期檔就 `git restore --staged <檔>` 退出。 |
+
+**五項全數成立 → 自動 push，不需再次核准。** 任一項不成立就停在那一步，依 Phase 5／troubleshooting 處理，回到 gate 再判定。
+
+> 注意：此自動化**僅適用 push-repo 技能的 repo 建立／推送流程**，不覆蓋使用者的全域硬規則（未明確授權不 push／不設 remote）；gate 1 是 union 的一部分，不是可跳過項。push 後仍須跑 Phase 6 驗證，`fail=0` 才算完成。
+
+### Policy-based auto-push：預先授權載體取代每次 push 字眼
+
+「沒有本次 push 字眼」不代表不能自動 push —— 但**安全機制要求的是授權有載體／證據（claim ≠ evidence），不是每次都重新問**。當存在下列**預先核准且目前仍生效**的授權載體時，該載體**等同 gate 1 的明確授權**，可觸發自動 push，不需逐次向使用者核准。
+
+| 載體 | 判定為有效的條件 |
+| --- | --- |
+| `automation`／`type:"code"`（`tools.automation.create`） | 有活動中的 automation，其 action 為 `type:"code"`、內容明確執行本技能的 preflight／commit／push／verify，且建立時已取得本次 session 明確授權。**限制**：`type:"code"` 只能呼叫 `tools.box.shell`（遠端 box、cwd 在 `/workspace`、無 `.git`、看不到本機 `/home/sam`），**碰不到本機 repo**。 |
+| `automation`／`type:shell`（`tools.automation.create`） | 有活動中的 automation，其 action 為 `type:shell`，command 呼叫本技能 `scripts/` 下可達**本機** repo 的受控腳本，且建立時已取得本次 session 明確授權。此載體是本機 git 動作的**唯一可達路徑**（`type:"code"` 做不到）。示範採**只讀**檢查（五項 gate + git 狀態），**不 stage／commit／push**，回報落 automation `lastOutput`。 |
+| allow-list／policy 檔 | 有預先核准的 repo／path 清單檔（含 private 裁決），executor 只對照清單動作，不在對話中逐次問 |
+| systemd user service | 有 enabled／active 的 unit，其 `ExecStart` 呼叫本技能的 `scripts/verify_push.py` 或受控 push script，且 unit 建立時已明確授權 |
+
+**載體不存在或已失效 → 退回 gate 1**，要求本次 session 明確的 push／推送／publish／deploy 意圖；跨 session 的舊口頭話不算（claim ≠ evidence）。此設計與 `push-router` §0 鐵律一致：授權必須有載體，不是「上次講過」。
+
+> **fail-closed**：政策載體只豁免「逐次核准」這一步（gate 1 的表達形式），**不豁免 gate 2–5 的任何一項**。任一項不成立就停，不因為「有政策」而勉強 push。
+
+> **仍受 gate 2 credential private 約束**：政策自動 push **仍受** gate 2 限制 —— 涉及 credential（token／私鑰／API key／client secret／credentials 清冊）的 repo，即使政策载體有效，也**必須 private repo**；public 視為未授權，停在鐵律要求擁有者裁決。政策不能繞過這條。
+
+> **gate 5 精簡 stage 仍適用**：政策自動 push 仍用精確 stage 白名單，禁用 `git add -A`／`git add .`；actor 干擾（其它流程 unstaged 變更）依白名單排除，不因「有政策」而誤收。
+
+> push 後仍須跑 Phase 6 驗證，`fail=0` 才算完成（與手動 push 相同）。
+
+> **Logic check: 2026-11-26 (fix4)**：fix3 政策表僅列 `type:"code"`，但其實作只能呼叫 `tools.box.shell`（遠端 `/workspace`、無 `.git`、看不到本機 `/home/sam`），無法觸及本機 repo；真正碰得到本機 git 的只有 `type:shell`。故補承認 `type:shell` 為本機唯一可達載體，維持 fail-closed 與 gate 2–5 不變，示範限值為只讀檢查（不 push）。
+
 ### Phase 5 — 提交與推送
 
 ```bash
@@ -115,11 +154,14 @@ cp <DIR 上層>/<dirname>_preflight/excluded_draft.tsv <DIR>/_repo_excluded.tsv
 # 用 repo 層級設定，不寫 --global 污染其他 repo
 git -C <DIR> config user.name >/dev/null 2>&1 || git -C <DIR> config user.name "<name>"
 git -C <DIR> config user.email >/dev/null 2>&1 || git -C <DIR> config user.email "<email>"
-git -C <DIR> add -A
+BRANCH=$(git -C <DIR> branch --show-current)
+# 精確 stage：只用白名單，禁用 git add -A（會誤收其它流程 uncommitted 變更）
+git -C <DIR> add <明確檔清單>
+git -C <DIR> diff --cached --name-only   # 核對白名單，混入非預期檔就 git restore --staged 退出
 git -C <DIR> status --short | grep -E '\.env$|credential|\.pem|\.key' ; # 應為空
 git -C <DIR> commit -m "chore: 建立 <repo> 版本庫"
 git -C <DIR> remote add origin <URL>      # 已有 remote 就跳過；URL 不可含 token
-git -C <DIR> push -u origin main
+git -C <DIR> push -u origin "$BRANCH"
 ```
 
 #### 憑證：來源、送出方式、常見失敗（唯一真相來源）
@@ -147,7 +189,7 @@ gh auth setup-git
   printf '#!/bin/sh\necho %s\n' "$TOKEN" > "$ASK"
   chmod 700 "$ASK"
   trap 'rm -f "$ASK"' EXIT
-  GIT_ASKPASS="$ASK" git push -u origin main
+  GIT_ASKPASS="$ASK" git push -u origin "$BRANCH"
 )
 ```
 
@@ -174,12 +216,14 @@ curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/user
 curl -s -X POST -H "Authorization: Bearer $TOKEN" \
   -H "Accept: application/vnd.github+json" \
   https://api.github.com/user/repos \
-  -d '{"name":"<repo>","private":false}'
+  # 含 credential → private=true（push-router §0.6：public 視為未授權）
+  -d '{"name":"<repo>","private":<BOOL>}'
 # 2b. org repo
 curl -s -X POST -H "Authorization: Bearer $TOKEN" \
   -H "Accept: application/vnd.github+json" \
   https://api.github.com/orgs/<org>/repos \
-  -d '{"name":"<repo>","private":false}'
+  # 含 credential → private=true（push-router §0.6：public 視為未授權）
+  -d '{"name":"<repo>","private":<BOOL>}'
 ```
 
 **API 建 repo 需要比推送更高的權限**：classic 勾 `repo`；fine-grained 要 `Administration: Read and write` 且 token 範圍選「All repositories」—— 只授權單一 repo 的 fine-grained token 建不了新 repo。沒這些權限就改用網頁 `https://github.com/new` 手動建，不要拿既有 token 一直重試。
@@ -243,3 +287,9 @@ python3 scripts/verify_push.py <DIR> <REMOTE_URL> --excluded <DIR>/_repo_exclude
 - [ ] 追蹤檔案裡沒有 `.env`／token／私鑰
 - [ ] `verify_push.py` 全 PASS、`fail=0`
 - [ ] 回報含 `tracked / disk / excluded` 三個數字與 remote URL
+
+Logic check: 2026-11-26 — 新增「Push 時機：五項 gate 全綠 → 自動 push（免再次核准）」章節（rev-skill：RED 4 fail → GREEN）。
+
+Logic check: 2026-11-26 (fix2) — 依核實結果修正 4 點：gate 1 限本次 session 不沿用舊授權；gate 2 credential repo 一律 private（對齊 push-router §0.6）；gate 5 精確 stage 禁用 git add -A；Phase 5 分支改用 $BRANCH 不硬編碼 main。rev-skill RED 5 fail → GREEN。
+
+Logic check: 2026-11-26 (fix3) — 新增「Policy-based auto-push」規則節：預先核准且生效的授權載體（automation／allow-list／systemd）等同 gate 1 明確授權，可免逐次核准；載體不存在退回 gate 1；fail-closed 不豁免 gate 2–5；仍受 credential private 與精確 stage 約束。rev-skill RED 7 fail → GREEN。

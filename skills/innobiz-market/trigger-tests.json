@@ -1,0 +1,12 @@
+[
+  {"query": "AI 寫作工具訂閱從 $20 到 $499 分層，背後是靠什麼擋住競品？", "should_trigger": true},
+  {"query": "FB 粉絲頁每天自動發文，用官方 API 還是瀏覽器自動化比較穩？", "should_trigger": true},
+  {"query": "我們把 LLM、技能、介面拆層對外賣，這種 AaaS 怎麼定價？", "should_trigger": true},
+  {"query": "產學合作要怎麼安排第三方量測和驗收節點？", "should_trigger": true},
+  {"query": "幫我查 usage、outcome、hybrid 三種收費方式何時用哪個", "should_trigger": true},
+  {"query": "幫我寫一則 Facebook 貼文文案", "should_trigger": false},
+  {"query": "VOO 跟 SPY 哪個適合長期持有？", "should_trigger": false},
+  {"query": "用 Clawdbot 把家裡燈光自動化", "should_trigger": false},
+  {"query": "把這批 PDF 依照量子主題分類成 md", "should_trigger": false},
+  {"query": "建立一個 YouTube 播放清單並排程每週上傳", "should_trigger": false}
+]
