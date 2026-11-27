@@ -33,6 +33,7 @@ sub-skill to a layer (content → publishing → video → push → analytics).
 | Skill | Description |
 | --- | --- |
 | `paperclip-launch` | Install, start, and auto-start a local Paperclip instance, including health checks and startup repairs |
+| `env-profile-ops` | Set up and maintain the OpenCode environment profile kit |
 | `refactor-skill` | Refactor a skill collection into modular parent-child chains |
 | `viz-dboard` | Visualize skill hierarchies as a mindmap SVG |
 | `inspect-skill` | Review and refactor a set of skills into a modular parent-child hierarchy |
